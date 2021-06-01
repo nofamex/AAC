@@ -2,11 +2,9 @@
 
 package db
 
-import (
-	"database/sql"
-)
+import ()
 
 type Account struct {
-	ID       int64          `json:"id"`
-	Username sql.NullString `json:"username"`
+	ID       int64  `json:"id"`
+	Username string `json:"username"`
 }

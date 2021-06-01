@@ -4,11 +4,10 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 type Querier interface {
-	CreateAccount(ctx context.Context, username sql.NullString) (Account, error)
+	CreateAccount(ctx context.Context, username string) (Account, error)
 }
 
 var _ Querier = (*Queries)(nil)
