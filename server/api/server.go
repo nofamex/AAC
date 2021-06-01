@@ -1,18 +1,21 @@
 package api
 
 import (
-	"github.com/nofamex/AAC/server/util"
 	"github.com/gofiber/fiber/v2"
+	db "github.com/nofamex/AAC/server/db/sqlc"
+	"github.com/nofamex/AAC/server/util"
 )
 
 type Server struct {
 	config util.Config
 	router *fiber.App
+	query db.Querier
 }
 
-func NewServer(config util.Config) (*Server, error){
+func NewServer(config util.Config, querier db.Querier) (*Server, error){
 	server := &Server{
 		config: config,
+		query: querier,
 	}
 
 	server.setupRouter()
