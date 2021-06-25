@@ -10,8 +10,9 @@ type TestController struct {
 	service service.TestService
 }
 
-func NewTestController(app fiber.Router, service service.TestService) {
-	TestController := &TestController{service: service}
+func NewTestController(app fiber.Router, query db.Querier) {
+	testService := service.NewTestService(query)
+	TestController := &TestController{service: *testService}
 
 	app.Post("/test", TestController.register)
 }

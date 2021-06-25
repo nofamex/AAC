@@ -3,7 +3,6 @@ package api
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/nofamex/AAC/server/api/controller"
-	"github.com/nofamex/AAC/server/api/service"
 	db "github.com/nofamex/AAC/server/db/sqlc"
 	"github.com/nofamex/AAC/server/util"
 )
@@ -32,8 +31,7 @@ func (server *Server) setupRouter(){
 	api := router.Group("/api")
 	v1 := api.Group("/v1")
 
-	testService := service.NewTestService(server.query)
-	controller.NewTestController(v1, *testService)
+	controller.NewTestController(v1, server.query)
 
 	server.router = router
 }
