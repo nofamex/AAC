@@ -1,21 +1,31 @@
 package api
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/nofamex/AAC/server/api/controller"
 	db "github.com/nofamex/AAC/server/db/sqlc"
+	"github.com/nofamex/AAC/server/token"
 	"github.com/nofamex/AAC/server/util"
 )
 
 type Server struct {
 	config util.Config
+	tokenMaker token.Maker
 	router *fiber.App
 	query db.Querier
 }
 
 func NewServer(config util.Config, querier db.Querier) (*Server, error) {
+	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
+	if err != nil {
+		return nil, fmt.Errorf("cannot create token maker: %w", err)
+	}
+
 	server := &Server{
 		config: config,
+		tokenMaker: tokenMaker,
 		query: querier,
 	}
 
@@ -30,8 +40,9 @@ func (server *Server) setupRouter(){
 	// routing goes here
 	api := router.Group("/api")
 	v1 := api.Group("/v1")
-
-	controller.NewTestController(v1, server.query)
+	
+	auth := v1.Group("/auth")
+	controller.NewUserController(auth, server.query, server.tokenMaker, server.config)
 
 	server.router = router
 }
