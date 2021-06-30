@@ -1,9 +1,12 @@
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+
 export default function Home() {
   return (
-    <div>
-      <p className="font-mono bg-red-100 text-green-900 flex justify-center h-screen items-center text-xl">
-        This is home page
-      </p>
-    </div>
+    <>
+      <Navbar />
+      <div className="h-10"></div>
+      <Footer />
+    </>
   );
 }
