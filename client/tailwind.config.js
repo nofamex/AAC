@@ -25,7 +25,8 @@ module.exports = {
         button: "16px",
       },
       fontFamily: {
-        norms: ['"TT Norms Pro"'],
+        norms: ["TT Norms Pro"],
+        dm: ["DM Sans"],
       },
     },
   },

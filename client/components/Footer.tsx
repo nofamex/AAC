@@ -3,7 +3,7 @@ import { SiInstagram, SiLine } from "react-icons/si";
 
 export default function Footer() {
   return (
-    <div className="h-96 bg-black-80 flex flex-col text-white py-12 px-nav font-norms">
+    <div className="h-96 bg-black-80 flex flex-col text-white py-5 md:py-12 px-nav font-dm">
       <div className="h-full flex flex-col md:flex-row">
         <div className="h-full flex flex-col w-full md:w-3/4">
           <div className="flex justify-center md:justify-start">
@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="text-black-60 font-bold flex justify-center md:justify-start">
+      <div className="text-black-60 font-bold flex justify-center md:justify-start mt-3">
         © AAC 2021
       </div>
     </div>

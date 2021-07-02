@@ -1,12 +1,11 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Layout from "../components/Layout";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <div className="h-10"></div>
-      <Footer />
+      <Layout>
+        <div className="h-10"></div>
+      </Layout>
     </>
   );
 }
