@@ -1,7 +1,7 @@
 import ComingSoon from "../components/ComingSoon";
 import Layout from "../components/Layout";
 
-export default function Home() {
+export default function Competition() {
   return (
     <Layout>
       <ComingSoon />

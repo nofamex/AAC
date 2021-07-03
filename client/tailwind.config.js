@@ -28,6 +28,9 @@ module.exports = {
         norms: ["TT Norms Pro"],
         dm: ["DM Sans"],
       },
+      height: {
+        section: "44rem",
+      },
     },
   },
   variants: {

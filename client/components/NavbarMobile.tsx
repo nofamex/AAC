@@ -7,7 +7,7 @@ import tw from "tailwind-styled-components";
 
 interface NavbarMobileProps {
   handler: Function;
-  menus: string[];
+  menus: { page: string; text: string }[];
 }
 
 export default function NavbarMobile({ handler, menus }: NavbarMobileProps) {
@@ -27,8 +27,8 @@ export default function NavbarMobile({ handler, menus }: NavbarMobileProps) {
         noOverlay
       >
         {menus.map((menu, index) => (
-          <Link href="" key={index}>
-            <NavMenuMobile>{menu}</NavMenuMobile>
+          <Link href={menu.page} key={index}>
+            <NavMenuMobile>{menu.text}</NavMenuMobile>
           </Link>
         ))}
         <Button text="Sign In" handler={() => handler()} filled={false} />
