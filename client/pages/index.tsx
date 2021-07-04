@@ -1,10 +1,10 @@
-import ComingSoon from "../components/ComingSoon";
+import HeaderVideo from "../components/HeaderVideo";
 import Layout from "../components/Layout";
 
 export default function Home() {
   return (
     <Layout>
-      <ComingSoon />
+      <HeaderVideo />
     </Layout>
   );
 }
