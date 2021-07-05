@@ -30,6 +30,7 @@ module.exports = {
       },
       height: {
         section: "44rem",
+        hero: "48rem",
       },
     },
   },
