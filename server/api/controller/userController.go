@@ -7,34 +7,39 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/lib/pq"
 	"github.com/nofamex/AAC/server/api/service"
+
+	"github.com/nofamex/AAC/server/api/middleware"
 	db "github.com/nofamex/AAC/server/db/sqlc"
 	"github.com/nofamex/AAC/server/token"
 	"github.com/nofamex/AAC/server/util"
 )
 
 type UserController struct {
-	service service.UserService
+	service    service.UserService
 	tokenMaker token.Maker
-	config util.Config
+	config     util.Config
 }
 
 type UserResponse struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Username  string `json:"username"`
-	Password  string `json:"password"`
 }
 
 func NewUserController(app fiber.Router, query db.Querier, maker token.Maker, config util.Config) {
 	userService := service.NewUserService(query)
 	UserController := &UserController{
-		service: *userService, 
+		service:    *userService,
 		tokenMaker: maker,
-		config: config,
+		config:     config,
 	}
 
 	app.Post("/register", UserController.register)
 	app.Post("/login", UserController.login)
+
+	auth := app.Group("", middleware.AuthMiddleware(maker))
+	auth.Get("/refresh", UserController.refresh)
+	auth.Get("/self", UserController.self)
 }
 
 func (u *UserController) register(c *fiber.Ctx) error {
@@ -63,9 +68,8 @@ func (u *UserController) register(c *fiber.Ctx) error {
 
 	response := &UserResponse{
 		FirstName: result.FirstName,
-		LastName: result.LastName,
-		Username: result.Username,
-		Password: result.Password,
+		LastName:  result.LastName,
+		Username:  result.Username,
 	}
 
 	return c.Status(http.StatusOK).JSON(response)
@@ -77,8 +81,9 @@ type LoginUserRequest struct {
 }
 
 type LoginUserResponse struct {
-	AccesToken string `json:"access_token"`
-	User UserResponse `json:"user"`
+	AccessToken  string        `json:"access_token"`
+	RefreshToken string        `json:"refresh_token"`
+	User         *UserResponse `json:"user,omitempty"`
 }
 
 func (u *UserController) login(c *fiber.Ctx) error {
@@ -89,7 +94,7 @@ func (u *UserController) login(c *fiber.Ctx) error {
 	}
 
 	user, err := u.service.GetUser(requestBody.Username)
-	if  err != nil {
+	if err != nil {
 		if err == sql.ErrNoRows {
 			return c.Status(http.StatusNotFound).SendString(err.Error())
 		}
@@ -110,17 +115,82 @@ func (u *UserController) login(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).SendString(err.Error())
 	}
 
+	refreshToken, err := u.tokenMaker.CreateToken("", 0, u.config.RefreshTokenDuration)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+	}
+
+	err = u.service.SetRefreshToken(user.Username, refreshToken)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+	}
+
 	userResponse := &UserResponse{
 		FirstName: user.FirstName,
-		LastName: user.LastName,
-		Username: user.Username,
-		Password: user.Password,
+		LastName:  user.LastName,
+		Username:  user.Username,
 	}
 
 	response := &LoginUserResponse{
-		AccesToken: accessToken,
-		User: *userResponse,
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		User:         userResponse,
 	}
 
 	return c.Status(http.StatusOK).JSON(response)
+}
+
+func (u *UserController) refresh(c *fiber.Ctx) error {
+	header := c.Get("authorization")
+	token, _ := token.GetToken(header)
+	payload, err := u.tokenMaker.VerifyToken(token)
+
+	accessToken, err := u.tokenMaker.CreateToken(
+		payload.Username,
+		int32(payload.ID.ID()),
+		u.config.AccessTokenDuration,
+	)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+	}
+
+	refreshToken, err := u.tokenMaker.CreateToken("", 0, u.config.RefreshTokenDuration)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+	}
+
+	err = u.service.SetRefreshToken(payload.Username, refreshToken)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+	}
+
+	response := &LoginUserResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+	}
+
+	return c.Status(http.StatusOK).JSON(response)
+}
+
+func (u *UserController) self(c *fiber.Ctx) error {
+	header := c.Get("authorization")
+	token, _ := token.GetToken(header)
+
+	payload, err := u.tokenMaker.VerifyToken(token)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+	}
+
+	user, err := u.service.GetUser(payload.Username)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+	}
+
+	userResponse := &UserResponse{
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Username:  user.Username,
+	}
+
+	return c.Status(http.StatusOK).JSON(userResponse)
 }

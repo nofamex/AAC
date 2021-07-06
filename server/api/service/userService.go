@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"database/sql"
 
 	db "github.com/nofamex/AAC/server/db/sqlc"
 )
@@ -29,4 +30,19 @@ func (u *UserService) GetUser(username string) (*db.User, error) {
 	}
 
 	return &result, err
+}
+
+func (u *UserService) SetRefreshToken(username string, token string) (error) {
+	refreshToken := sql.NullString{
+		String: token,
+		Valid: true,
+	}
+
+	param := db.SetRefreshTokenParams{
+		Username: username,
+		RefreshToken: refreshToken,
+	}
+
+	err := u.query.SetRefreshToken(context.Background(), param)
+	return err
 }

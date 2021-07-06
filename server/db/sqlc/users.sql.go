@@ -5,6 +5,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 )
 
 const createUser = `-- name: CreateUser :one
@@ -15,7 +16,7 @@ INSERT INTO users (
     password
 ) VALUES (
     $1, $2, $3, $4
-) RETURNING id, first_name, last_name, username, password
+) RETURNING id, first_name, last_name, username, password, refresh_token
 `
 
 type CreateUserParams struct {
@@ -39,12 +40,13 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.LastName,
 		&i.Username,
 		&i.Password,
+		&i.RefreshToken,
 	)
 	return i, err
 }
 
 const getUser = `-- name: GetUser :one
-SELECT id, first_name, last_name, username, password FROM users
+SELECT id, first_name, last_name, username, password, refresh_token FROM users
 WHERE username = $1 LIMIT 1
 `
 
@@ -57,6 +59,23 @@ func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
 		&i.LastName,
 		&i.Username,
 		&i.Password,
+		&i.RefreshToken,
 	)
 	return i, err
+}
+
+const setRefreshToken = `-- name: SetRefreshToken :exec
+UPDATE users
+SET refresh_token = $2
+WHERE username = $1
+`
+
+type SetRefreshTokenParams struct {
+	Username     string         `json:"username"`
+	RefreshToken sql.NullString `json:"refresh_token"`
+}
+
+func (q *Queries) SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error {
+	_, err := q.db.ExecContext(ctx, setRefreshToken, arg.Username, arg.RefreshToken)
+	return err
 }

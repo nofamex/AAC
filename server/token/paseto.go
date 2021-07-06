@@ -1,7 +1,9 @@
 package token
 
 import (
+	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/aead/chacha20poly1305"
@@ -9,7 +11,7 @@ import (
 )
 
 type PasetoMaker struct {
-	paseto *paseto.V2
+	paseto       *paseto.V2
 	symmetricKey []byte
 }
 
@@ -19,7 +21,7 @@ func NewPasetoMaker(symmetricKey string) (Maker, error) {
 	}
 
 	maker := &PasetoMaker{
-		paseto: paseto.NewV2(),
+		paseto:       paseto.NewV2(),
 		symmetricKey: []byte(symmetricKey),
 	}
 
@@ -49,4 +51,14 @@ func (maker *PasetoMaker) VerifyToken(token string) (*Payload, error) {
 	}
 
 	return payload, nil
+}
+
+func GetToken(header string) (token string, err error) {
+	fields := strings.Fields(header)
+	if (len(fields) < 1 ){
+		err = errors.New("invalid authorization header format")
+		return
+	}
+	token = fields[1]
+	return
 }

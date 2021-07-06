@@ -11,3 +11,8 @@ INSERT INTO users (
 -- name: GetUser :one
 SELECT * FROM users
 WHERE username = $1 LIMIT 1;
+
+-- name: SetRefreshToken :exec
+UPDATE users
+SET refresh_token = $2
+WHERE username = $1;
