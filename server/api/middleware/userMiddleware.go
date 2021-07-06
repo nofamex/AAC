@@ -35,8 +35,14 @@ func AuthMiddleware(tokenMaker token.Maker) fiber.Handler {
 		}
 
 		accessToken := fields[1]
-		_, err = tokenMaker.VerifyToken(accessToken)
+		payload, err := tokenMaker.VerifyToken(accessToken)
 		if err != nil {
+			ctx.Status(http.StatusUnauthorized).SendString(err.Error())
+			return
+		}
+
+		if payload.UserId == 0 {
+			err = fmt.Errorf("can't use refresh token as access token")
 			ctx.Status(http.StatusUnauthorized).SendString(err.Error())
 			return
 		}
