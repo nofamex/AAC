@@ -17,6 +17,7 @@ module.exports = {
         lemon: "#FFCC00",
         success: "#008800",
         error: "#E32E2E",
+        compe: "#3C3A50",
       },
       spacing: {
         nav: "120px",
@@ -30,7 +31,14 @@ module.exports = {
       },
       height: {
         section: "44rem",
+        compeMobile: "55rem",
         hero: "48rem",
+        compeCard: "27.5rem",
+        compeCardImg: "17rem",
+        compeCardDesc: "10.5rem",
+      },
+      width: {
+        compeCard: "34.6875rem",
       },
     },
   },
