@@ -1,0 +1,28 @@
+# Build stage
+FROM node:14-alpine3.13 AS build
+WORKDIR /build
+COPY .env ./
+COPY ./client/components ./client/hooks ./client/pages ./client/public ./client/*.* ./client/
+RUN ls
+
+RUN npm install ./client
+RUN ls
+
+RUN npm run --prefix ./client build
+RUN ls
+
+RUN npm install --prefix ./client next
+EXPOSE 3000
+CMD [ "npm", "run", "--prefix", "/client", "start" ]
+
+# # Run stage
+# FROM node:14-alpine
+# ENV NODE_ENV=production
+# WORKDIR /app
+# COPY --from=build /build/client/package*.json ./client
+# COPY --from=build /build/client/.next ./client/.next
+# COPY --from=build /build/client/public ./client/public
+# RUN npm install next
+
+# EXPOSE 3000
+# CMD [ "npm", "run", "start" ]

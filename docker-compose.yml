@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  db:
+    container_name: postgres-aac
+    image: postgres:13.3-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+
+  # # for production
+  # server:
+  #   container_name: server-aac
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-server
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - db
+  #   command: [ "/app/main" ]
+
+  # client:
+  #   container_name: client-aac
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-client
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - server
+  #   command: [ "npm", "run", "start" ]
