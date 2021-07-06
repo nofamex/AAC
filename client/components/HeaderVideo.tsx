@@ -84,7 +84,9 @@ export default function HeaderVideo({ scroll }: HeaderVideoProps) {
             autoPlay={true}
             loop={true}
             muted={true}
-            className="h-full w-full object-cover blur-xl scale-110"
+            className={`h-full w-full object-cover ${
+              scroll ? "blur-2xl" : "blur-md transition-all"
+            } scale-110`}
           >
             <source src="/video/video.mp4" type="video/mp4" />
             Sorry, your browser does not support HTML5 video.
