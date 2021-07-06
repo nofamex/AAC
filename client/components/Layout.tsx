@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { useScrollPosition } from "../hooks/useScrollPostion";
+import Head from "next/head";
 
 export default function Layout({ children }: any) {
   const [scroll, setScroll] = useState(false);
@@ -18,6 +19,9 @@ export default function Layout({ children }: any) {
   );
   return (
     <>
+      <Head>
+        <title>AAC-2021</title>
+      </Head>
       <Navbar scroll={scroll} />
       <main>{children}</main>
       <Footer />
