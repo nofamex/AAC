@@ -1,5 +1,5 @@
 module.exports = {
-  mode: "jit",
+  mode: "",
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -21,6 +21,11 @@ module.exports = {
       },
       spacing: {
         nav: "120px",
+        '120': '30rem',
+        '160': '40rem',
+        '200': '50rem',
+        '240': '60rem',
+        '280': '70rem',
       },
       borderRadius: {
         button: "16px",
@@ -36,11 +41,43 @@ module.exports = {
         compeCard: "27.5rem",
         compeCardImg: "17rem",
         compeCardDesc: "10.5rem",
+
+        eventBigCard: "39.5rem",
+        eventSmallCard: "12.5rem",
+        eventBigCardImg: "27.5rem",
+        eventSmallCardImg: "7.6875rem",
+
+        eventBigCardDesc: "12rem",
+        eventSmallCardDesc: "4.8125rem",
       },
       width: {
         compeCard: "34.6875rem",
+        eventBigCard: "46.5625rem",
+        eventSmallCard: "22.8125rem",
       },
     },
+  },
+  minHeight: {
+    eventSmallCard: "12.5rem",
+    eventBigCard: "39.5rem",
+  },
+  maxHeight: {
+    '40': '10rem',
+    '80': '20rem',
+    '120': '30rem',
+    '160': '40rem',
+    '200': '50rem',
+    '240': '60rem',
+    '280': '70rem',
+  },
+  maxWidth: {
+    '40': '10rem',
+    '80': '20rem',
+    '120': '30rem',
+    '160': '40rem',
+    '200': '50rem',
+    '240': '60rem',
+    '280': '70rem',
   },
   variants: {
     extend: {},

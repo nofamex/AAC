@@ -4,6 +4,9 @@ import Layout from "../components/Layout";
 import { useState } from "react";
 import { useScrollPosition } from "../hooks/useScrollPostion";
 import HeaderMobile from "../components/HeaderMobile";
+import Event from "../components/Event";
+import Timeline from "../components/Timeline";
+import ContactUs from "../components/ContactUs";
 
 export default function Home() {
   const [scroll, setScroll] = useState(false);
@@ -22,6 +25,9 @@ export default function Home() {
     <Layout>
       <HeaderVideo scroll={scroll} />
       <HeaderMobile />
+      <Event />
+      <Timeline />
+      <ContactUs />
     </Layout>
   );
 }
