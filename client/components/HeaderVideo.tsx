@@ -77,16 +77,14 @@ export default function HeaderVideo({ scroll }: HeaderVideoProps) {
   return (
     <>
       <div className="h-hero bg-black-80 relative w-full hidden md:block">
-        <div className="h-full w-full hidden md:block overflow-hidden absolute">
+        <div className="h-full w-full hidden md:block overflow-hidden absolute blur">
           <video
             id="videobcg"
             preload="auto"
             autoPlay={true}
             loop={true}
             muted={true}
-            className={`h-full w-full object-cover ${
-              scroll ? "blur-2xl" : "blur-md transition-all"
-            } scale-110`}
+            className="h-full w-full object-cover scale-110 blur-lg"
           >
             <source src="/video/video.mp4" type="video/mp4" />
             Sorry, your browser does not support HTML5 video.
@@ -107,7 +105,7 @@ export default function HeaderVideo({ scroll }: HeaderVideoProps) {
             />
           </motion.div>
           <motion.div
-            className="h-96 w-full md:w-[600px] content-endflex flex-col relative overflow-hidden justify-center items-center"
+            className="h-96 w-full md:w-landingText content-endflex flex-col relative overflow-hidden justify-center items-center"
             variants={item2}
           >
             {scroll && (

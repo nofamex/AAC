@@ -17,6 +17,7 @@ export default function Layout({ children }: any) {
     },
     [scroll]
   );
+
   return (
     <>
       <Head>
