@@ -1,51 +1,79 @@
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from "react-vertical-timeline-component";
-import "react-vertical-timeline-component/style.min.css";
+import { Chrono } from "react-chrono";
+import { useWindowSize } from "../hooks/useWindowSize";
 
 export default function Timeline() {
-  const timelines = [
-    { title: "Babak Preliminary", tanggal: "28 Agustus 2021" },
-    { title: "Daftar Ulang", tanggal: "19 Agustus-7 September 2021" },
-    { title: "Technical Meeting", tanggal: "8 September 2021" },
-    { title: "Babak Eliminasi", tanggal: "9 September 2021" },
-    { title: "Babak Semifinal", tanggal: "10 September 2021" },
-    { title: "Seminar & Technical Meeting", tanggal: "11 September 2021" },
-    { title: "Final & Awarding Night", tanggal: "12 September 2021" },
+  const size = useWindowSize();
+
+  const timelineItems = [
+    {
+      title: "Registrasi Early Bird UNAC",
+      desc: "12 - 28 Juli 2021",
+    },
+    {
+      title: "Registrasi Early Bird TAC",
+      desc: "14 - 30 Juli 2021",
+    },
+    {
+      title: "Registrasi Reguler UNAC",
+      desc: "29 Juli - 19 Agustus 2021",
+    },
+    {
+      title: "Registrasi Reguler TAC",
+      desc: "31 Juli - 20 Agustus 2021",
+    },
+    {
+      title: "Babak Preliminary",
+      desc: "28 Agustus 2021",
+    },
+    {
+      title: "Babak  Mainround",
+      desc: "9 - 12 September 2021",
+    },
+    {
+      title: "Awarding Night",
+      desc: "12 September 2021",
+    },
   ];
 
   return (
-    <VerticalTimeline>
-      {timelines.map((timeline, index) => (
-        <VerticalTimelineElement
-          key={index}
-          contentStyle={{
-            padding: 0,
-            backgroundColor: "transparent",
-            boxShadow: "0px 0px 0px 0px",
-          }}
-          contentArrowStyle={{ display: "none" }}
-          iconStyle={{
-            background: "#03001E",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          icon={<div className="w-3/4 h-3/4 bg-orange rounded-full"></div>}
-        >
-          <div
-            className={`flex flex-col justify-center ${
-              index % 2 == 0 ? "items-start md:items-end" : "items-start"
-            } w-full h-full font-dm`}
+    <div>
+      <div className="h-16 w-full bg-black-80"></div>
+      <div className="w-full bg-black-80 flex flex-col items-center justify-center">
+        <div className="w-full h-24 font-dm text-white flex flex-col items-center justify-center mb-5">
+          <p
+            className="font-bold italic text-5xl"
+            style={{ textShadow: "0 0 25px #7303C0" }}
           >
-            <div className="font-bold text-lg text-orange">
-              {timeline.title}
-            </div>
-            <div className="text-white">{timeline.tanggal}</div>
-          </div>
-        </VerticalTimelineElement>
-      ))}
-    </VerticalTimeline>
+            <span className="text-stroke">TIMELINE</span>
+          </p>
+        </div>
+        <div className="text-white md:w-200">
+          <Chrono
+            theme={{
+              primary: "#FDA305",
+              secondary: "#03001E",
+              cardBgColor: "transparent",
+              cardForeColor: "#F4F4F4",
+            }}
+            mode={
+              (size?.width ?? 0) > 800 ? "VERTICAL_ALTERNATING" : "VERTICAL"
+            }
+            disableNavOnKey
+            hideControls={true}
+            useReadMore={false}
+            cardHeight={100}
+          >
+            {timelineItems.map((item, index) => (
+              <div className="text-left" key={index}>
+                <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-persimmon to-orange">
+                  {item.title}
+                </p>
+                <p>{item.desc}</p>
+              </div>
+            ))}
+          </Chrono>
+        </div>
+      </div>
+    </div>
   );
 }

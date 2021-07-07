@@ -8,7 +8,7 @@ interface SliderProps {
 
 export default function Slider({ images }: SliderProps) {
   return (
-    <div className="w-64 md:w-[600px] h-64 md:h-96">
+    <div className="w-64 md:w-landingText h-64 md:h-96">
       <AliceCarousel
         autoPlay
         autoPlayInterval={5000}
