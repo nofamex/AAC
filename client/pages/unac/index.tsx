@@ -1,7 +1,10 @@
 import CompePrize from "../../components/CompePrize";
 import Layout from "../../components/Layout";
 import CompeDetails from "../../components/CompeDetails";
-import CompeTimeline from "../../components/CompeTimeline";
+import UnacTimeline from "../../components/UnacTimeline";
+import UnacFAQ from "../../components/UnacFAQ";
+import CompetitionContact from "../../components/CompetitionContact";
+import CompetitionFoot from "../../components/CompetitionFoot";
 
 export default function UNACHome() {
   return (
@@ -9,7 +12,10 @@ export default function UNACHome() {
       <div className="h-16 w-full bg-black-80 z-0"></div>
       <CompeDetails type="unac" />
       <CompePrize type="unac" />
-      <CompeTimeline />
+      <UnacTimeline />
+      <UnacFAQ />
+      <CompetitionContact type="unac" />
+      <CompetitionFoot type="unac" />
     </Layout>
   );
 }

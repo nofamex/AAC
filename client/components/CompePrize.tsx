@@ -29,7 +29,7 @@ export default function CompePrize({ type }: CompePrizeProps) {
           className="font-bold italic text-5xl md:text-6xl"
           style={{ textShadow: "0 0 25px #7303C0" }}
         >
-          PRIZES
+          <span className="text-stroke">PRIZES</span>
         </p>
       </div>
       <div className="h-96 w-full flex flex-col md:flex-row justify-center mt-12 md:mt-4">

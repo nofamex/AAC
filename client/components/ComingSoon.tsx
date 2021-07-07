@@ -9,7 +9,7 @@ export default function ComingSoon() {
             className="font-bold italic text-5xl md:text-8xl"
             style={{ textShadow: "0 0 25px #7303C0" }}
           >
-            COMING SOON
+            <span className="text-stroke">COMING SOON</span>
           </p>
           <p>Halaman ini akan datang segera</p>
         </div>
