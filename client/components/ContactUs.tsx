@@ -31,7 +31,7 @@ export default function ContactUs() {
             <p className="inline ml-3">@aacairlangga</p>
           </div>
         </div>
-        <div className="h-20 w-full bg-black-80"></div>
+        <div className="h-40 w-full bg-black-80"></div>
       </div>
     </div>
   )

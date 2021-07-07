@@ -65,6 +65,7 @@ export default function Event() {
               onClick={(size?.width ?? 0) > 1280 ? swap : console.log}
             />
           ))}
+          <div className="h-16 w-full bg-black-80"></div>
         </div>
       </div>
     </div>

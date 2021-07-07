@@ -60,6 +60,7 @@ export default function Timeline() {
               </div>
             ))}
           </Chrono>
+          <div className="h-40 w-full bg-black-80"></div>
         </div>
       </div>
     </div>
