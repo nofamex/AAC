@@ -31,7 +31,7 @@ export default function NavbarMobile({ handler, menus }: NavbarMobileProps) {
             <NavMenuMobile>{menu.text}</NavMenuMobile>
           </Link>
         ))}
-        <Button text="Sign In" handler={() => handler()} filled={false} />
+        {/* <Button text="Sign In" handler={() => handler()} filled={false} /> */}
       </Menu>
     </div>
   );

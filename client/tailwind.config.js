@@ -40,6 +40,9 @@ module.exports = {
       width: {
         compeCard: "34.6875rem",
       },
+      inset: {
+        pattern: "40%",
+      },
     },
   },
   variants: {
