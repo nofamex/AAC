@@ -48,7 +48,7 @@ export default function Event() {
       <div className="w-full bg-black-80 flex flex-col items-center justify-center">
         <div className="w-full h-24 font-dm text-white flex flex-col items-center justify-center mb-5">
           <p
-            className="font-bold italic text-5xl"
+            className="font-bold italic text-5xl md:text-6xl"
             style={{ textShadow: "0 0 25px #7303C0" }}
           >
             <span className="text-stroke">EVENTS</span>
