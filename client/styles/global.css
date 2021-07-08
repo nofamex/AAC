@@ -37,6 +37,6 @@
       var(--stroke-color);
 }
 
-.card-description.css-1moajm9-TimelineContentDetailsWrapper.emk90bu3 {
-  align-items: baseline;
+.card-description {
+  align-items: flex-start !important; 
 }
