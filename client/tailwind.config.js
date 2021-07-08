@@ -21,11 +21,11 @@ module.exports = {
       },
       spacing: {
         nav: "120px",
-        120: "30rem",
-        160: "40rem",
-        200: "50rem",
-        240: "60rem",
-        280: "70rem",
+        120 : "30rem",
+        160 : "40rem",
+        200 : "50rem",
+        240 : "60rem",
+        280 : "70rem",
       },
       borderRadius: {
         button: "16px",

@@ -55,14 +55,14 @@ export default function Event() {
           </p>
           <div className="h-12 w-full"></div>
         </div>
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 h-auto xl:w-280">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-12 xl:gap-4 h-auto xl:w-280">
           {order.map((item, index) => (
             <EventCard
               key={index}
               className={
                 index == 0 && (size?.width ?? 0) > 1280
-                  ? "row-span-3 col-span-2"
-                  : "row-span-1 col-span-1"
+                  ? "row-span-3 col-span-2 h-full max-w-40 xl:w-full mx-10 md:mx-20 xl:mx-0 xl:min-h-eventBigCard"
+                  : "row-span-1 col-span-1 h-full max-w-40 xl:w-full mx-10 md:mx-20 xl:mx-0 xl:min-h-eventSmallCard"
               }
               type={index == 0 || (size?.width ?? 0) < 1280 ? "Big" : "Small"}
               handler={item.handler}
