@@ -11,26 +11,26 @@ export default function Event() {
   const [order, setOrder] = useState([
     {
       desc: "Serangkaian kompetisi yang ditujukan untuk seluruh mahasiswa aktif jurusan akuntansi di perguruan tinggi negeri maupun swasta di seluruh Indonesia.",
-      image: "/picture/event/unac.svg",
+      image: "/picture/event/unac.jpg",
       handler: () => router.push("/unac"),
       title: "UNAC",
     },
     {
       desc: "Serangkaian kompetisi akuntansi yang ditujukan untuk seluruh siswa/i SMA sederajat di seluruh Indonesia.",
-      image: "/picture/event/tac.svg",
+      image: "/picture/event/tac.png",
       handler: () => router.push("/tac"),
       title: "TAC",
     },
     {
       desc: "Webinar tingkat nasional yang mengangkat tema tentang perkembangan dunia akuntansi didukung dengan narasumber yang ahli dalam bidangnya. Gratis dan terbuka untuk umum.",
-      image: "/picture/event/webinar.svg",
+      image: "/picture/event/webinar.jpg",
       handler: () => router.push("/webinar"),
       title: "Webinar",
     },
 
     {
       desc: "Acara puncak dari rangkaian kegiatan AAC yang berisi penampilan menarik dan pengumuman pemenang dari seluruh kompetisi pada Airlangga Accounting Competition. ",
-      image: "/picture/event/award.svg",
+      image: "/picture/event/award.jpg",
       handler: () => router.push("/awarding-night"),
       title: "Awarding Night",
     },
