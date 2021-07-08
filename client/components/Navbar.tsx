@@ -9,7 +9,7 @@ export default function Navbar({ scroll }: NavbarProps) {
   const menus = [
     { page: "/", text: "Home" },
     { page: "/competition", text: "Competition" },
-    { page: "/seminar", text: "Seminar" },
+    { page: "/webinar", text: "Webinar" },
   ];
 
   const signInHandler = () => {

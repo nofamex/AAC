@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/link-passhref */
 import Image from "next/image";
 import { SiInstagram, SiLine } from "react-icons/si";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -17,12 +19,18 @@ export default function Footer() {
           </div>
           <div className="text-xs md:text-base font-normal w-full md:w-2/4 text-center md:text-left mt-4">
             Acara tahunan terbesar yang diselenggarakan oleh Himpunan Mahasiswa
-            Akuntanasi, Fakultas Ekonomi dan Bisnis Universitas Airlangga.
+            S1 Akuntanasi, Fakultas Ekonomi dan Bisnis Universitas Airlangga.
           </div>
           <div className="flex mt-2 justify-center md:justify-start">
-            <p className="mr-5">UNAC</p>
-            <p className="mr-5">TAC</p>
-            <p>Seminar</p>
+            <Link href="/unac">
+              <p className="mr-5 cursor-pointer">UNAC</p>
+            </Link>
+            <Link href="/tac">
+              <p className="mr-5 cursor-pointer">TAC</p>
+            </Link>
+            <Link href="/webinar">
+              <p className="cursor-pointer">Webinar</p>
+            </Link>
           </div>
         </div>
         <div className="h-full flex flex-col w-full md:w-1/4 mt-4 md:mt-0">

@@ -24,7 +24,7 @@ export default function NavbarDesktop({ handler, menus }: NavbarDesktopProps) {
         {menus.map((menu, index) => (
           <NavItem key={index} text={menu.text} page={menu.page} />
         ))}
-        <Button text="Sign In" handler={() => handler()} filled={false} />
+        {/* <Button text="Sign In" handler={() => handler()} filled={false} /> */}
       </div>
     </>
   );
