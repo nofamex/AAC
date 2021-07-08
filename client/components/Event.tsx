@@ -23,7 +23,7 @@ export default function Event() {
     },
     {
       desc: "Webinar tingkat nasional yang mengangkat tema tentang perkembangan dunia akuntansi didukung dengan narasumber yang ahli dalam bidangnya. Gratis dan terbuka untuk umum.",
-      image: "/picture/event/Webinar.svg",
+      image: "/picture/event/webinar.svg",
       handler: () => router.push("/webinar"),
       title: "Webinar",
     },
