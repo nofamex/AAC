@@ -72,7 +72,7 @@ export default function Event() {
               desc={item.desc}
               title={item.title}
               index={index}
-              onClick={(size?.width ?? 0) > 1280 ? swap : console.log}
+              onClick={(size?.width ?? 0) >= 1280 ? swap : console.log}
             />
           ))}
           <div className="h-16 w-full bg-black-80"></div>
