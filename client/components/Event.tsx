@@ -24,7 +24,7 @@ export default function Event() {
     {
       desc: "Webinar tingkat nasional yang mengangkat tema tentang perkembangan dunia akuntansi didukung dengan narasumber yang ahli dalam bidangnya. Gratis dan terbuka untuk umum.",
       image: "/picture/event/Webinar.svg",
-      handler: () => router.push("/Webinar"),
+      handler: () => router.push("/webinar"),
       title: "Webinar",
     },
 
@@ -46,8 +46,8 @@ export default function Event() {
   return (
     <div>
       <div className="h-16 w-full bg-black-80"></div>
-      <PatternBG position="right" />
-      <div className="w-full bg-black-80 flex flex-col items-center justify-center">
+      <div className="w-full bg-black-80 flex flex-col items-center justify-center overflow-hidden relative">
+        <PatternBG position="right" />
         <div className="w-full h-24 font-dm text-white flex flex-col items-center justify-center mb-5">
           <p
             className="font-bold italic text-5xl md:text-6xl"
