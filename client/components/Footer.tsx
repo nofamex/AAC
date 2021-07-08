@@ -19,7 +19,7 @@ export default function Footer() {
           </div>
           <div className="text-xs md:text-base font-normal w-full md:w-2/4 text-center md:text-left mt-4">
             Acara tahunan terbesar yang diselenggarakan oleh Himpunan Mahasiswa
-            S1 Akuntanasi, Fakultas Ekonomi dan Bisnis Universitas Airlangga.
+            S1 Akuntansi, Fakultas Ekonomi dan Bisnis Universitas Airlangga.
           </div>
           <div className="flex mt-2 justify-center md:justify-start">
             <Link href="/unac">
@@ -38,8 +38,12 @@ export default function Footer() {
             Contact us
           </p>
           <div className="flex mt-4 justify-center md:justify-start">
-            <SiInstagram className="h-6 w-6 mr-3" />
-            <SiLine className="h-6 w-6" />
+            <Link href="https://www.instagram.com/aac.airlangga/">
+              <SiInstagram className="h-6 w-6 mr-3 cursor-pointer" />
+            </Link>
+            <Link href="https://lin.ee/Lm75QOj">
+              <SiLine className="h-6 w-6 cursor-pointer" />
+            </Link>
           </div>
         </div>
       </div>

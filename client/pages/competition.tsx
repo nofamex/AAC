@@ -31,9 +31,6 @@ export default function Competition() {
           >
             <span className="text-stroke">COMPETITION</span>
           </p>
-          <p className="text-sm md:text-md mt-3 text-center">
-            Ketahui Competition yang diselenggarakan di AAC 2021.
-          </p>
         </div>
         <div className="flex flex-col md:flex-row h-auto w-auto">
           <motion.div

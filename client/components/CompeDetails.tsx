@@ -9,10 +9,10 @@ interface CompeDetailsProps {
 
 export default function CompeDetails({ type }: CompeDetailsProps) {
   const TACGB =
-    "https://drive.google.com/file/d/1oIw_RupcHSTBMx8rZN8nzcKT3qL0cusl/view?usp=sharing";
+    "https://drive.google.com/file/d/1DGrzPOfv1pRSR6OzM4oA_aX4pY9vgJTZ/view?usp=sharing";
 
   const UNACGB =
-    "https://drive.google.com/file/d/1fBLA-aqUuZ6LjzkiwbNE4eQFlr2dscLA/view?usp=sharing";
+    "https://drive.google.com/file/d/11Zw0ygjCnCdcovyDlpmDqmmQvx0rEZS_/view?usp=sharing";
 
   const imageListUNAC = [
     "/picture/unac-slider-1.png",
