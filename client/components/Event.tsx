@@ -2,6 +2,7 @@ import { useState } from "react";
 import EventCard from "../components/EventCard";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { useRouter } from "next/router";
+import PatternBG from "./PatternBG";
 
 export default function Event() {
   const size = useWindowSize();
@@ -45,6 +46,7 @@ export default function Event() {
   return (
     <div>
       <div className="h-16 w-full bg-black-80"></div>
+      <PatternBG position="right" />
       <div className="w-full bg-black-80 flex flex-col items-center justify-center">
         <div className="w-full h-24 font-dm text-white flex flex-col items-center justify-center mb-5">
           <p

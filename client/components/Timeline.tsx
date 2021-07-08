@@ -1,5 +1,6 @@
 import { Chrono } from "react-chrono";
 import { useWindowSize } from "../hooks/useWindowSize";
+import PatternBG from "./PatternBG";
 
 export default function Timeline() {
   const size = useWindowSize();
@@ -38,6 +39,7 @@ export default function Timeline() {
   return (
     <div>
       <div className="h-16 w-full bg-black-80"></div>
+      <PatternBG position="left" />
       <div className="w-full bg-black-80 flex flex-col items-center justify-center">
         <div className="w-full h-24 font-dm text-white flex flex-col items-center justify-center mb-5">
           <p

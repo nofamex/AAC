@@ -1,9 +1,12 @@
 import Image from "next/image";
+import PatternBG from "./PatternBG";
 
 export default function ContactUs() {
   return (
     <div>
       <div className="h-16 w-full bg-black-80"></div>
+      {/* karena metok jadi broken, nunggu ada sponsor paling biar ga broken */}
+      {/* <PatternBG position="right" /> */}
       <div className="w-full bg-black-80 flex flex-col items-center justify-center">
         <div className="w-full h-24 font-dm text-white flex flex-col items-center justify-center mb-5">
           <p
