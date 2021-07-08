@@ -17,10 +17,12 @@ export default function CompetitionFoot({ type }: FootProps) {
       />
       <div className="h-20 w-full text-white flex justify-center z-10">
         <p
-          className="font-bold italic text-5xl md:text-6xl"
+          className="font-bold italic text-3xl sm:text-5xl md:text-6xl flex justify-center"
           style={{ textShadow: "0 0 25px #7303C0" }}
         >
-          <span className="text-stroke">PENDAFTARAN SEGERA DIBUKA</span>
+          <span className="text-stroke text-center">
+            PENDAFTARAN SEGERA DIBUKA
+          </span>
         </p>
       </div>
     </div>

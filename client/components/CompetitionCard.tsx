@@ -13,8 +13,8 @@ export default function CompetitionCard({
   desc,
 }: CompetitionCardProps) {
   return (
-    <div className="w-80 md:w-compeCard h-72 md:h-compeCard rounded-2xl mb-5 md:mb-0 md:mr-4 cursor-pointer">
-      <div className="w-full h-40 md:h-compeCardImg rounded-t-2xl flex md:items-center md:justify-center relative overflow-hidden">
+    <div className="w-80 lg:w-96 xl:w-compeCard h-72 lg:h-80 xl:h-compeCard rounded-2xl mb-5 lg:mb-0 lg:mr-4 cursor-pointer">
+      <div className="w-full h-40 lg:h-48 xl:h-compeCardImg rounded-t-2xl flex lg:items-center lg:justify-center relative overflow-hidden">
         <Image
           src={image}
           alt="Competition Logo"
@@ -22,8 +22,8 @@ export default function CompetitionCard({
           className="hover:scale-105 transition ease-in-out"
         />
       </div>
-      <div className="w-full h-32 md:h-compeCardDesc bg-compe rounded-b-2xl flex flex-col items-center justify-center">
-        <p className="font-md text-white text-center text-xs md:text-base cursor-default">
+      <div className="w-full h-32 lg:h-compeCardDesc bg-compe rounded-b-2xl flex flex-col items-center justify-center">
+        <p className="font-md text-white text-center text-xs lg:text-base cursor-default">
           {desc}
         </p>
         <div className="w-full flex justify-center mt-5">

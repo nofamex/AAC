@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <div className="h-96 bg-black-80 flex flex-col text-white py-5 md:py-12 px-nav font-dm">
+    <div className="h-auto bg-black-80 flex flex-col text-white py-5 md:py-12 px-nav font-dm">
       <div className="h-full flex flex-col md:flex-row">
         <div className="h-full flex flex-col w-full md:w-3/4">
           <div className="flex justify-center md:justify-start">
@@ -34,7 +34,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="h-full flex flex-col w-full md:w-1/4 mt-4 md:mt-0">
-          <p className="font-bold flex justify-center md:justify-start">
+          <p className="font-bold flex justify-center md:justify-start text-center">
             Contact us
           </p>
           <div className="flex mt-4 justify-center md:justify-start">
@@ -47,7 +47,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="text-black-60 font-bold flex justify-center md:justify-start mt-3">
+      <div className="text-black-60 font-bold flex justify-center md:justify-start mt-3 text-center">
         © AAC 2021
       </div>
     </div>

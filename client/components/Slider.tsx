@@ -8,7 +8,7 @@ interface SliderProps {
 
 export default function Slider({ images }: SliderProps) {
   return (
-    <div className="w-64 md:w-landingText h-64 md:h-96">
+    <div className="w-64 h-64 md:h-80 md:w-80 xl:w-landingText lg:h-96">
       <AliceCarousel
         autoPlay
         autoPlayInterval={5000}
@@ -19,7 +19,7 @@ export default function Slider({ images }: SliderProps) {
         disableButtonsControls
       >
         {images.map((image, index) => (
-          <div className="w-full h-64 md:h-96 relative" key={index}>
+          <div className="w-full h-64 md:h-80 lg:h-96 relative" key={index}>
             <Image
               src={image}
               alt="picture"

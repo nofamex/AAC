@@ -26,13 +26,13 @@ export default function Competition() {
       <div className="h-compeMobile md:h-section w-full bg-black-80 flex flex-col items-center justify-center">
         <div className="w-full h-24 font-dm text-white flex flex-col items-center justify-center mb-5">
           <p
-            className="font-bold italic text-5xl md:text-6xl"
+            className="font-bold italic text-3xl sm:text-5xl md:text-6xl"
             style={{ textShadow: "0 0 25px #7303C0" }}
           >
             <span className="text-stroke">COMPETITION</span>
           </p>
         </div>
-        <div className="flex flex-col md:flex-row h-auto w-auto">
+        <div className="flex flex-col lg:flex-row h-auto w-auto">
           <motion.div
             initial={{ x: -300 }}
             animate={{ x: 0, transition: { duration: 0.5 } }}

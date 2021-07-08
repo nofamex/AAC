@@ -6,10 +6,10 @@ export default function ComingSoon() {
       <div className="h-hero bg-black-80 flex justify-center relative">
         <div className="font-dm flex flex-col justify-center items-center text-white">
           <p
-            className="font-bold italic text-5xl md:text-8xl"
+            className="font-bold italic text-5xl md:text-8xl flex justify-center"
             style={{ textShadow: "0 0 25px #7303C0" }}
           >
-            <span className="text-stroke">COMING SOON</span>
+            <span className="text-stroke text-center">COMING SOON</span>
           </p>
           <p>Halaman ini akan datang segera</p>
         </div>

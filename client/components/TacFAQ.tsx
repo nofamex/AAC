@@ -9,7 +9,8 @@ export default function TacFAQ() {
     },
     {
       title: "Apakah TAC 2021 akan diselenggarakan secara online?",
-      content: "Seluruh rangkaian acara TAC 2021 akan diselenggarakan secara online",
+      content:
+        "Seluruh rangkaian acara TAC 2021 akan diselenggarakan secara online",
     },
     {
       title: "Ada berapa babak di TAC 2021?",
@@ -22,7 +23,8 @@ export default function TacFAQ() {
         "Babak Preliminary akan diadakan pada 28 Agustus 2021, sedangkan Babak Mainround akan diadakan pada 8-12 September 2021",
     },
     {
-      title: "Satu tim terdiri dari berapa orang? Apakah boleh berbeda jurusan?",
+      title:
+        "Satu tim terdiri dari berapa orang? Apakah boleh berbeda jurusan?",
       content:
         "Satu tim terdiri dari 3 siswa/i dari SMA yang sama. Tim boleh terdiri dari jurusan/angkatan yang berbeda",
     },

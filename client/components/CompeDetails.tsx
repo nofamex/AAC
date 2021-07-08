@@ -46,13 +46,13 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
           layout="fill"
         />
       </div>
-      <div className="h-96 w-full flex flex-col md:flex-row z-10 items-center">
+      <div className="h-96 w-full flex flex-col lg:flex-row z-10 items-center">
         <div className="w-1/2 h-full flex justify-center">
           <Slider images={type === "unac" ? imageListUNAC : imageListTAC} />
         </div>
-        <div className="w-full md:w-1/2 h-full flex flex-col font-dm justify-center">
+        <div className="w-full lg:w-1/2 h-full flex flex-col font-dm justify-center">
           {type === "unac" ? (
-            <p className="text-white text-xs md:text-lg mt-4 md:mt-0 p-4 md:p-0 text-center md:text-left">
+            <p className="text-white text-xs md:text-base lg:text-lg mt-4 lg:mt-0 p-4 md:p-0 text-center lg:text-left">
               Unair National Accounting Competition (UNAC) adalah serangkaian
               acara kompetisi yang diselenggarakan oleh Himpunan Mahasiswa S1
               Akuntansi Universitas Airlangga yang ditujukan untuk seluruh
@@ -62,7 +62,7 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
               Semifinal, dan Final.
             </p>
           ) : (
-            <p className="text-white text-xs md:text-lg mt-4 md:mt-0 p-4 md:p-0 text-center md:text-left">
+            <p className="text-white text-xs md:text-base lg:text-lg mt-4 lg:mt-0 p-4 lg:p-0 text-center lg:text-left">
               Teenage Accounting Competition (TAC) merupakan serangkaian acara
               kompetisi yang diselenggarakan oleh Himpunan Mahasiswa S1
               Akuntansi Universitas Airlangga yang ditujukan untuk seluruh
@@ -72,7 +72,7 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
             </p>
           )}
 
-          <div className="flex mt-0 md:mt-8 justify-center md:justify-start">
+          <div className="flex mt-4 lg:mt-8 justify-center lg:justify-start">
             <a
               href={type === "unac" ? UNACGB : TACGB}
               target="_blank"

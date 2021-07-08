@@ -76,7 +76,7 @@ export default function HeaderVideo({ scroll }: HeaderVideoProps) {
 
   return (
     <>
-      <div className="h-hero bg-black-80 relative w-full hidden md:block">
+      <div className="h-screen bg-black-80 relative w-full hidden md:block">
         <div className="h-full w-full hidden md:block overflow-hidden absolute">
           <video
             id="videobcg"
