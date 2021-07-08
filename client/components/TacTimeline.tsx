@@ -23,7 +23,7 @@ export default function TacTimeline() {
       desc: "9 September 2021",
     },
     {
-      title: "Seminar TAC",
+      title: "Webinar TAC",
       desc: "10 September 2021",
     },
     {

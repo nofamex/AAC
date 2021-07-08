@@ -21,10 +21,10 @@ export default function Event() {
       title: "TAC",
     },
     {
-      desc: "Seminar tingkat nasional yang mengangkat tema tentang perkembangan dunia akuntansi didukung dengan narasumber yang ahli dalam bidangnya. Gratis dan terbuka untuk umum.",
-      image: "/picture/event/seminar.svg",
-      handler: () => router.push("/seminar"),
-      title: "Seminar",
+      desc: "Webinar tingkat nasional yang mengangkat tema tentang perkembangan dunia akuntansi didukung dengan narasumber yang ahli dalam bidangnya. Gratis dan terbuka untuk umum.",
+      image: "/picture/event/Webinar.svg",
+      handler: () => router.push("/Webinar"),
+      title: "Webinar",
     },
 
     {

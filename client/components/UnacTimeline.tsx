@@ -27,7 +27,7 @@ export default function UnacTimeline() {
       desc: "10 September 2021",
     },
     {
-      title: "Seminar & Techincal Meeting",
+      title: "Webinar & Techincal Meeting",
       desc: "11 September 2021",
     },
     {
