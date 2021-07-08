@@ -47,10 +47,10 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
         />
       </div>
       <div className="h-auto w-full flex flex-col lg:flex-row z-10 items-center">
-        <div className="w-1/2 h-full flex justify-center xl:justify-end">
+        <div className="w-1/2 h-full flex justify-center">
           <Slider images={type === "unac" ? imageListUNAC : imageListTAC} />
         </div>
-        <div className="w-full lg:w-1/2 h-full flex flex-col font-dm justify-center xl:p-8">
+        <div className="w-full lg:w-1/2 h-full flex flex-col font-dm justify-center xl:p-4">
           {type === "unac" ? (
             <p className="text-white text-xs md:text-base lg:text-lg mt-4 lg:mt-0 p-4 md:p-0 text-center lg:text-left">
               Unair National Accounting Competition (UNAC) adalah serangkaian
