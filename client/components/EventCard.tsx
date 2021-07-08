@@ -54,7 +54,7 @@ export default function EventCard({
             {type === "Big" ? (
               <div>
                 <p
-                  className={`font-md text-white text-left text-xs md:text-base cursor-default`}
+                  className={`font-md text-white text-left text-xs md:text-base cursor-default hidden md:block`}
                 >
                   {desc}
                 </p>
