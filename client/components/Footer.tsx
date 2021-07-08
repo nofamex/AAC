@@ -41,7 +41,9 @@ export default function Footer() {
             <Link href="https://www.instagram.com/aac.airlangga/">
               <SiInstagram className="h-6 w-6 mr-3 cursor-pointer" />
             </Link>
-            <SiLine className="h-6 w-6 cursor-pointer" />
+            <Link href="https://lin.ee/Lm75QOj">
+              <SiLine className="h-6 w-6 cursor-pointer" />
+            </Link>
           </div>
         </div>
       </div>
