@@ -23,8 +23,6 @@ export default function EventCard({
 }: EventCardProps) {
   const imgClass = type === "Big" ? "w-auto max-h-40 md:max-h-80 xl:max-h-full h-eventBigCardImg rounded-t-2xl md:items-center md:justify-center relative overflow-hidden" 
     : "w-auto max-h-40 md:max-h-80 xl:max-h-full h-eventSmallCardImg rounded-t-2xl md:items-center md:justify-center relative overflow-hidden"
-  
-  console.table([type, imgClass])
 
   const descClass = type === "Big" ? "bg-compe rounded-b-2xl flex flex-col justify-center h-eventBigCardDesc" 
     :  "bg-compe rounded-b-2xl flex flex-col justify-center h-eventSmallCardDesc" 
@@ -48,7 +46,7 @@ export default function EventCard({
               <p className={`font-md text-white text-left text-xs md:text-base cursor-default`}>
               {desc}
               </p>
-              <div  className="w-full flex justify mt-5 text-orange">
+              <div onClick={() => handler()} className="w-full flex justify mt-5 text-orange">
                 <p> Lebih Lanjut&gt;</p>
               </div>
             </div>) : (<></>)}

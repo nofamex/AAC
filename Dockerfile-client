@@ -3,15 +3,10 @@ FROM node:14-alpine3.13 AS build
 WORKDIR /build
 COPY .env ./
 COPY ./client/components ./client/hooks ./client/pages ./client/public ./client/*.* ./client/
-RUN ls
 
-RUN npm install ./client
-RUN ls
-
+RUN npm --prefix client install ./client
 RUN npm run --prefix ./client build
-RUN ls
-
-RUN npm install --prefix ./client next
+RUN npm --prefix ./client install next
 EXPOSE 3000
 CMD [ "npm", "run", "--prefix", "/client", "start" ]
 

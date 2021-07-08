@@ -4,6 +4,9 @@ run:
 runc:
 	npm run --prefix client dev
 
+i:
+	npm --prefix client install ./client
+
 watch-server:
 	air -c server/watcher.conf
 
