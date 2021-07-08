@@ -18,23 +18,21 @@ export default function ContactUs() {
         </div>
         <div className="h-12 w-full bg-black-80"></div>
         <div className="text-grey-20 text-2xl">
-          <div className="mb-4">
+          <div className="mb-4 flex flex-wrap flex-row items-center content-start">
             <Image
               src="/picture/logo/line.svg"
               height="32px"
               width="32px"
-              className="inline"
             />
-            <p className="inline ml-3">@grv1752i</p>
+            <p className="ml-3">@grv1752i</p>
           </div>
-          <div>
+          <div className="flex flex-wrap flex-row items-center content-start">
             <Image
               src="/picture/logo/instagram.svg"
               height="32px"
               width="32px"
-              className="inline"
             />
-            <p className="inline ml-3">@aacairlangga</p>
+            <p className="ml-3">@aacairlangga</p>
           </div>
         </div>
         <div className="h-40 w-full bg-black-80"></div>
