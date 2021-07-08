@@ -17,7 +17,7 @@ export default function HeaderMobile() {
           <p className="font-bold text-2xl md:text-3xl text-orange">
             Apa itu AAC?
           </p>
-          <p className="text-xl md:text-xl text-white text-center">
+          <p className="text-xl md:text-xl text-white text-center p-4">
             Acara kompetisi akuntansi yang diikuti oleh peserta dari seluruh
             Indonesia, diselenggarakan oleh Himpunan Mahasiswa Akuntansi,
             Fakultas Ekonomi dan Bisnis Universitas Airlangga.
