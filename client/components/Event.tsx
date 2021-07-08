@@ -62,7 +62,7 @@ export default function Event() {
             <EventCard
               key={index}
               className={
-                index == 0 && (size?.width ?? 0) > 1280
+                index == 0 && (size?.width ?? 0) >= 1280
                   ? "row-span-3 col-span-2 h-full max-w-40 xl:w-full mx-10 md:mx-20 xl:mx-0 xl:min-h-eventBigCard"
                   : "row-span-1 col-span-1 h-full max-w-40 xl:w-full mx-10 md:mx-20 xl:mx-0 xl:min-h-eventSmallCard"
               }
