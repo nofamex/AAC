@@ -32,7 +32,7 @@ export default function ContactUs() {
               height="32px"
               width="32px"
             />
-            <p className="ml-3">@aacairlangga</p>
+            <p className="ml-3">@aac.airlangga</p>
           </div>
         </div>
         <div className="h-40 w-full bg-black-80"></div>
