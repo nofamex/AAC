@@ -4,12 +4,21 @@ package db
 
 import (
 	"context"
+	"database/sql"
 )
 
 type Querier interface {
-	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
-	GetUser(ctx context.Context, username string) (User, error)
-	SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error
+	AddTeamIdToUser(ctx context.Context, teamID sql.NullInt32) error
+	CreateMember(ctx context.Context, arg CreateMemberParams) (Member, error)
+	CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, error)
+	GetMemberById(ctx context.Context, id int32) (Member, error)
+	GetMemberByTeamId(ctx context.Context, teamID sql.NullInt32) ([]Member, error)
+	GetTeamById(ctx context.Context, id int32) (Team, error)
+	GetUserByEmail(ctx context.Context, email string) (User, error)
+	GetUserById(ctx context.Context, id int32) (User, error)
+	RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error)
+	UpdateRefreshToken(ctx context.Context, arg UpdateRefreshTokenParams) error
+	UpdateVerifiedStatus(ctx context.Context, verified Verification) error
 }
 
 var _ Querier = (*Queries)(nil)

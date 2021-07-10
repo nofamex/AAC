@@ -1,18 +1,25 @@
--- name: CreateUser :one
+-- name: RegisterUser :one
 INSERT INTO users (
-    first_name,
-    last_name,
-    username,
-    password
+  full_name,
+  email,
+  password
 ) VALUES (
-    $1, $2, $3, $4
+  $1, $2, $3
 ) RETURNING *;
 
--- name: GetUser :one
-SELECT * FROM users
-WHERE username = $1 LIMIT 1;
+-- name: AddTeamIdToUser :exec
+UPDATE users
+set team_id = $1;
 
--- name: SetRefreshToken :exec
+-- name: UpdateRefreshToken :exec
 UPDATE users
 SET refresh_token = $2
-WHERE username = $1;
+WHERE id = $1;
+
+-- name: GetUserByEmail :one
+SELECT * FROM users
+WHERE email = $1 LIMIT 1;
+
+-- name: GetUserById :one
+SELECT * FROM users
+WHERE id = $1 LIMIT 1;

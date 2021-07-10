@@ -4,13 +4,80 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
+	"time"
 )
+
+type Competition string
+
+const (
+	CompetitionUnac Competition = "unac"
+	CompetitionTac  Competition = "tac"
+)
+
+func (e *Competition) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = Competition(s)
+	case string:
+		*e = Competition(s)
+	default:
+		return fmt.Errorf("unsupported scan type for Competition: %T", src)
+	}
+	return nil
+}
+
+type Verification string
+
+const (
+	VerificationMenunggu Verification = "menunggu"
+	VerificationDitolak  Verification = "ditolak"
+	VerificationBerhasil Verification = "berhasil"
+)
+
+func (e *Verification) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = Verification(s)
+	case string:
+		*e = Verification(s)
+	default:
+		return fmt.Errorf("unsupported scan type for Verification: %T", src)
+	}
+	return nil
+}
+
+type Member struct {
+	ID           int32          `json:"id"`
+	FullName     string         `json:"full_name"`
+	BirthPlace   string         `json:"birth_place"`
+	BirthDate    time.Time      `json:"birth_date"`
+	Nisn         sql.NullString `json:"nisn"`
+	TeamID       sql.NullInt32  `json:"team_id"`
+	MemberNumber int32          `json:"member_number"`
+}
+
+type Team struct {
+	ID          int32          `json:"id"`
+	TeamName    string         `json:"team_name"`
+	University  string         `json:"university"`
+	FullName    string         `json:"full_name"`
+	Phone       string         `json:"phone"`
+	IDLine      string         `json:"id_line"`
+	Email       string         `json:"email"`
+	PhotoLink   string         `json:"photo_link"`
+	PaymentLink string         `json:"payment_link"`
+	CardLink    string         `json:"card_link"`
+	SkLink      sql.NullString `json:"sk_link"`
+	Type        Competition    `json:"type"`
+	Verified    Verification   `json:"verified"`
+}
 
 type User struct {
 	ID           int32          `json:"id"`
-	FirstName    string         `json:"first_name"`
-	LastName     string         `json:"last_name"`
-	Username     string         `json:"username"`
+	FullName     string         `json:"full_name"`
+	Email        string         `json:"email"`
 	Password     string         `json:"password"`
 	RefreshToken sql.NullString `json:"refresh_token"`
+	TeamID       sql.NullInt32  `json:"team_id"`
 }

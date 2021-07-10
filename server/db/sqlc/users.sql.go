@@ -8,74 +8,96 @@ import (
 	"database/sql"
 )
 
-const createUser = `-- name: CreateUser :one
+const addTeamIdToUser = `-- name: AddTeamIdToUser :exec
+UPDATE users
+set team_id = $1
+`
+
+func (q *Queries) AddTeamIdToUser(ctx context.Context, teamID sql.NullInt32) error {
+	_, err := q.db.ExecContext(ctx, addTeamIdToUser, teamID)
+	return err
+}
+
+const getUserByEmail = `-- name: GetUserByEmail :one
+SELECT id, full_name, email, password, refresh_token, team_id FROM users
+WHERE email = $1 LIMIT 1
+`
+
+func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserByEmail, email)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.FullName,
+		&i.Email,
+		&i.Password,
+		&i.RefreshToken,
+		&i.TeamID,
+	)
+	return i, err
+}
+
+const getUserById = `-- name: GetUserById :one
+SELECT id, full_name, email, password, refresh_token, team_id FROM users
+WHERE id = $1 LIMIT 1
+`
+
+func (q *Queries) GetUserById(ctx context.Context, id int32) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserById, id)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.FullName,
+		&i.Email,
+		&i.Password,
+		&i.RefreshToken,
+		&i.TeamID,
+	)
+	return i, err
+}
+
+const registerUser = `-- name: RegisterUser :one
 INSERT INTO users (
-    first_name,
-    last_name,
-    username,
-    password
+  full_name,
+  email,
+  password
 ) VALUES (
-    $1, $2, $3, $4
-) RETURNING id, first_name, last_name, username, password, refresh_token
+  $1, $2, $3
+) RETURNING id, full_name, email, password, refresh_token, team_id
 `
 
-type CreateUserParams struct {
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Username  string `json:"username"`
-	Password  string `json:"password"`
+type RegisterUserParams struct {
+	FullName string `json:"full_name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
-func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, createUser,
-		arg.FirstName,
-		arg.LastName,
-		arg.Username,
-		arg.Password,
-	)
+func (q *Queries) RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error) {
+	row := q.db.QueryRowContext(ctx, registerUser, arg.FullName, arg.Email, arg.Password)
 	var i User
 	err := row.Scan(
 		&i.ID,
-		&i.FirstName,
-		&i.LastName,
-		&i.Username,
+		&i.FullName,
+		&i.Email,
 		&i.Password,
 		&i.RefreshToken,
+		&i.TeamID,
 	)
 	return i, err
 }
 
-const getUser = `-- name: GetUser :one
-SELECT id, first_name, last_name, username, password, refresh_token FROM users
-WHERE username = $1 LIMIT 1
-`
-
-func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUser, username)
-	var i User
-	err := row.Scan(
-		&i.ID,
-		&i.FirstName,
-		&i.LastName,
-		&i.Username,
-		&i.Password,
-		&i.RefreshToken,
-	)
-	return i, err
-}
-
-const setRefreshToken = `-- name: SetRefreshToken :exec
+const updateRefreshToken = `-- name: UpdateRefreshToken :exec
 UPDATE users
 SET refresh_token = $2
-WHERE username = $1
+WHERE id = $1
 `
 
-type SetRefreshTokenParams struct {
-	Username     string         `json:"username"`
+type UpdateRefreshTokenParams struct {
+	ID           int32          `json:"id"`
 	RefreshToken sql.NullString `json:"refresh_token"`
 }
 
-func (q *Queries) SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error {
-	_, err := q.db.ExecContext(ctx, setRefreshToken, arg.Username, arg.RefreshToken)
+func (q *Queries) UpdateRefreshToken(ctx context.Context, arg UpdateRefreshTokenParams) error {
+	_, err := q.db.ExecContext(ctx, updateRefreshToken, arg.ID, arg.RefreshToken)
 	return err
 }
