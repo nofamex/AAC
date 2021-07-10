@@ -9,7 +9,6 @@ import (
 	"github.com/lib/pq"
 	"github.com/nofamex/AAC/server/api/service"
 
-	"github.com/nofamex/AAC/server/api/middleware"
 	db "github.com/nofamex/AAC/server/db/sqlc"
 	"github.com/nofamex/AAC/server/token"
 	"github.com/nofamex/AAC/server/util"
@@ -28,20 +27,15 @@ type UserResponse struct {
 	TeamName string `json:"team_name,omitempty"`
 }
 
-func NewUserController(app fiber.Router, query db.Querier, maker token.Maker, config util.Config) {
+func NewUserController(app fiber.Router, query db.Querier, maker token.Maker, config util.Config) (userController *UserController) {
 	userService := service.NewUserService(query)
-	UserController := &UserController{
+	userController = &UserController{
 		service:    *userService,
 		tokenMaker: maker,
 		config:     config,
 	}
 
-	app.Post("/register", UserController.register)
-	app.Post("/login", UserController.login)
-
-	auth := app.Group("", middleware.AuthMiddleware(maker))
-	auth.Get("/refresh", UserController.refresh)
-	auth.Get("/self", UserController.self)
+	return
 }
 
 type RegisterUserRequest struct {
@@ -50,7 +44,8 @@ type RegisterUserRequest struct {
 	Password string `json:"password" validate:"required"`
 }
 
-func (u *UserController) register(c *fiber.Ctx) error {
+// register
+func (u *UserController) Register(c *fiber.Ctx) error {
 	var requestBody RegisterUserRequest
 	err := c.BodyParser(&requestBody)
 	if err != nil {
@@ -102,7 +97,7 @@ type LoginUserResponse struct {
 }
 
 // login
-func (u *UserController) login(c *fiber.Ctx) error {
+func (u *UserController) Login(c *fiber.Ctx) error {
 	var requestBody LoginUserRequest
 	err := c.BodyParser(&requestBody)
 	if err != nil {
@@ -163,8 +158,8 @@ func (u *UserController) login(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(response)
 }
 
-// refresh
-func (u *UserController) refresh(c *fiber.Ctx) error {
+// Refresh
+func (u *UserController) Refresh(c *fiber.Ctx) error {
 	header := c.Get("authorization")
 	token, _ := token.GetToken(header)
 	payload, err := u.tokenMaker.VerifyToken(token)
@@ -197,7 +192,7 @@ func (u *UserController) refresh(c *fiber.Ctx) error {
 }
 
 // Self
-func (u *UserController) self(c *fiber.Ctx) error {
+func (u *UserController) Self(c *fiber.Ctx) error {
 	header := c.Get("authorization")
 	token, _ := token.GetToken(header)
 

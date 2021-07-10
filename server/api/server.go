@@ -5,16 +5,17 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/nofamex/AAC/server/api/controller"
+	"github.com/nofamex/AAC/server/api/middleware"
 	db "github.com/nofamex/AAC/server/db/sqlc"
 	"github.com/nofamex/AAC/server/token"
 	"github.com/nofamex/AAC/server/util"
 )
 
 type Server struct {
-	config util.Config
+	config     util.Config
 	tokenMaker token.Maker
-	router *fiber.App
-	query db.Querier
+	router     *fiber.App
+	query      db.Querier
 }
 
 func NewServer(config util.Config, querier db.Querier) (*Server, error) {
@@ -24,9 +25,9 @@ func NewServer(config util.Config, querier db.Querier) (*Server, error) {
 	}
 
 	server := &Server{
-		config: config,
+		config:     config,
 		tokenMaker: tokenMaker,
-		query: querier,
+		query:      querier,
 	}
 
 	server.setupRouter()
@@ -34,15 +35,22 @@ func NewServer(config util.Config, querier db.Querier) (*Server, error) {
 	return server, nil
 }
 
-func (server *Server) setupRouter(){
+func (server *Server) setupRouter() {
 	router := fiber.New()
 
 	// routing goes here
 	api := router.Group("/api")
 	v1 := api.Group("/v1")
-	
+
 	auth := v1.Group("/auth")
-	controller.NewUserController(auth, server.query, server.tokenMaker, server.config)
+
+	userCtrl := controller.NewUserController(auth, server.query, server.tokenMaker, server.config)
+	auth.Post("/register", userCtrl.Register)
+	auth.Post("/login", userCtrl.Login)
+
+	login := auth.Group("", middleware.AuthMiddleware(server.tokenMaker))
+	login.Get("/refresh", userCtrl.Refresh)
+	login.Get("/self", userCtrl.Self)
 
 	server.router = router
 }
