@@ -21,9 +21,8 @@ type UserController struct {
 }
 
 type UserResponse struct {
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Username  string `json:"username"`
+	FullName string `json:"full_name"`
+	Email    string `json:"email"`
 }
 
 func NewUserController(app fiber.Router, query db.Querier, maker token.Maker, config util.Config) {
@@ -43,7 +42,7 @@ func NewUserController(app fiber.Router, query db.Querier, maker token.Maker, co
 }
 
 func (u *UserController) register(c *fiber.Ctx) error {
-	var requestBody db.CreateUserParams
+	var requestBody db.RegisterUserParams
 	err := c.BodyParser(&requestBody)
 	if err != nil {
 		return c.Status(http.StatusBadRequest).SendString(err.Error())
@@ -55,7 +54,7 @@ func (u *UserController) register(c *fiber.Ctx) error {
 	}
 	requestBody.Password = hashedPassword
 
-	result, err := u.service.CreateUser(&requestBody)
+	result, err := u.service.RegisterUser(&requestBody)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
@@ -67,16 +66,15 @@ func (u *UserController) register(c *fiber.Ctx) error {
 	}
 
 	response := &UserResponse{
-		FirstName: result.FirstName,
-		LastName:  result.LastName,
-		Username:  result.Username,
+		FullName: result.FullName,
+		Email:    result.Email,
 	}
 
 	return c.Status(http.StatusOK).JSON(response)
 }
 
 type LoginUserRequest struct {
-	Username string `json:"username" binding:"required,alphanum"`
+	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" binding:"required"`
 }
 
@@ -93,7 +91,7 @@ func (u *UserController) login(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).SendString(err.Error())
 	}
 
-	user, err := u.service.GetUser(requestBody.Username)
+	user, err := u.service.GetUserByEmail(requestBody.Email)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return c.Status(http.StatusNotFound).SendString(err.Error())
@@ -107,7 +105,7 @@ func (u *UserController) login(c *fiber.Ctx) error {
 	}
 
 	accessToken, err := u.tokenMaker.CreateToken(
-		user.Username,
+		user.Email,
 		user.ID,
 		u.config.AccessTokenDuration,
 	)
@@ -120,15 +118,14 @@ func (u *UserController) login(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).SendString(err.Error())
 	}
 
-	err = u.service.SetRefreshToken(user.Username, refreshToken)
+	err = u.service.SetRefreshToken(user.Email, refreshToken)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).SendString(err.Error())
 	}
 
 	userResponse := &UserResponse{
-		FirstName: user.FirstName,
-		LastName:  user.LastName,
-		Username:  user.Username,
+		FullName: user.FullName,
+		Email:  user.Email,
 	}
 
 	response := &LoginUserResponse{
@@ -146,8 +143,8 @@ func (u *UserController) refresh(c *fiber.Ctx) error {
 	payload, err := u.tokenMaker.VerifyToken(token)
 
 	accessToken, err := u.tokenMaker.CreateToken(
-		payload.Username,
-		int32(payload.ID.ID()),
+		payload.Email,
+		payload.UserId,
 		u.config.AccessTokenDuration,
 	)
 	if err != nil {
@@ -159,7 +156,7 @@ func (u *UserController) refresh(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).SendString(err.Error())
 	}
 
-	err = u.service.SetRefreshToken(payload.Username, refreshToken)
+	err = u.service.SetRefreshToken(payload.Email, refreshToken)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).SendString(err.Error())
 	}
@@ -181,15 +178,14 @@ func (u *UserController) self(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).SendString(err.Error())
 	}
 
-	user, err := u.service.GetUser(payload.Username)
+	user, err := u.service.GetUserByEmail(payload.Email)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).SendString(err.Error())
 	}
 
 	userResponse := &UserResponse{
-		FirstName: user.FirstName,
-		LastName:  user.LastName,
-		Username:  user.Username,
+		FullName: user.FullName,
+		Email:  user.Email,
 	}
 
 	return c.Status(http.StatusOK).JSON(userResponse)

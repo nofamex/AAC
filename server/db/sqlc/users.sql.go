@@ -86,18 +86,18 @@ func (q *Queries) RegisterUser(ctx context.Context, arg RegisterUserParams) (Use
 	return i, err
 }
 
-const updateRefreshToken = `-- name: UpdateRefreshToken :exec
+const setRefreshToken = `-- name: SetRefreshToken :exec
 UPDATE users
 SET refresh_token = $2
-WHERE id = $1
+WHERE email = $1
 `
 
-type UpdateRefreshTokenParams struct {
-	ID           int32          `json:"id"`
+type SetRefreshTokenParams struct {
+	Email        string         `json:"email"`
 	RefreshToken sql.NullString `json:"refresh_token"`
 }
 
-func (q *Queries) UpdateRefreshToken(ctx context.Context, arg UpdateRefreshTokenParams) error {
-	_, err := q.db.ExecContext(ctx, updateRefreshToken, arg.ID, arg.RefreshToken)
+func (q *Queries) SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error {
+	_, err := q.db.ExecContext(ctx, setRefreshToken, arg.Email, arg.RefreshToken)
 	return err
 }

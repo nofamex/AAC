@@ -4,7 +4,6 @@ import (
 	"errors"
 	"time"
 
-	"github.com/google/uuid"
 )
 
 var (
@@ -13,28 +12,22 @@ var (
 )
 
 type Payload struct {
-	ID uuid.UUID `json:"id"`
 	UserId int32 `json:"userid"`
-	Username string `json:"username"`
+	Email string `json:"email"`
 	IssuedAt time.Time `json:"issued_at"`
 	ExpiredAt time.Time `json:"expired_at"`
 }
 
-func NewPayload(username string, userId int32, duration time.Duration) (*Payload, error) {
-	tokenId, err := uuid.NewRandom()
-	if err != nil {
-		return nil, err
-	}
+func NewPayload(email string, userId int32, duration time.Duration) (*Payload) {
 
 	payload := &Payload{
-		ID: tokenId,
-		Username: username,
+		Email: email,
 		UserId: userId,
 		IssuedAt: time.Now(),
 		ExpiredAt: time.Now().Add(duration),
 	}
 
-	return payload, nil
+	return payload
 }
 
 func (payload *Payload) Valid() error {

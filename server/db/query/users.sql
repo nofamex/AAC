@@ -11,10 +11,10 @@ INSERT INTO users (
 UPDATE users
 set team_id = $1;
 
--- name: UpdateRefreshToken :exec
+-- name: SetRefreshToken :exec
 UPDATE users
 SET refresh_token = $2
-WHERE id = $1;
+WHERE email = $1;
 
 -- name: GetUserByEmail :one
 SELECT * FROM users

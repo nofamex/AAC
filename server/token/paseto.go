@@ -10,6 +10,11 @@ import (
 	"github.com/o1egl/paseto"
 )
 
+type Maker interface {
+	CreateToken(username string, userId int32, duration time.Duration) (string, error)
+	VerifyToken(token string) (*Payload, error)
+}
+
 type PasetoMaker struct {
 	paseto       *paseto.V2
 	symmetricKey []byte
@@ -28,11 +33,8 @@ func NewPasetoMaker(symmetricKey string) (Maker, error) {
 	return maker, nil
 }
 
-func (maker *PasetoMaker) CreateToken(username string, userId int32, duration time.Duration) (string, error) {
-	payload, err := NewPayload(username, userId, duration)
-	if err != nil {
-		return "", err
-	}
+func (maker *PasetoMaker) CreateToken(email string, userId int32, duration time.Duration) (string, error) {
+	payload := NewPayload(email, userId, duration)
 
 	return maker.paseto.Encrypt(maker.symmetricKey, payload, nil)
 }

@@ -15,16 +15,16 @@ func NewUserService(query db.Querier) *UserService {
 	return &UserService{query: query}
 }
 
-func (u *UserService) CreateUser(user *db.CreateUserParams) (*db.User, error) {
-	result, err := u.query.CreateUser(context.Background(), *user)
+func (u *UserService) RegisterUser(user *db.RegisterUserParams) (*db.User, error) {
+	result, err := u.query.RegisterUser(context.Background(), *user)
 	if err != nil {
 		return nil, err
 	}
 	return &result, err
 }
 
-func (u *UserService) GetUser(username string) (*db.User, error) {
-	result, err := u.query.GetUser(context.Background(), username)
+func (u *UserService) GetUserByEmail(email string) (*db.User, error) {
+	result, err := u.query.GetUserByEmail(context.Background(), email)
 	if err != nil {
 		return nil, err
 	}
@@ -32,14 +32,14 @@ func (u *UserService) GetUser(username string) (*db.User, error) {
 	return &result, err
 }
 
-func (u *UserService) SetRefreshToken(username string, token string) (error) {
+func (u *UserService) SetRefreshToken(email string, token string) (error) {
 	refreshToken := sql.NullString{
 		String: token,
 		Valid: true,
 	}
 
 	param := db.SetRefreshTokenParams{
-		Username: username,
+		Email: email,
 		RefreshToken: refreshToken,
 	}
 
