@@ -7,7 +7,7 @@ runc:
 i:
 	npm --prefix client install ./client
 
-watch-server:
+watch:
 	air -c server/watcher.conf
 
 sqlc:

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"net/http"
 
+	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
 	"github.com/lib/pq"
 	"github.com/nofamex/AAC/server/api/service"
@@ -21,8 +22,10 @@ type UserController struct {
 }
 
 type UserResponse struct {
+	Id       int    `json:"id"`
 	FullName string `json:"full_name"`
 	Email    string `json:"email"`
+	TeamName string `json:"team_name,omitempty"`
 }
 
 func NewUserController(app fiber.Router, query db.Querier, maker token.Maker, config util.Config) {
@@ -41,9 +44,21 @@ func NewUserController(app fiber.Router, query db.Querier, maker token.Maker, co
 	auth.Get("/self", UserController.self)
 }
 
+type RegisterUserRequest struct {
+	FullName string `json:"full_name" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
+}
+
 func (u *UserController) register(c *fiber.Ctx) error {
-	var requestBody db.RegisterUserParams
+	var requestBody RegisterUserRequest
 	err := c.BodyParser(&requestBody)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).SendString(err.Error())
+	}
+
+	validate := validator.New()
+	err = validate.Struct(requestBody)
 	if err != nil {
 		return c.Status(http.StatusBadRequest).SendString(err.Error())
 	}
@@ -54,18 +69,20 @@ func (u *UserController) register(c *fiber.Ctx) error {
 	}
 	requestBody.Password = hashedPassword
 
-	result, err := u.service.RegisterUser(&requestBody)
+	registerUserParams := db.RegisterUserParams(requestBody)
+	result, err := u.service.RegisterUser(&registerUserParams)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
 			case "unique_violation":
-				return c.Status(http.StatusForbidden).SendString("duplicate username")
+				return c.Status(http.StatusForbidden).SendString("duplicate email")
 			}
 		}
 		return c.Status(http.StatusInternalServerError).SendString(err.Error())
 	}
 
 	response := &UserResponse{
+		Id:       int(result.ID),
 		FullName: result.FullName,
 		Email:    result.Email,
 	}
@@ -75,7 +92,7 @@ func (u *UserController) register(c *fiber.Ctx) error {
 
 type LoginUserRequest struct {
 	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" binding:"required"`
+	Password string `json:"password" validate:"required"`
 }
 
 type LoginUserResponse struct {
@@ -84,6 +101,7 @@ type LoginUserResponse struct {
 	User         *UserResponse `json:"user,omitempty"`
 }
 
+// login
 func (u *UserController) login(c *fiber.Ctx) error {
 	var requestBody LoginUserRequest
 	err := c.BodyParser(&requestBody)
@@ -91,10 +109,16 @@ func (u *UserController) login(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).SendString(err.Error())
 	}
 
+	validate := validator.New()
+	err = validate.Struct(requestBody)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).SendString(err.Error())
+	}
+
 	user, err := u.service.GetUserByEmail(requestBody.Email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return c.Status(http.StatusNotFound).SendString(err.Error())
+			return c.Status(http.StatusUnprocessableEntity).SendString(err.Error())
 		}
 		return c.Status(http.StatusInternalServerError).SendString(err.Error())
 	}
@@ -124,8 +148,10 @@ func (u *UserController) login(c *fiber.Ctx) error {
 	}
 
 	userResponse := &UserResponse{
+		Id:       int(user.ID),
 		FullName: user.FullName,
-		Email:  user.Email,
+		Email:    user.Email,
+		TeamName: user.TeamName,
 	}
 
 	response := &LoginUserResponse{
@@ -137,6 +163,7 @@ func (u *UserController) login(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(response)
 }
 
+// refresh
 func (u *UserController) refresh(c *fiber.Ctx) error {
 	header := c.Get("authorization")
 	token, _ := token.GetToken(header)
@@ -169,6 +196,7 @@ func (u *UserController) refresh(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(response)
 }
 
+// Self
 func (u *UserController) self(c *fiber.Ctx) error {
 	header := c.Get("authorization")
 	token, _ := token.GetToken(header)
@@ -184,8 +212,9 @@ func (u *UserController) self(c *fiber.Ctx) error {
 	}
 
 	userResponse := &UserResponse{
+		Id:       int(user.ID),
 		FullName: user.FullName,
-		Email:  user.Email,
+		Email:    user.Email,
 	}
 
 	return c.Status(http.StatusOK).JSON(userResponse)

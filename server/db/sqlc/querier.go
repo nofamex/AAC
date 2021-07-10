@@ -14,7 +14,7 @@ type Querier interface {
 	GetMemberById(ctx context.Context, id int32) (Member, error)
 	GetMemberByTeamId(ctx context.Context, teamID sql.NullInt32) ([]Member, error)
 	GetTeamById(ctx context.Context, id int32) (Team, error)
-	GetUserByEmail(ctx context.Context, email string) (User, error)
+	GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error)
 	GetUserById(ctx context.Context, id int32) (User, error)
 	RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error)
 	SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error

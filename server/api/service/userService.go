@@ -23,7 +23,7 @@ func (u *UserService) RegisterUser(user *db.RegisterUserParams) (*db.User, error
 	return &result, err
 }
 
-func (u *UserService) GetUserByEmail(email string) (*db.User, error) {
+func (u *UserService) GetUserByEmail(email string) (*db.GetUserByEmailRow, error) {
 	result, err := u.query.GetUserByEmail(context.Background(), email)
 	if err != nil {
 		return nil, err

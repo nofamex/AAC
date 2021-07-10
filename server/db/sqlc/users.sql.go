@@ -19,20 +19,31 @@ func (q *Queries) AddTeamIdToUser(ctx context.Context, teamID sql.NullInt32) err
 }
 
 const getUserByEmail = `-- name: GetUserByEmail :one
-SELECT id, full_name, email, password, refresh_token, team_id FROM users
-WHERE email = $1 LIMIT 1
+SELECT u.id, u.full_name, u.email, u.refresh_token, u.password, COALESCE(t.team_name, '') as team_name
+FROM users u
+LEFT JOIN team t on u.team_id = t.id
+WHERE u.email = $1 LIMIT 1
 `
 
-func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error) {
+type GetUserByEmailRow struct {
+	ID           int32          `json:"id"`
+	FullName     string         `json:"full_name"`
+	Email        string         `json:"email"`
+	RefreshToken sql.NullString `json:"refresh_token"`
+	Password     string         `json:"password"`
+	TeamName     string         `json:"team_name"`
+}
+
+func (q *Queries) GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error) {
 	row := q.db.QueryRowContext(ctx, getUserByEmail, email)
-	var i User
+	var i GetUserByEmailRow
 	err := row.Scan(
 		&i.ID,
 		&i.FullName,
 		&i.Email,
-		&i.Password,
 		&i.RefreshToken,
-		&i.TeamID,
+		&i.Password,
+		&i.TeamName,
 	)
 	return i, err
 }
