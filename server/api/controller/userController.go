@@ -27,7 +27,7 @@ type UserResponse struct {
 	TeamName string `json:"team_name,omitempty"`
 }
 
-func NewUserController(app fiber.Router, query db.Querier, maker token.Maker, config util.Config) (userController *UserController) {
+func NewUserController(query db.Querier, maker token.Maker, config util.Config) (userController *UserController) {
 	userService := service.NewUserService(query)
 	userController = &UserController{
 		service:    *userService,

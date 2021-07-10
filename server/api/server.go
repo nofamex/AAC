@@ -42,9 +42,8 @@ func (server *Server) setupRouter() {
 	api := router.Group("/api")
 	v1 := api.Group("/v1")
 
+	userCtrl := controller.NewUserController(server.query, server.tokenMaker, server.config)
 	auth := v1.Group("/auth")
-
-	userCtrl := controller.NewUserController(auth, server.query, server.tokenMaker, server.config)
 	auth.Post("/register", userCtrl.Register)
 	auth.Post("/login", userCtrl.Login)
 
