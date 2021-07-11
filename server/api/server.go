@@ -54,7 +54,7 @@ func (server *Server) setupRouter() {
 	compeCtrl := controller.NewCompeController(server.query, server.tokenMaker, server.config)
 	compe := v1.Group("/competition")
 	compe.Post("/register", compeCtrl.Register)
-	
+
 	server.router = router
 }
 
