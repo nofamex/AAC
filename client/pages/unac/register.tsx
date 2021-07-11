@@ -4,6 +4,9 @@ import { useRouter } from "next/router";
 import Button from "../../components/Button";
 import { useState } from "react";
 import DangerModal from "../../components/DangerModal";
+import Orb from "../../components/Orb";
+import { AiFillCloseCircle } from "react-icons/ai";
+import { motion } from "framer-motion";
 
 export default function Register() {
   const { register, handleSubmit } = useForm();
@@ -11,6 +14,7 @@ export default function Register() {
   const { type } = router.query;
 
   const [show, setShow] = useState(false);
+  const [showPM, setShowPM] = useState(false);
 
   const teamButtonHandler = () => {
     router.replace("/unac/register?type=anggota");
@@ -33,47 +37,51 @@ export default function Register() {
   };
 
   const submitHandler = (data: any) => {
-    router.replace("/unac/register?type=validasi");
+    router.replace("/unac/register?type=success");
     setShow(false);
   };
 
   return (
     <Layout>
       <div className="h-16 w-full bg-black-80"></div>
-      <div className="h-section w-full bg-black-80 flex flex-col justify-center items-center font-dm">
+      <div className="h-auto w-full bg-black-80 flex flex-col justify-center items-center font-dm relative">
         {show && (
           <DangerModal
             submit={handleSubmit(submitHandler)}
             closeHandler={() => setShow(false)}
           />
         )}
-
-        {type === "validasi" && (
-          <div className="w-full h-full flex flex-col font-dm items-center justify-center">
-            <div className="w-full h-20 font-bold text-white text-4xl flex justify-center items-center ">
-              SUMMARY
-            </div>
-            <div className="w-5/6 h-full bg-green-600 flex justify-center">
-              <div className="h-full w-2/6 bg-red-500 flex flex-col text-white">
-                <p className="text-3xl font-bold">Identitas Tim</p>
-                <p className="text-sm font-bold">NAMA TIM</p>
-              </div>
-              <div className="h-full w-2/6 bg-yellow"></div>
-              <div className="h-full w-2/6 bg-orange"></div>
-            </div>
-            <div className="w-full flex justify-center">
-              <Button
-                filled={true}
-                text="Selesai"
-                handler={() => console.log("done")}
-              />
-            </div>
+        {showPM && <PembayaranModal closeHandler={() => setShowPM(false)} />}
+        <div className="h-20 w-full text-white flex justify-center items-center mb-8">
+          <p
+            className="font-bold italic text-xl sm:text-3xl md:text-4xl flex justify-center"
+            style={{ textShadow: "0 0 25px #7303C0" }}
+          >
+            <span className="text-stroke text-center">REGISTRASI UNAC</span>
+          </p>
+        </div>
+        <div className="h-20 w-full flex justify-center font-dm mb-8">
+          <Orb
+            active={typeof type === "undefined" || type === "team"}
+            title="Identitas Tim"
+            left="4"
+          />
+          <div className="h-6 w-16 py-2.5">
+            <div className="w-full h-full bg-orange"></div>
           </div>
-        )}
-
+          <Orb active={type === "anggota"} title="Anggota Tim" left="4" />
+          <div className="h-6 w-16 py-2.5">
+            <div className="w-full h-full bg-orange"></div>
+          </div>
+          <Orb active={type === "berkas"} title="Berkas" left="2" />
+        </div>
         <form className="flex flex-col w-1/2">
           {(typeof type === "undefined" || type === "team") && (
-            <div className="w-full">
+            <motion.div
+              className="w-full"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+            >
               {forms1.map((form, index) => (
                 <div className="w-full" key={index}>
                   <p className="text-white font-bold text-sm mb-1">{form.lb}</p>
@@ -86,11 +94,14 @@ export default function Register() {
                   />
                 </div>
               ))}
-            </div>
+            </motion.div>
           )}
-
           {type === "anggota" && (
-            <div className="w-full">
+            <motion.div
+              className="w-full"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+            >
               {forms2.map((form, index) => (
                 <div className="w-full" key={index}>
                   <div className="w-full">
@@ -129,11 +140,26 @@ export default function Register() {
                   </div>
                 </div>
               ))}
-            </div>
+            </motion.div>
           )}
-
           {type === "berkas" && (
-            <div className="w-full">
+            <motion.div
+              className="w-full"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+            >
+              <div className="h-28 w-full flex justify-center mb-8">
+                <div className="w-full xl:w-1/2 h-full border-2 border-white rounded-xl font-dm text-white text-xs md:text-sm p-4 flex flex-col justify-center overflow-y-scroll md:overflow-y-visible">
+                  <p className="mb-2">
+                    - Masukkan file ZIP ke dalam Google Drive dan share link
+                    file tersebut ke dalam kolom berikut.
+                  </p>
+                  <p>
+                    - Pastikan Link Sharing berada dalam Can Be Viewed by Anyone
+                    with The Link.
+                  </p>
+                </div>
+              </div>
               <div className="w-full">
                 <p className="text-white font-bold text-sm mb-1">
                   PAS FOTO PESERTA
@@ -153,9 +179,12 @@ export default function Register() {
                 />
               </div>
               <div className="w-full">
-                <p className="text-white font-bold text-sm mb-1 flex">
+                <p className="text-white font-bold text-sm mb-1 flex flex-col md:flex-row">
                   BUKTI PEMBAYARAN
-                  <span className="text-orange font-normal ml-auto underline cursor-pointer">
+                  <span
+                    className="text-orange font-normal ml-0 md:ml-auto underline cursor-pointer"
+                    onClick={() => setShowPM(true)}
+                  >
                     Keterangan cara pembayaran
                   </span>
                 </p>
@@ -198,47 +227,105 @@ export default function Register() {
                   className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
                 />
               </div>
-            </div>
+            </motion.div>
           )}
         </form>
 
         {(typeof type === "undefined" || type === "team") && (
-          <div className="w-1/2 mt-4 flex justify-end">
+          <div className="w-1/2 mt-4 flex justify-center sm:justify-end">
             <Button filled={false} text="Lanjut>" handler={teamButtonHandler} />
           </div>
         )}
 
         {type === "anggota" && (
-          <div className="w-1/2 mt-4 flex justify-between">
-            <Button
-              filled={false}
-              text="<Sebelum"
-              handler={anggotaPreviousButtonHandler}
-            />
-            <Button
-              filled={false}
-              text="Lanjut>"
-              handler={anggotaNextButtonHandler}
-            />
+          <div className="w-1/2 mt-4 flex flex-col sm:flex-row items-center sm:justify-between">
+            <div className="mb-2 sm:mb-0">
+              <Button
+                filled={false}
+                text="<Sebelum"
+                handler={anggotaPreviousButtonHandler}
+              />
+            </div>
+            <div>
+              <Button
+                filled={false}
+                text="Lanjut>"
+                handler={anggotaNextButtonHandler}
+              />
+            </div>
           </div>
         )}
 
         {type === "berkas" && (
-          <div className="w-1/2 mt-4 flex justify-between">
-            <Button
-              filled={false}
-              text="<Sebelum"
-              handler={berkasPreviousButtonHandler}
-            />
-            <Button
-              filled={true}
-              text="Lanjut>"
-              handler={berkasNextButtonHandler}
-            />
+          <div className="w-1/2 mt-4 flex flex-col sm:flex-row items-center sm:justify-between">
+            <div className="mb-2 sm:mb-0">
+              <Button
+                filled={false}
+                text="<Sebelum"
+                handler={berkasPreviousButtonHandler}
+              />
+            </div>
+            <div>
+              <Button
+                filled={true}
+                text="Lanjut>"
+                handler={berkasNextButtonHandler}
+              />
+            </div>
           </div>
         )}
       </div>
     </Layout>
+  );
+}
+
+interface PMProps {
+  closeHandler: Function;
+}
+
+function PembayaranModal({ closeHandler }: PMProps) {
+  return (
+    <>
+      <div className="h-full w-full absolute flex flex-col items-center justify-center bg-black-80 bg-opacity-90 z-10"></div>
+      <div className="h-full w-full absolute flex flex-col items-center justify-center z-20">
+        <motion.div
+          className="h-auto w-full md:w-1/2 bg-compe border-2 border-compe rounded-xl flex flex-col font-dm p-4"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+        >
+          <div
+            className="text-white text-lg cursor-pointer flex justify-end"
+            onClick={() => closeHandler()}
+          >
+            <AiFillCloseCircle />
+          </div>
+          <div className="w-full h-auto text-white font-bold text-2xl flex justify-center mb-4">
+            Tata Cara Pembayaran UNAC
+          </div>
+          <div className="w-full h-auto text-white text-base flex justify-center mb-4 text-start flex-col">
+            <p>Info pembayaran sebesar: </p>
+            <p>
+              ➔ Early Bird : Rp 25.000 (Dua Puluh Lima Ribu Rupiah) -{">"} 12
+              Juli - 28 Juli
+            </p>
+            <p>
+              ➔ Reguler : Rp 50.000 (Lima Puluh Ribu Rupiah) -{">"} 29 Juli - 19
+              Agustus
+            </p>
+            <p>
+              Pembayaran biaya pendaftaran dapat dilakukan melalui transfer ke
+              rekening:
+            </p>
+            <p>➔ BRI - 010901058496506 an Aldilla Putri Oktavia</p>
+            <p>➔ BCA - 7880936853 an Della Ariyanti Rahayu Ninggar</p>
+            <p>
+              Setelah melakukan pembayaran, calon peserta dapat mengirimkan
+              bukti pembayaran.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </>
   );
 }
 

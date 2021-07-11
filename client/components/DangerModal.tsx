@@ -1,4 +1,6 @@
 import Button from "./Button";
+import { AiFillCloseCircle } from "react-icons/ai";
+import { motion } from "framer-motion";
 
 interface DangerModalProps {
   submit: Function;
@@ -10,21 +12,34 @@ export default function DangerModal({
   closeHandler,
 }: DangerModalProps) {
   return (
-    <div className="h-screen w-full absolute bg-black-80 opacity-90 flex flex-col items-center justify-center">
-      <div className="h-40 w-1/2 bg-black-80 border-2 border-red-600 rounded-xl flex flex-col">
-        <div className="w-full h-full font-dm text-red-600 flex justify-center items-center text-2xl text-center">
-          Pastikan data registrasi sudah benar. Data tidak bisa diubah lagi
-          setelah registrasi selesai
-        </div>
+    <>
+      <div className="h-full w-full absolute flex flex-col items-center justify-center bg-black-80 bg-opacity-90 z-10"></div>
+      <div className="h-full w-full absolute flex flex-col items-center justify-center z-20">
+        <motion.div
+          className="h-auto w-full md:w-1/2 bg-compe border-2 border-compe rounded-xl flex flex-col font-dm p-4"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+        >
+          <div
+            className="text-white text-lg cursor-pointer flex justify-end"
+            onClick={() => closeHandler()}
+          >
+            <AiFillCloseCircle />
+          </div>
+          <div className="w-full h-auto text-white font-bold text-2xl flex justify-center mb-4">
+            PERINGATAN
+          </div>
+          <div className="w-full h-auto text-white text-lg flex justify-center mb-4 text-center">
+            Pastikan data registrasi sudah benar. Data tidak bisa diubah lagi
+            setelah registrasi selesai.
+          </div>
+          <div className="w-full h-auto flex justify-end items-center">
+            <div>
+              <Button text="Submit" handler={submit} filled={true} />
+            </div>
+          </div>
+        </motion.div>
       </div>
-      <div className="h-10 w-1/2 flex justify-end p-4">
-        <div className="mr-4">
-          <Button text="Tutup" handler={closeHandler} filled={false} />
-        </div>
-        <div>
-          <Button text="Submit" handler={submit} filled={true} />
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
