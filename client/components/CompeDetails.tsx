@@ -1,15 +1,19 @@
+/* eslint-disable @next/next/link-passhref */
 import Image from "next/image";
 import PatternBG from "./PatternBG";
 import Button from "./Button";
 import Slider from "./Slider";
+import { useRouter } from "next/router";
 
 interface CompeDetailsProps {
   type: string;
 }
 
 export default function CompeDetails({ type }: CompeDetailsProps) {
+  const router = useRouter();
+
   const TACGB =
-    "https://drive.google.com/file/d/1DGrzPOfv1pRSR6OzM4oA_aX4pY9vgJTZ/view?usp=sharing";
+    "https://drive.google.com/file/d/16OLPjMaLhJcwGr4dDpgoIlViL044TH9B/view?usp=sharing";
 
   const UNACGB =
     "https://drive.google.com/file/d/11Zw0ygjCnCdcovyDlpmDqmmQvx0rEZS_/view?usp=sharing";
@@ -31,6 +35,8 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
   const handler = () => {
     console.log("object");
   };
+
+  const registerHandler = () => router.push("/unac/register");
 
   return (
     <div className="h-section w-full bg-black-80 flex flex-col justify-center items-center overflow-hidden relative">
@@ -72,11 +78,12 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
             </p>
           )}
 
-          <div className="flex mt-4 lg:mt-8 justify-center lg:justify-start">
+          <div className="flex flex-col sm:flex-row mt-4 lg:mt-8 justify-center lg:justify-start items-center">
             <a
               href={type === "unac" ? UNACGB : TACGB}
               target="_blank"
               rel="noreferrer"
+              className="mr-0 mb-4 sm:mr-8 sm:mb-0 flex"
             >
               <Button
                 text="Download Guidebook"
@@ -84,6 +91,15 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
                 filled={false}
               />
             </a>
+            {type === "unac" && (
+              <div>
+                <Button
+                  text="Daftar Sekarang"
+                  handler={registerHandler}
+                  filled={true}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
