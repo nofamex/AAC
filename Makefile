@@ -13,5 +13,8 @@ watch:
 sqlc:
 	sqlc generate -f server/sqlc.yaml
 
+prod-up:
+	sudo docker-compose -f ./docker-compose-prod.yml up
 
-.PHONY: watch-server
+prod-down:
+	sudo docker-compose -f ./docker-compose-prod.yml down
