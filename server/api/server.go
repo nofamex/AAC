@@ -51,6 +51,10 @@ func (server *Server) setupRouter() {
 	login.Get("/refresh", userCtrl.Refresh)
 	login.Get("/self", userCtrl.Self)
 
+	compeCtrl := controller.NewCompeController(server.query, server.tokenMaker, server.config)
+	compe := v1.Group("/competition")
+	compe.Post("/register", compeCtrl.Register)
+	
 	server.router = router
 }
 
