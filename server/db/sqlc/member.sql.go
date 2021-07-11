@@ -11,7 +11,6 @@ import (
 
 const createMember = `-- name: CreateMember :one
 INSERT INTO  member (
-  id,
   full_name,
   birth_place,
   birth_date,
@@ -19,23 +18,21 @@ INSERT INTO  member (
   team_id,
   member_number
 ) VALUES (
-  $1, $2, $3, $4, $5, $6, $7
+  $1, $2, $3, $4, $5, $6
 ) RETURNING id, full_name, birth_place, birth_date, nisn, team_id, member_number
 `
 
 type CreateMemberParams struct {
-	ID           int32          `json:"id"`
 	FullName     string         `json:"full_name"`
 	BirthPlace   string         `json:"birth_place"`
 	BirthDate    time.Time      `json:"birth_date"`
 	Nisn         sql.NullString `json:"nisn"`
-	TeamID       sql.NullInt32  `json:"team_id"`
+	TeamID       int32          `json:"team_id"`
 	MemberNumber int32          `json:"member_number"`
 }
 
 func (q *Queries) CreateMember(ctx context.Context, arg CreateMemberParams) (Member, error) {
 	row := q.db.QueryRowContext(ctx, createMember,
-		arg.ID,
 		arg.FullName,
 		arg.BirthPlace,
 		arg.BirthDate,
@@ -81,7 +78,7 @@ SELECT id, full_name, birth_place, birth_date, nisn, team_id, member_number FROM
 WHERE team_id = $1 LIMIT 1
 `
 
-func (q *Queries) GetMemberByTeamId(ctx context.Context, teamID sql.NullInt32) ([]Member, error) {
+func (q *Queries) GetMemberByTeamId(ctx context.Context, teamID int32) ([]Member, error) {
 	rows, err := q.db.QueryContext(ctx, getMemberByTeamId, teamID)
 	if err != nil {
 		return nil, err

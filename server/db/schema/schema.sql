@@ -13,8 +13,8 @@ create table users (
   foreign key (team_id) references team(id)
 );
 
-create unique index users_username_uindex
-	on users(email); 
+-- create unique index users_username_uindex
+-- 	on users(email); 
 
 -- team
 create table team (
@@ -38,12 +38,12 @@ create table team (
 
 -- member
 create table member (
-  id serial not null primary key not null,
+  id serial not null primary key,
   full_name varchar(64) not null,
   birth_place varchar(64) not null,
   birth_date date not null,
   nisn varchar(10),
-  team_id integer,
+  team_id integer not null,
   member_number integer not null,
 
   foreign key (team_id) references team(id)

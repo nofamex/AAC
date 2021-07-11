@@ -12,7 +12,7 @@ type Querier interface {
 	CreateMember(ctx context.Context, arg CreateMemberParams) (Member, error)
 	CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, error)
 	GetMemberById(ctx context.Context, id int32) (Member, error)
-	GetMemberByTeamId(ctx context.Context, teamID sql.NullInt32) ([]Member, error)
+	GetMemberByTeamId(ctx context.Context, teamID int32) ([]Member, error)
 	GetTeamById(ctx context.Context, id int32) (Team, error)
 	GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error)
 	GetUserById(ctx context.Context, id int32) (User, error)

@@ -53,7 +53,7 @@ type Member struct {
 	BirthPlace   string         `json:"birth_place"`
 	BirthDate    time.Time      `json:"birth_date"`
 	Nisn         sql.NullString `json:"nisn"`
-	TeamID       sql.NullInt32  `json:"team_id"`
+	TeamID       int32          `json:"team_id"`
 	MemberNumber int32          `json:"member_number"`
 }
 

@@ -26,5 +26,5 @@ type RegisterTeamRequest struct {
 	CardLink    string         `json:"card_link" validate:"required,url"`
 	SkLink      string         `json:"sk_link" validate:"omitempty,url"`
 	Type        db.Competition `json:"type" validate:"required"`
-	Members     []Member       `json:"members" validate:"gt=0,required,dive,required"`
+	Members     []Member       `json:"members" validate:"gt=0,lt=4,required,dive,required"`
 }

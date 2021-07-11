@@ -49,3 +49,35 @@ func (u *CompeService) CreateTeam(requestBody *model.RegisterTeamRequest) (*db.T
 	}
 	return &result, err
 }
+
+func (u *CompeService) CreateMember(members *[]model.Member, id int32) error {
+	for _, meberBody := range *members {
+		var nisn sql.NullString
+		if meberBody.Nisn == "" {
+			nisn = sql.NullString{
+				Valid: false,
+			}
+		} else {
+			nisn = sql.NullString{
+				Valid:  true,
+				String: meberBody.Nisn,
+			}
+		}
+
+		member := db.CreateMemberParams{
+			FullName:     meberBody.FullName,
+			BirthPlace:   meberBody.BirthPlace,
+			BirthDate:    meberBody.BirthDate,
+			TeamID:       id,
+			MemberNumber: int32(meberBody.MemberNumber),
+			Nisn:         nisn,
+		}
+
+		_, err := u.query.CreateMember(context.Background(), member)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

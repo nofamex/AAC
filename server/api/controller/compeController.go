@@ -45,18 +45,22 @@ func (u *CompeController) Register(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).SendString(err.Error())
 	}
 
-	_, err = u.service.CreateTeam(&requestBody)
+	team, err := u.service.CreateTeam(&requestBody)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
 			case "unique_violation":
-				return c.Status(http.StatusForbidden).SendString("duplicate email")
+				return c.Status(http.StatusForbidden).SendString("duplicate team name")
 			}
 		}
 		return c.Status(http.StatusInternalServerError).SendString(err.Error())
 	}
 
-	// members := requestBody.Members
+	members := requestBody.Members
+	err = u.service.CreateMember(&members, team.ID)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+	}
 
 	return c.Status(http.StatusOK).SendString("ok")
 }

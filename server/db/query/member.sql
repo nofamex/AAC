@@ -1,6 +1,5 @@
 -- name: CreateMember :one
 INSERT INTO  member (
-  id,
   full_name,
   birth_place,
   birth_date,
@@ -8,7 +7,7 @@ INSERT INTO  member (
   team_id,
   member_number
 ) VALUES (
-  $1, $2, $3, $4, $5, $6, $7
+  $1, $2, $3, $4, $5, $6
 ) RETURNING *;
 
 -- name: GetMemberById :one
