@@ -9,7 +9,8 @@ INSERT INTO users (
 
 -- name: AddTeamIdToUser :exec
 UPDATE users
-set team_id = $1;
+set team_id = $2
+where id = $1;
 
 -- name: SetRefreshToken :exec
 UPDATE users

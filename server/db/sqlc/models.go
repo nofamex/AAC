@@ -80,4 +80,5 @@ type User struct {
 	Password     string         `json:"password"`
 	RefreshToken sql.NullString `json:"refresh_token"`
 	TeamID       sql.NullInt32  `json:"team_id"`
+	Role         sql.NullString `json:"role"`
 }

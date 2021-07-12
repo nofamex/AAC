@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-playground/validator"
@@ -33,8 +34,19 @@ func NewCompeController(query db.Querier, maker token.Maker, config util.Config)
 
 // register
 func (u *CompeController) Register(c *fiber.Ctx) error {
+	token := c.Get("authorization")
+	token, err := u.tokenMaker.GetToken(token)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	payload, err := u.tokenMaker.VerifyToken(token)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
 	var requestBody model.RegisterTeamRequest
-	err := c.BodyParser(&requestBody)
+	err = c.BodyParser(&requestBody)
 	if err != nil {
 		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
@@ -62,5 +74,46 @@ func (u *CompeController) Register(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
+	err = u.service.AddTeamIdToUser(payload.UserId, team.ID)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
 	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
+}
+
+func (u *CompeController) GetTeam(c *fiber.Ctx) error {
+	token := c.Get("authorization")
+	token, err := u.tokenMaker.GetToken(token)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	payload, err := u.tokenMaker.VerifyToken(token)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	fmt.Println("payload:", payload)
+
+	user, err := u.service.GetUserById(payload.UserId)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	fmt.Printf("user: %#v\n",user)
+
+	team, err := u.service.GetTeamById(user.TeamID.Int32)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	fmt.Printf("team: %#v\n",team)
+
+	members, err := u.service.GetMemberByTeamId(user.TeamID.Int32)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	fmt.Println("member:",members)
+
+	team.Members = *members
+
+	return c.Status(http.StatusOK).JSON(team)
 }

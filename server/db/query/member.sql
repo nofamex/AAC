@@ -16,4 +16,4 @@ WHERE id = $1 LIMIT 1;
 
 -- name: GetMemberByTeamId :many
 SELECT * FROM member
-WHERE team_id = $1 LIMIT 1;
+WHERE team_id = $1;
