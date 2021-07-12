@@ -15,6 +15,12 @@ INSERT INTO team (
   $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
 ) RETURNING *;
 
+-- name: GetTeamPagination :many
+SELECT * FROM team
+ORDER BY id
+OFFSET $1
+LIMIT $2;
+
 -- name: GetTeamById :one
 SELECT * FROM team
 WHERE id = $1 LIMIT 1;

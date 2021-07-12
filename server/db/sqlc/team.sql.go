@@ -99,6 +99,55 @@ func (q *Queries) GetTeamById(ctx context.Context, id int32) (Team, error) {
 	return i, err
 }
 
+const getTeamPagination = `-- name: GetTeamPagination :many
+SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified FROM team
+ORDER BY id
+OFFSET $1
+LIMIT $2
+`
+
+type GetTeamPaginationParams struct {
+	Offset int32 `json:"offset"`
+	Limit  int32 `json:"limit"`
+}
+
+func (q *Queries) GetTeamPagination(ctx context.Context, arg GetTeamPaginationParams) ([]Team, error) {
+	rows, err := q.db.QueryContext(ctx, getTeamPagination, arg.Offset, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Team
+	for rows.Next() {
+		var i Team
+		if err := rows.Scan(
+			&i.ID,
+			&i.TeamName,
+			&i.University,
+			&i.FullName,
+			&i.Phone,
+			&i.IDLine,
+			&i.Email,
+			&i.PhotoLink,
+			&i.PaymentLink,
+			&i.CardLink,
+			&i.SkLink,
+			&i.Type,
+			&i.Verified,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateVerifiedStatus = `-- name: UpdateVerifiedStatus :exec
 UPDATE team
 set verified = $1
