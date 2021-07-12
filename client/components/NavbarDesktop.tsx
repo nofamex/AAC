@@ -1,9 +1,11 @@
+/* eslint-disable @next/next/link-passhref */
 import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
 import NavItem from "./NavItem";
 import { isAuthenticated } from "../lib/auth";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 interface NavbarDesktopProps {
   handler: Function;
@@ -11,6 +13,7 @@ interface NavbarDesktopProps {
 }
 
 export default function NavbarDesktop({ handler, menus }: NavbarDesktopProps) {
+  const router = useRouter();
   return (
     <>
       <Link href="/">
@@ -27,7 +30,10 @@ export default function NavbarDesktop({ handler, menus }: NavbarDesktopProps) {
           <NavItem key={index} text={menu.text} page={menu.page} />
         ))}
         {isAuthenticated() ? (
-          <FaRegUserCircle className="text-orange text-3xl cursor-pointer" />
+          <FaRegUserCircle
+            className="text-orange text-3xl cursor-pointer"
+            onClick={() => router.push("/dashboard")}
+          />
         ) : (
           <Button text="Sign In" handler={() => handler()} filled={false} />
         )}
