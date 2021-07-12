@@ -4,6 +4,8 @@ import Navbar from "./Navbar";
 import { useState } from "react";
 import { useScrollPosition } from "../hooks/useScrollPostion";
 import Head from "next/head";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Layout({ children }: any) {
   const [scroll, setScroll] = useState(false);
@@ -24,7 +26,20 @@ export default function Layout({ children }: any) {
         <title>AAC-2021</title>
       </Head>
       <Navbar scroll={scroll} />
-      <main>{children}</main>
+      <main>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        {children}
+      </main>
       <Footer />
     </>
   );

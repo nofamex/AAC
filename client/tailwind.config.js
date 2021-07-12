@@ -57,6 +57,9 @@ module.exports = {
       inset: {
         pattern: "40%",
       },
+      minHeight: {
+        section: "44rem",
+      },
     },
   },
   minHeight: {

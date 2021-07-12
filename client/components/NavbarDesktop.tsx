@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
 import NavItem from "./NavItem";
+import { isAuthenticated } from "../lib/auth";
+import { FaRegUserCircle } from "react-icons/fa";
 
 interface NavbarDesktopProps {
   handler: Function;
@@ -24,7 +26,11 @@ export default function NavbarDesktop({ handler, menus }: NavbarDesktopProps) {
         {menus.map((menu, index) => (
           <NavItem key={index} text={menu.text} page={menu.page} />
         ))}
-        <Button text="Sign In" handler={() => handler()} filled={false} />
+        {isAuthenticated() ? (
+          <FaRegUserCircle className="text-orange text-3xl cursor-pointer" />
+        ) : (
+          <Button text="Sign In" handler={() => handler()} filled={false} />
+        )}
       </div>
     </>
   );
