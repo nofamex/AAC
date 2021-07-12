@@ -4,6 +4,7 @@ import PatternBG from "./PatternBG";
 import Button from "./Button";
 import Slider from "./Slider";
 import { useRouter } from "next/router";
+import { isAuthenticated } from "../lib/auth";
 
 interface CompeDetailsProps {
   type: string;
@@ -91,7 +92,7 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
                 filled={false}
               />
             </a>
-            {type === "unac" && (
+            {type === "unac" && isAuthenticated() && (
               <div>
                 <Button
                   text="Daftar Sekarang"

@@ -5,6 +5,10 @@ import { motion } from "framer-motion";
 import Button from "./Button";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import api from "../lib/axios";
+import { useRouter } from "next/router";
+import { setLogin } from "../lib/auth";
 
 interface NavbarProps {
   scroll: boolean;
@@ -59,9 +63,19 @@ interface SignInModalProps {
 
 function SignInModal({ createAccountHandler, closeHandler }: SignInModalProps) {
   const { register, handleSubmit } = useForm();
+  const router = useRouter();
 
-  const signInHandler = (data: any) => {
-    console.log(data);
+  const signInHandler = async (data: any) => {
+    await api
+      .post("/auth/login", data)
+      .then((res) => {
+        setLogin(res.data);
+        toast.success("Berhasil Login");
+        setTimeout(() => {
+          router.reload();
+        }, 2000);
+      })
+      .catch(() => toast.error("Gagal login, pastikan input anda sudah benar"));
   };
 
   return (
@@ -131,9 +145,19 @@ interface SignUpModalProps {
 
 function SignUpModal({ closeHandler }: SignUpModalProps) {
   const { register, handleSubmit } = useForm();
+  const router = useRouter();
 
-  const signInHandler = (data: any) => {
-    console.log(data);
+  const signInHandler = async (data: any) => {
+    console.log(JSON.stringify(data));
+    await api
+      .post("/auth/register", data)
+      .then(() => {
+        toast.success("Berhasil membuat akun");
+        setTimeout(() => {
+          router.reload();
+        }, 2000);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -181,7 +205,7 @@ function SignUpModal({ closeHandler }: SignUpModalProps) {
 const signUpForm = [
   {
     lb: "NAMA LENGKAP",
-    rg: "namaLengkap",
+    rg: "full_name",
     pc: "Masukkan nama Anda",
     tp: "text",
   },
