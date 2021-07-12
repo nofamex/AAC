@@ -11,7 +11,7 @@ import (
 )
 
 type Maker interface {
-	CreateToken(username string, userId int32, duration time.Duration) (string, error)
+	CreateToken(userId int32, email, role string, duration time.Duration) (string, error)
 	VerifyToken(token string) (*Payload, error)
 	GetToken(header string) (token string, err error)
 }
@@ -34,8 +34,8 @@ func NewPasetoMaker(symmetricKey string) (Maker, error) {
 	return maker, nil
 }
 
-func (maker *PasetoMaker) CreateToken(email string, userId int32, duration time.Duration) (string, error) {
-	payload := NewPayload(email, userId, duration)
+func (maker *PasetoMaker) CreateToken(userId int32, email, role string, duration time.Duration) (string, error) {
+	payload := NewPayload(userId, email, role, duration)
 
 	return maker.paseto.Encrypt(maker.symmetricKey, payload, nil)
 }

@@ -18,7 +18,7 @@ SET refresh_token = $2
 WHERE email = $1;
 
 -- name: GetUserByEmail :one
-SELECT u.id, u.full_name, u.email, u.refresh_token, u.password, COALESCE(t.team_name, '') as team_name
+SELECT u.id, u.full_name, u.email, u.refresh_token, u.password, COALESCE(t.team_name, '') as team_name, COALESCE(u.role, '') as role
 FROM users u
 LEFT JOIN team t on u.team_id = t.id
 WHERE u.email = $1 LIMIT 1;

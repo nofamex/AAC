@@ -128,15 +128,16 @@ func (u *UserController) Login(c *fiber.Ctx) error {
 	}
 
 	accessToken, err := u.tokenMaker.CreateToken(
-		user.Email,
 		user.ID,
+		user.Email,
+		user.Role,
 		u.config.AccessTokenDuration,
 	)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	refreshToken, err := u.tokenMaker.CreateToken("", 0, u.config.RefreshTokenDuration)
+	refreshToken, err := u.tokenMaker.CreateToken(0, "", "", u.config.RefreshTokenDuration)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
@@ -176,15 +177,17 @@ func (u *UserController) Refresh(c *fiber.Ctx) error {
 	}
 
 	accessToken, err := u.tokenMaker.CreateToken(
-		payload.Email,
 		payload.UserId,
+		payload.Email,
+		payload.Role,
 		u.config.AccessTokenDuration,
 	)
+
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	refreshToken, err := u.tokenMaker.CreateToken("", 0, u.config.RefreshTokenDuration)
+	refreshToken, err := u.tokenMaker.CreateToken(0, "", "", u.config.RefreshTokenDuration)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}

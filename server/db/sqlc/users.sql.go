@@ -25,7 +25,7 @@ func (q *Queries) AddTeamIdToUser(ctx context.Context, arg AddTeamIdToUserParams
 }
 
 const getUserByEmail = `-- name: GetUserByEmail :one
-SELECT u.id, u.full_name, u.email, u.refresh_token, u.password, COALESCE(t.team_name, '') as team_name
+SELECT u.id, u.full_name, u.email, u.refresh_token, u.password, COALESCE(t.team_name, '') as team_name, COALESCE(u.role, '') as role
 FROM users u
 LEFT JOIN team t on u.team_id = t.id
 WHERE u.email = $1 LIMIT 1
@@ -38,6 +38,7 @@ type GetUserByEmailRow struct {
 	RefreshToken sql.NullString `json:"refresh_token"`
 	Password     string         `json:"password"`
 	TeamName     string         `json:"team_name"`
+	Role         string         `json:"role"`
 }
 
 func (q *Queries) GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error) {
@@ -50,6 +51,7 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (GetUserByEm
 		&i.RefreshToken,
 		&i.Password,
 		&i.TeamName,
+		&i.Role,
 	)
 	return i, err
 }

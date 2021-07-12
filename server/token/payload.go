@@ -3,7 +3,6 @@ package token
 import (
 	"errors"
 	"time"
-
 )
 
 var (
@@ -12,18 +11,20 @@ var (
 )
 
 type Payload struct {
-	UserId int32 `json:"userid"`
-	Email string `json:"email"`
-	IssuedAt time.Time `json:"issued_at"`
+	UserId    int32     `json:"userid"`
+	Email     string    `json:"email"`
+	Role      string    `json:"role"`
+	IssuedAt  time.Time `json:"issued_at"`
 	ExpiredAt time.Time `json:"expired_at"`
 }
 
-func NewPayload(email string, userId int32, duration time.Duration) (*Payload) {
+func NewPayload( userId int32, email, role string, duration time.Duration) *Payload {
 
 	payload := &Payload{
-		Email: email,
-		UserId: userId,
-		IssuedAt: time.Now(),
+		UserId:    userId,
+		Email:     email,
+		Role:      role,
+		IssuedAt:  time.Now(),
 		ExpiredAt: time.Now().Add(duration),
 	}
 

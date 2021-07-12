@@ -31,7 +31,7 @@ create table users (
   team_id integer,
 
   foreign key (team_id) references team(id),
-  role varchar(5)
+  role varchar(5) 
 );
 
 create unique index users_username_uindex
