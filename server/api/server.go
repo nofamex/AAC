@@ -9,6 +9,7 @@ import (
 	db "github.com/nofamex/AAC/server/db/sqlc"
 	"github.com/nofamex/AAC/server/token"
 	"github.com/nofamex/AAC/server/util"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 type Server struct {
@@ -59,5 +60,6 @@ func (server *Server) setupRouter() {
 }
 
 func (server *Server) StartServer(adress string) error {
+	server.router.Use(cors.New())
 	return server.router.Listen(adress)
 }

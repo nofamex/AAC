@@ -1,21 +1,6 @@
 create type verification AS ENUM ('menunggu', 'ditolak', 'berhasil');
 create type competition AS ENUM ('unac', 'tac');
 
--- user
-create table users (
-	id serial not null primary key,
-	full_name varchar(64) not null,
-  email varchar(64) not null unique,
-	password varchar(60) not null,
-  refresh_token varchar(320),
-  team_id integer,
-
-  foreign key (team_id) references team(id)
-);
-
--- create unique index users_username_uindex
--- 	on users(email); 
-
 -- team
 create table team (
   id serial not null primary key,
@@ -35,6 +20,22 @@ create table team (
   type competition not null,
   verified verification default 'menunggu' not null
 );
+
+-- user
+create table users (
+	id serial not null primary key,
+	full_name varchar(64) not null,
+  email varchar(64) not null unique,
+	password varchar(60) not null,
+  refresh_token varchar(320),
+  team_id integer,
+
+  foreign key (team_id) references team(id),
+  role varchar(5)
+);
+
+create unique index users_username_uindex
+	on users(email); 
 
 -- member
 create table member (
