@@ -148,7 +148,6 @@ function SignUpModal({ closeHandler }: SignUpModalProps) {
   const router = useRouter();
 
   const signInHandler = async (data: any) => {
-    console.log(JSON.stringify(data));
     await api
       .post("/auth/register", data)
       .then(() => {

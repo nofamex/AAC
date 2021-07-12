@@ -92,7 +92,7 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
                 filled={false}
               />
             </a>
-            {type === "unac" && isAuthenticated() && (
+            {type === "unac" && (
               <div>
                 <Button
                   text="Daftar Sekarang"
