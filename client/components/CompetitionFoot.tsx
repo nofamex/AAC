@@ -1,12 +1,23 @@
 import Image from "next/image";
+import { isAuthenticated } from "../lib/auth";
+import Button from "./Button";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 interface FootProps {
   type: string;
 }
 
 export default function CompetitionFoot({ type }: FootProps) {
+  const router = useRouter();
+
+  const registerHandler = () => {
+    isAuthenticated()
+      ? router.push("/unac/register")
+      : toast.error("Silahkan Sign In terlebih dahulu");
+  };
   return (
-    <div className="h-96 w-full bg-black-80 relative flex items-center">
+    <div className="h-96 w-full bg-black-80 relative flex flex-col justify-center items-center">
       <Image
         src={
           type === "unac" ? "/picture/compe-unac.svg" : "/picture/compe-tac.svg"
@@ -21,9 +32,16 @@ export default function CompetitionFoot({ type }: FootProps) {
           style={{ textShadow: "0 0 25px #7303C0" }}
         >
           <span className="text-stroke text-center">
-            PENDAFTARAN SEGERA DIBUKA
+            {type === "unac" ? "TUNGGU APA LAGI" : "PENDAFTARAN SEGERA DIBUKA"}
           </span>
         </p>
+      </div>
+      <div className="z-10">
+        <Button
+          text="Daftar Sekarang"
+          filled={true}
+          handler={registerHandler}
+        />
       </div>
     </div>
   );

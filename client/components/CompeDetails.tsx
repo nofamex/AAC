@@ -5,6 +5,7 @@ import Button from "./Button";
 import Slider from "./Slider";
 import { useRouter } from "next/router";
 import { isAuthenticated } from "../lib/auth";
+import { toast } from "react-toastify";
 
 interface CompeDetailsProps {
   type: string;
@@ -37,7 +38,11 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
     console.log("object");
   };
 
-  const registerHandler = () => router.push("/unac/register");
+  const registerHandler = () => {
+    isAuthenticated()
+      ? router.push("/unac/register")
+      : toast.error("Silahkan Sign In terlebih dahulu");
+  };
 
   return (
     <div className="h-section w-full bg-black-80 flex flex-col justify-center items-center overflow-hidden relative">

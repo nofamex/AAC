@@ -4,6 +4,10 @@ export const isAuthenticated = () => {
   return !(typeof Cookies.get("access_token") === "undefined");
 };
 
+export const getAccessToken = () => {
+  return Cookies.get("access_token");
+};
+
 export const setLogin = (data: any) => {
   Cookies.set("access_token", data.access_token);
   Cookies.set("refresh_token", data.refresh_token);
