@@ -133,6 +133,7 @@ func (u *UserController) Login(c *fiber.Ctx) error {
 		user.Role,
 		u.config.AccessTokenDuration,
 	)
+
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}

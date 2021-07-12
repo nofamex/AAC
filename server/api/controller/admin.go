@@ -44,7 +44,11 @@ func (u *AdminController) GetTeams(c *fiber.Ctx) error {
 	}
 
 	offset := item * page
-	u.service.GetTeamsPagination(int32(limit), int32(offset))
 
-	return nil
+	teams, err := u.service.GetTeamsPagination(int32(offset), int32(limit))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	return c.Status(http.StatusOK).JSON(teams)
 }
