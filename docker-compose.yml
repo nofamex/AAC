@@ -3,6 +3,8 @@ services:
   db:
     container_name: postgres-aac
     image: postgres:13.3-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -11,6 +13,9 @@ services:
     ports:
       - "${DB_PORT}:5432"
 
+volumes:
+  db-data:
+    driver: local
   # # for production
   # server:
   #   container_name: server-aac

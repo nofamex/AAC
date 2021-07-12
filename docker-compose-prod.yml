@@ -3,6 +3,8 @@ services:
   db:
     container_name: postgres-aac
     image: postgres:13.3-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -21,3 +23,7 @@ services:
     depends_on:
       - db
     command: [ "/app/main" ]
+
+volumes:
+  db-data:
+    driver: local
