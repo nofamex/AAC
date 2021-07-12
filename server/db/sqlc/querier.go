@@ -13,7 +13,7 @@ type Querier interface {
 	GetMemberById(ctx context.Context, id int32) (Member, error)
 	GetMemberByTeamId(ctx context.Context, teamID int32) ([]Member, error)
 	GetTeamById(ctx context.Context, id int32) (Team, error)
-	GetTeamPagination(ctx context.Context, arg GetTeamPaginationParams) ([]Team, error)
+	GetTeamsPagination(ctx context.Context, arg GetTeamsPaginationParams) ([]Team, error)
 	GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error)
 	GetUserById(ctx context.Context, id int32) (User, error)
 	RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error)

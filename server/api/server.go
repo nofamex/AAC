@@ -61,11 +61,14 @@ func (server *Server) setupRouter() {
 	compe.Post("/register", compeCtrl.Register)
 	compe.Get("/profile", compeCtrl.GetTeam)
 
+	adminCtrl := controller.NewAdminController(server.query, server.tokenMaker, server.config)
+	admin := v1.Group("/admin", middleware.AuthMiddleware(server.tokenMaker), middleware.AdminMiddleware(server.tokenMaker))
+	admin.Get("/teams", adminCtrl.GetTeams)
+
 	server.router = router
 }
 
 func (server *Server) StartServer(adress string) error {
-
 
 	// server.router.Use(cors.New(cors.Config{
 	// 	AllowHeaders:     "Origin, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Origin, Authorization, X-Requested-With",

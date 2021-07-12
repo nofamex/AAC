@@ -99,20 +99,20 @@ func (q *Queries) GetTeamById(ctx context.Context, id int32) (Team, error) {
 	return i, err
 }
 
-const getTeamPagination = `-- name: GetTeamPagination :many
+const getTeamsPagination = `-- name: GetTeamsPagination :many
 SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified FROM team
 ORDER BY id
 OFFSET $1
 LIMIT $2
 `
 
-type GetTeamPaginationParams struct {
+type GetTeamsPaginationParams struct {
 	Offset int32 `json:"offset"`
 	Limit  int32 `json:"limit"`
 }
 
-func (q *Queries) GetTeamPagination(ctx context.Context, arg GetTeamPaginationParams) ([]Team, error) {
-	rows, err := q.db.QueryContext(ctx, getTeamPagination, arg.Offset, arg.Limit)
+func (q *Queries) GetTeamsPagination(ctx context.Context, arg GetTeamsPaginationParams) ([]Team, error) {
+	rows, err := q.db.QueryContext(ctx, getTeamsPagination, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
