@@ -2,9 +2,18 @@ import Layout from "../../components/Layout";
 import { IoMdExit } from "react-icons/io";
 import Button from "../../components/Button";
 import { useRouter } from "next/router";
+import { getUser, logOut } from "../../lib/auth";
 
 export default function Dashboard() {
   const router = useRouter();
+  const userString = getUser();
+  const user = JSON.parse(userString || "{}");
+
+  const logOutHandler = () => {
+    logOut();
+    router.push("/");
+  };
+
   return (
     <Layout>
       <div className="h-16 w-full bg-black-80 z-0"></div>
@@ -15,13 +24,16 @@ export default function Dashboard() {
           </p>
           <div className="text-white mb-4">
             <p className="font-bold text-base sm:text-lg">NAMA</p>
-            <p>User 1023</p>
+            <p>{user.full_name}</p>
           </div>
           <div className="text-white mb-4">
             <p className="font-bold text-base sm:text-lg">EMAIL</p>
-            <p>User1023@mail.com</p>
+            <p>{user.email}</p>
           </div>
-          <p className="text-persimmon text-lg flex items-center cursor-pointer">
+          <p
+            className="text-persimmon text-lg flex items-center cursor-pointer"
+            onClick={() => logOutHandler()}
+          >
             <span className="mr-2">
               <IoMdExit />
             </span>
@@ -33,7 +45,7 @@ export default function Dashboard() {
             DASHBOARD
           </p>
           <div className="w-full flex-grow">
-            <DashboardCard
+            {/* <DashboardCard
               text="Ditolak"
               status="failed"
               next="preeliminaries bulan depan"
@@ -44,7 +56,7 @@ export default function Dashboard() {
               status="waiting"
               next="preeliminaries bulan depan"
               handler={() => router.push("/dashboard/detail/2")}
-            />
+            /> */}
           </div>
         </div>
       </div>

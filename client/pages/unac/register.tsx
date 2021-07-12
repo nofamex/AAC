@@ -7,6 +7,8 @@ import DangerModal from "../../components/DangerModal";
 import Orb from "../../components/Orb";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import api from "../../lib/axios";
 
 export default function Register() {
   const { register, handleSubmit } = useForm();
@@ -36,8 +38,50 @@ export default function Register() {
     setShow(true);
   };
 
-  const submitHandler = (data: any) => {
-    router.replace("/unac/register?type=success");
+  const submitHandler = async (data: any) => {
+    data.type = "unac";
+    data.members = [
+      {
+        full_name: data.namaAnggota1,
+        birth_place: data.tempatLahirAnggota1,
+        birth_date: new Date(data.tanggalLahirAnggota1).toISOString(),
+        member_number: 1,
+      },
+      {
+        full_name: data.namaAnggota2,
+        birth_place: data.tempatLahirAnggota2,
+        birth_date: new Date(data.tanggalLahirAnggota2).toISOString(),
+        member_number: 2,
+      },
+      {
+        full_name: data.namaAnggota3,
+        birth_place: data.tempatLahirAnggota3,
+        birth_date: new Date(data.tanggalLahirAnggota3).toISOString(),
+        member_number: 3,
+      },
+    ];
+    delete data.namaAnggota1;
+    delete data.tempatLahirAnggota1;
+    delete data.tanggalLahirAnggota1;
+    delete data.namaAnggota2;
+    delete data.tempatLahirAnggota2;
+    delete data.tanggalLahirAnggota2;
+    delete data.namaAnggota3;
+    delete data.tempatLahirAnggota3;
+    delete data.tanggalLahirAnggota3;
+    console.log(data);
+    await api
+      .post("/competition/register", data)
+      .then(() => {
+        toast.success("Berhasil mendaftar pada kompetisi");
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 2000);
+      })
+      .catch(() =>
+        toast.error("Registrasi gagal, perhatikan kembali form yang anda isi")
+      );
+
     setShow(false);
   };
 
@@ -132,7 +176,7 @@ export default function Register() {
                     />
                     <input
                       {...register(`tanggalLahirAnggota${index + 1}`)}
-                      placeholder="Tanggal lahir.."
+                      placeholder="Tanggal lahir, format: tahun-bulan-tanggal"
                       type={"text"}
                       required
                       className="bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
@@ -171,8 +215,8 @@ export default function Register() {
                   * Setiap foto diberi nama sesuai anggotanya
                 </p>
                 <input
-                  {...register("linkPasFoto")}
-                  placeholder="Masukkan link file foto peserta.."
+                  {...register("photo_link")}
+                  placeholder="Masukkan link file foto peserta, Format: https://linkanda.com"
                   type="text"
                   required
                   className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
@@ -189,8 +233,8 @@ export default function Register() {
                   </span>
                 </p>
                 <input
-                  {...register("linkBuktiPembayaran")}
-                  placeholder="Masukkan link file bukti pembayaran.."
+                  {...register("payment_link")}
+                  placeholder="Masukkan link bukti pembayaran, Format: https://linkanda.com"
                   type="text"
                   required
                   className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
@@ -202,8 +246,8 @@ export default function Register() {
                   * Semua pas foto KTM disatukan kedalam satu zip
                 </p>
                 <input
-                  {...register("linkKTMPeserta")}
-                  placeholder="Masukkan link file KTM peserta.."
+                  {...register("card_link")}
+                  placeholder="Masukkan link file KTM peserta, Format: https://linkanda.com"
                   type="text"
                   required
                   className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
@@ -220,8 +264,8 @@ export default function Register() {
                   * Semua surat disatukan ke dalam zip
                 </p>
                 <input
-                  {...register("linkSuratKeterangan")}
-                  placeholder="Masukkan link file foto surat.."
+                  {...register("sk_link")}
+                  placeholder="Masukkan link file foto surat, Format: https://linkanda.com"
                   type="text"
                   required
                   className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
@@ -330,35 +374,35 @@ function PembayaranModal({ closeHandler }: PMProps) {
 }
 
 const forms1 = [
-  { lb: "NAMA TIM", pc: "Masukkan nama tim..", rg: "namaTim", tp: "text" },
+  { lb: "NAMA TIM", pc: "Masukkan nama tim..", rg: "team_name", tp: "text" },
   {
     lb: "ASAL PERGURUAN TINGGI",
     pc: "Masukkan asal perguruan tinggi..",
-    rg: "asalUniversitas",
+    rg: "university",
     tp: "text",
   },
   {
     lb: "NAMA LENGKAP KETUA",
     pc: "Masukkan nama lengkap ketua..",
-    rg: "namaLengkapKetua",
+    rg: "full_name",
     tp: "text",
   },
   {
     lb: "NO.TELEPON KETUA",
     pc: "Masukkan no.telepon ketua..",
-    rg: "noTeleponKetua",
-    tp: "number",
+    rg: "phone",
+    tp: "text",
   },
   {
     lb: "ID LINE KETUA",
     pc: "Masukkan ID LINE ketua..",
-    rg: "idLineKetua",
+    rg: "id_line",
     tp: "text",
   },
   {
     lb: "EMAIL KETUA",
     pc: "Masukkan email ketua..",
-    rg: "emailKetua",
+    rg: "email",
     tp: "email",
   },
 ];
