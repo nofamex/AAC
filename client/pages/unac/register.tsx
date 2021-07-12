@@ -72,8 +72,15 @@ export default function Register() {
     console.log(data);
     await api
       .post("/competition/register", data)
-      .then(() => toast.success("Berhasil mendaftar pada kompetisi"))
-      .catch((er) => console.log(er));
+      .then(() => {
+        toast.success("Berhasil mendaftar pada kompetisi");
+        setTimeout(() => {
+          router.push("/competition/unac");
+        }, 2000);
+      })
+      .catch(() =>
+        toast.error("Registrasi gagal, perhatikan kembali form yang anda isi")
+      );
 
     setShow(false);
   };
