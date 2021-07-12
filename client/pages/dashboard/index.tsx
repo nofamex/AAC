@@ -7,7 +7,7 @@ import { getUser, logOut } from "../../lib/auth";
 export default function Dashboard() {
   const router = useRouter();
   const userString = getUser();
-  const user = JSON.parse(userString || "");
+  const user = JSON.parse(userString);
 
   const logOutHandler = () => {
     logOut();
