@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/go-playground/validator"
@@ -93,25 +92,21 @@ func (u *CompeController) GetTeam(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
-	fmt.Println("payload:", payload)
 
 	user, err := u.service.GetUserById(payload.UserId)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
-	fmt.Printf("user: %#v\n",user)
 
 	team, err := u.service.GetTeamById(user.TeamID.Int32)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
-	fmt.Printf("team: %#v\n",team)
 
 	members, err := u.service.GetMemberByTeamId(user.TeamID.Int32)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
-	fmt.Println("member:",members)
 
 	team.Members = *members
 
