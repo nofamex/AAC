@@ -75,7 +75,7 @@ export default function Register() {
       .then(() => {
         toast.success("Berhasil mendaftar pada kompetisi");
         setTimeout(() => {
-          router.push("/competition/unac");
+          router.push("/dashboard");
         }, 2000);
       })
       .catch(() =>
