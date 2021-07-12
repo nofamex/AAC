@@ -36,13 +36,13 @@ func (u *CompeController) Register(c *fiber.Ctx) error {
 	var requestBody model.RegisterTeamRequest
 	err := c.BodyParser(&requestBody)
 	if err != nil {
-		return c.Status(http.StatusBadRequest).SendString(err.Error())
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
 	validate := validator.New()
 	err = validate.Struct(requestBody)
 	if err != nil {
-		return c.Status(http.StatusBadRequest).SendString(err.Error())
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
 	team, err := u.service.CreateTeam(&requestBody)
@@ -50,17 +50,17 @@ func (u *CompeController) Register(c *fiber.Ctx) error {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
 			case "unique_violation":
-				return c.Status(http.StatusForbidden).SendString("duplicate team name")
+				return c.Status(http.StatusForbidden).JSON(Message{Message: "duplicate team name"})
 			}
 		}
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	members := requestBody.Members
 	err = u.service.CreateMember(&members, team.ID)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	return c.Status(http.StatusOK).SendString("ok")
+	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
 }

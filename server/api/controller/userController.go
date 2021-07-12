@@ -38,6 +38,10 @@ func NewUserController(query db.Querier, maker token.Maker, config util.Config) 
 	return
 }
 
+type Message struct {
+	Message string `json:"message"`
+}
+
 type RegisterUserRequest struct {
 	FullName string `json:"full_name" validate:"required"`
 	Email    string `json:"email" validate:"required,email"`
@@ -49,18 +53,18 @@ func (u *UserController) Register(c *fiber.Ctx) error {
 	var requestBody RegisterUserRequest
 	err := c.BodyParser(&requestBody)
 	if err != nil {
-		return c.Status(http.StatusBadRequest).SendString(err.Error())
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
 	validate := validator.New()
 	err = validate.Struct(requestBody)
 	if err != nil {
-		return c.Status(http.StatusBadRequest).SendString(err.Error())
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
 	hashedPassword, err := util.HashPassword(requestBody.Password)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 	requestBody.Password = hashedPassword
 
@@ -70,10 +74,10 @@ func (u *UserController) Register(c *fiber.Ctx) error {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
 			case "unique_violation":
-				return c.Status(http.StatusForbidden).SendString("duplicate email")
+				return c.Status(http.StatusForbidden).JSON(Message{Message: "duplicate email"})
 			}
 		}
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	response := &UserResponse{
@@ -101,26 +105,26 @@ func (u *UserController) Login(c *fiber.Ctx) error {
 	var requestBody LoginUserRequest
 	err := c.BodyParser(&requestBody)
 	if err != nil {
-		return c.Status(http.StatusBadRequest).SendString(err.Error())
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
 	validate := validator.New()
 	err = validate.Struct(requestBody)
 	if err != nil {
-		return c.Status(http.StatusBadRequest).SendString(err.Error())
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
 	user, err := u.service.GetUserByEmail(requestBody.Email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return c.Status(http.StatusUnprocessableEntity).SendString(err.Error())
+			return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: err.Error()})
 		}
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	err = util.CheckPassword(requestBody.Password, user.Password)
 	if err != nil {
-		return c.Status(http.StatusUnauthorized).SendString(err.Error())
+		return c.Status(http.StatusUnauthorized).JSON(Message{Message: err.Error()})
 	}
 
 	accessToken, err := u.tokenMaker.CreateToken(
@@ -129,17 +133,17 @@ func (u *UserController) Login(c *fiber.Ctx) error {
 		u.config.AccessTokenDuration,
 	)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	refreshToken, err := u.tokenMaker.CreateToken("", 0, u.config.RefreshTokenDuration)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	err = u.service.SetRefreshToken(user.Email, refreshToken)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	userResponse := &UserResponse{
@@ -170,17 +174,17 @@ func (u *UserController) Refresh(c *fiber.Ctx) error {
 		u.config.AccessTokenDuration,
 	)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	refreshToken, err := u.tokenMaker.CreateToken("", 0, u.config.RefreshTokenDuration)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	err = u.service.SetRefreshToken(payload.Email, refreshToken)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	response := &LoginUserResponse{
@@ -198,12 +202,12 @@ func (u *UserController) Self(c *fiber.Ctx) error {
 
 	payload, err := u.tokenMaker.VerifyToken(token)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	user, err := u.service.GetUserByEmail(payload.Email)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	userResponse := &UserResponse{

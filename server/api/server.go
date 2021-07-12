@@ -4,12 +4,12 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/nofamex/AAC/server/api/controller"
 	"github.com/nofamex/AAC/server/api/middleware"
 	db "github.com/nofamex/AAC/server/db/sqlc"
 	"github.com/nofamex/AAC/server/token"
 	"github.com/nofamex/AAC/server/util"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 type Server struct {
@@ -38,7 +38,11 @@ func NewServer(config util.Config, querier db.Querier) (*Server, error) {
 
 func (server *Server) setupRouter() {
 	router := fiber.New()
+	router.Use(cors.New(cors.ConfigDefault))
 
+	router.Get("/", func(ctx *fiber.Ctx) error {
+		return ctx.SendString("test")
+	})
 	// routing goes here
 	api := router.Group("/api")
 	v1 := api.Group("/v1")
@@ -53,13 +57,31 @@ func (server *Server) setupRouter() {
 	login.Get("/self", userCtrl.Self)
 
 	compeCtrl := controller.NewCompeController(server.query, server.tokenMaker, server.config)
-	compe := v1.Group("/competition",  middleware.AuthMiddleware(server.tokenMaker))
+	compe := v1.Group("/competition", middleware.AuthMiddleware(server.tokenMaker))
 	compe.Post("/register", compeCtrl.Register)
 
 	server.router = router
 }
 
 func (server *Server) StartServer(adress string) error {
-	server.router.Use(cors.New())
+
+
+	// server.router.Use(cors.New(cors.Config{
+	// 	AllowHeaders:     "Origin, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Origin, Authorization, X-Requested-With",
+	// 	AllowOrigins:     "http://localhost:3000, https://www.aacunair.id",
+	// 	AllowCredentials: true,
+	// 	AllowMethods:     "GET,POST,PUT,DELETE,PATCH",
+	// 	ExposeHeaders:    "Origin",
+	// }))
+
+	// corsSettings := cors.New(cors.Config{
+	// 	AllowOrigins:  "*",
+	// 	AllowMethods:  "GET,POST,HEAD, OPTIONS, PUT, DELETE, PATCH",
+	// 	AllowHeaders:  "Origin, Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization",
+	// 	ExposeHeaders: "Origin",
+	// })
+
+	// server.router.Use(corsSettings)
+
 	return server.router.Listen(adress)
 }
