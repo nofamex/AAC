@@ -165,8 +165,15 @@ func (u *UserController) Login(c *fiber.Ctx) error {
 // Refresh
 func (u *UserController) Refresh(c *fiber.Ctx) error {
 	header := c.Get("authorization")
-	token, _ := token.GetToken(header)
+	token, err := u.tokenMaker.GetToken(header)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
 	payload, err := u.tokenMaker.VerifyToken(token)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 
 	accessToken, err := u.tokenMaker.CreateToken(
 		payload.Email,
@@ -198,7 +205,7 @@ func (u *UserController) Refresh(c *fiber.Ctx) error {
 // Self
 func (u *UserController) Self(c *fiber.Ctx) error {
 	header := c.Get("authorization")
-	token, _ := token.GetToken(header)
+	token, _ := u.tokenMaker.GetToken(header)
 
 	payload, err := u.tokenMaker.VerifyToken(token)
 	if err != nil {

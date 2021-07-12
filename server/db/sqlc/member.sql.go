@@ -75,7 +75,7 @@ func (q *Queries) GetMemberById(ctx context.Context, id int32) (Member, error) {
 
 const getMemberByTeamId = `-- name: GetMemberByTeamId :many
 SELECT id, full_name, birth_place, birth_date, nisn, team_id, member_number FROM member
-WHERE team_id = $1 LIMIT 1
+WHERE team_id = $1
 `
 
 func (q *Queries) GetMemberByTeamId(ctx context.Context, teamID int32) ([]Member, error) {

@@ -10,11 +10,17 @@ import (
 
 const addTeamIdToUser = `-- name: AddTeamIdToUser :exec
 UPDATE users
-set team_id = $1
+set team_id = $2
+where id = $1
 `
 
-func (q *Queries) AddTeamIdToUser(ctx context.Context, teamID sql.NullInt32) error {
-	_, err := q.db.ExecContext(ctx, addTeamIdToUser, teamID)
+type AddTeamIdToUserParams struct {
+	ID     int32         `json:"id"`
+	TeamID sql.NullInt32 `json:"team_id"`
+}
+
+func (q *Queries) AddTeamIdToUser(ctx context.Context, arg AddTeamIdToUserParams) error {
+	_, err := q.db.ExecContext(ctx, addTeamIdToUser, arg.ID, arg.TeamID)
 	return err
 }
 
@@ -49,7 +55,7 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (GetUserByEm
 }
 
 const getUserById = `-- name: GetUserById :one
-SELECT id, full_name, email, password, refresh_token, team_id FROM users
+SELECT id, full_name, email, password, refresh_token, team_id, role FROM users
 WHERE id = $1 LIMIT 1
 `
 
@@ -63,6 +69,7 @@ func (q *Queries) GetUserById(ctx context.Context, id int32) (User, error) {
 		&i.Password,
 		&i.RefreshToken,
 		&i.TeamID,
+		&i.Role,
 	)
 	return i, err
 }
@@ -74,7 +81,7 @@ INSERT INTO users (
   password
 ) VALUES (
   $1, $2, $3
-) RETURNING id, full_name, email, password, refresh_token, team_id
+) RETURNING id, full_name, email, password, refresh_token, team_id, role
 `
 
 type RegisterUserParams struct {
@@ -93,6 +100,7 @@ func (q *Queries) RegisterUser(ctx context.Context, arg RegisterUserParams) (Use
 		&i.Password,
 		&i.RefreshToken,
 		&i.TeamID,
+		&i.Role,
 	)
 	return i, err
 }

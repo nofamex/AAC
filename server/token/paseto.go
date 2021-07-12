@@ -13,6 +13,7 @@ import (
 type Maker interface {
 	CreateToken(username string, userId int32, duration time.Duration) (string, error)
 	VerifyToken(token string) (*Payload, error)
+	GetToken(header string) (token string, err error)
 }
 
 type PasetoMaker struct {
@@ -55,7 +56,7 @@ func (maker *PasetoMaker) VerifyToken(token string) (*Payload, error) {
 	return payload, nil
 }
 
-func GetToken(header string) (token string, err error) {
+func (maker *PasetoMaker) GetToken(header string) (token string, err error) {
 	fields := strings.Fields(header)
 	if (len(fields) < 1 ){
 		err = errors.New("invalid authorization header format")

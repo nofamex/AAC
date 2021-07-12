@@ -4,11 +4,10 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 type Querier interface {
-	AddTeamIdToUser(ctx context.Context, teamID sql.NullInt32) error
+	AddTeamIdToUser(ctx context.Context, arg AddTeamIdToUserParams) error
 	CreateMember(ctx context.Context, arg CreateMemberParams) (Member, error)
 	CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, error)
 	GetMemberById(ctx context.Context, id int32) (Member, error)
