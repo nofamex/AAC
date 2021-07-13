@@ -39,12 +39,14 @@ export default function DashboardDetail() {
 
   const dateFormatter = (date: any) => {
     const dateF = new Date(date);
-    const month = dateF.getUTCMonth();
-    const days = dateF.getUTCDay();
+    const month = dateF.getUTCMonth() + 1;
+    const days = dateF.getUTCDate();
     const year = dateF.getUTCFullYear();
     const newDate = `${days}/${month}/${year}`;
     return newDate;
   };
+
+  console.log(status);
 
   let detailsIDT: any[] = [];
   let detailsAgt: any[] = [];

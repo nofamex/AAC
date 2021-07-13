@@ -24,8 +24,6 @@ export default function Dashboard() {
     data();
   }, []);
 
-  console.log(status);
-
   const logOutHandler = () => {
     logOut();
     router.push("/");
