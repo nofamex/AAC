@@ -69,7 +69,6 @@ export default function Dashboard() {
                   : "Menunggu Verifikasi"
               }
               status={status.status}
-              next="Terima kasih telah mendaftar! Data anda sedang diverifikasi oleh panitia. Silahkan cek email secara berkala untuk informasi lebih lanjut!"
               handler={() => router.push("/dashboard/detail/")}
               type={status.type}
             />
@@ -104,18 +103,11 @@ export function StatusBar({ text, type }: StatusBarProps) {
 interface DashboardCardProps {
   status: string;
   text: string;
-  next: string;
   handler: Function;
   type: string;
 }
 
-function DashboardCard({
-  status,
-  text,
-  next,
-  handler,
-  type,
-}: DashboardCardProps) {
+function DashboardCard({ status, text, handler, type }: DashboardCardProps) {
   return (
     <div className="w-full h-auto sm:h-1/3 border-2 border-white rounded-xl mb-4 font-dm text-white p-4 flex flex-col sm:flex-row">
       <div className="h-full w-2/3">
@@ -129,9 +121,13 @@ function DashboardCard({
           </span>
         </p>
         <p className="font-bold text-lg flex flex-col sm:flex-row items-start sm:items-center mb-4 sm:mb-0">
-          Acara Selanjutnya
+          Acara Selanjutnya:
           <span className="font-normal text-sm sm:text-base ml-0 sm:ml-8">
-            {next}
+            {status === "menunggu"
+              ? "Terima kasih telah mendaftar! Data anda sedang diverifikasi oleh panitia. Silahkan cek email secara berkala untuk informasi lebih lanjut!"
+              : status === "berhasil"
+              ? "Babak preliminary"
+              : "Cek email anda untuk keterangan tolakan"}
           </span>
         </p>
       </div>
