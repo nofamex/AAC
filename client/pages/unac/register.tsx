@@ -69,7 +69,7 @@ export default function Register() {
     delete data.namaAnggota3;
     delete data.tempatLahirAnggota3;
     delete data.tanggalLahirAnggota3;
-    console.log(data);
+
     await api
       .post("/competition/register", data)
       .then(() => {
@@ -108,16 +108,16 @@ export default function Register() {
           <Orb
             active={typeof type === "undefined" || type === "team"}
             title="Identitas Tim"
-            left="4"
+            left="-left-4"
           />
           <div className="h-6 w-16 py-2.5">
             <div className="w-full h-full bg-orange"></div>
           </div>
-          <Orb active={type === "anggota"} title="Anggota Tim" left="4" />
+          <Orb active={type === "anggota"} title="Anggota Tim" left="-left-4" />
           <div className="h-6 w-16 py-2.5">
             <div className="w-full h-full bg-orange"></div>
           </div>
-          <Orb active={type === "berkas"} title="Berkas" left="2" />
+          <Orb active={type === "berkas"} title="Berkas" left="-left-2" />
         </div>
         <form className="flex flex-col w-1/2">
           {(typeof type === "undefined" || type === "team") && (
@@ -129,6 +129,7 @@ export default function Register() {
               {forms1.map((form, index) => (
                 <div className="w-full" key={index}>
                   <p className="text-white font-bold text-sm mb-1">{form.lb}</p>
+                  <p className="text-white text-sm mb-1">* Wajib diisi</p>
                   <input
                     {...register(form.rg)}
                     placeholder={form.pc}
@@ -155,6 +156,7 @@ export default function Register() {
                     <p className="text-white font-bold text-sm mb-1">
                       {form.lb}
                     </p>
+                    <p className="text-white text-sm mb-1">* Wajib diisi</p>
                     <input
                       {...register(`namaAnggota${index + 1}`)}
                       placeholder={`Masukkan nama anggota ${index + 1}..`}
@@ -165,6 +167,7 @@ export default function Register() {
                     <p className="text-white font-bold text-sm mb-1">
                       TEMPAT TANGGAL LAHIR
                     </p>
+                    <p className="text-white text-sm mb-1">* Wajib diisi</p>
                   </div>
                   <div className="w-full mb-2 flex">
                     <input

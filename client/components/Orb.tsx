@@ -15,7 +15,7 @@ export default function Orb({ title, left, active }: OrbProps) {
         ></div>
       </div>
       <div
-        className={`text-white absolute text-center text-sm top-7 -left-${left} ${
+        className={`text-white absolute text-center text-sm top-7 ${left} ${
           !active && "opacity-75"
         }`}
       >
