@@ -27,4 +27,5 @@ WHERE id = $1 LIMIT 1;
 
 -- name: UpdateVerifiedStatus :exec
 UPDATE team
-set verified = $1;
+set verified = $2
+where id = $1;

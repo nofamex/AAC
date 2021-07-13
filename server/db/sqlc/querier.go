@@ -18,7 +18,7 @@ type Querier interface {
 	GetUserById(ctx context.Context, id int32) (User, error)
 	RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error)
 	SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error
-	UpdateVerifiedStatus(ctx context.Context, verified Verification) error
+	UpdateVerifiedStatus(ctx context.Context, arg UpdateVerifiedStatusParams) error
 }
 
 var _ Querier = (*Queries)(nil)

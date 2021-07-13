@@ -1,6 +1,3 @@
-create type verification AS ENUM ('menunggu', 'ditolak', 'berhasil');
-create type competition AS ENUM ('unac', 'tac');
-
 -- team
 create table team (
   id serial not null primary key,
@@ -17,8 +14,8 @@ create table team (
   card_link varchar(255) not null,
   sk_link varchar(255),
 
-  type competition not null,
-  verified verification default 'menunggu' not null
+  type varchar(5) not null,
+  verified varchar(10) default 'menunggu' not null
 );
 
 -- user

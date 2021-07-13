@@ -62,9 +62,9 @@ func (server *Server) setupRouter() {
 	compe.Get("/profile", compeCtrl.GetTeam)
 
 	adminCtrl := controller.NewAdminController(server.query, server.tokenMaker, server.config)
-	admin := v1.Group("/admin", middleware.AuthMiddleware(server.tokenMaker), middleware.AdminMiddleware(server.tokenMaker))
+	admin := v1.Group("/admin", middleware.AdminMiddleware(server.tokenMaker))
 	admin.Get("/teams", adminCtrl.GetTeams)
-
+	admin.Get("/verify", adminCtrl.Verify)
 	server.router = router
 }
 

@@ -37,7 +37,7 @@ type CreateTeamParams struct {
 	PaymentLink string         `json:"payment_link"`
 	CardLink    string         `json:"card_link"`
 	SkLink      sql.NullString `json:"sk_link"`
-	Type        Competition    `json:"type"`
+	Type        string         `json:"type"`
 }
 
 func (q *Queries) CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, error) {
@@ -150,10 +150,16 @@ func (q *Queries) GetTeamsPagination(ctx context.Context, arg GetTeamsPagination
 
 const updateVerifiedStatus = `-- name: UpdateVerifiedStatus :exec
 UPDATE team
-set verified = $1
+set verified = $2
+where id = $1
 `
 
-func (q *Queries) UpdateVerifiedStatus(ctx context.Context, verified Verification) error {
-	_, err := q.db.ExecContext(ctx, updateVerifiedStatus, verified)
+type UpdateVerifiedStatusParams struct {
+	ID       int32  `json:"id"`
+	Verified string `json:"verified"`
+}
+
+func (q *Queries) UpdateVerifiedStatus(ctx context.Context, arg UpdateVerifiedStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updateVerifiedStatus, arg.ID, arg.Verified)
 	return err
 }

@@ -4,48 +4,8 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"time"
 )
-
-type Competition string
-
-const (
-	CompetitionUnac Competition = "unac"
-	CompetitionTac  Competition = "tac"
-)
-
-func (e *Competition) Scan(src interface{}) error {
-	switch s := src.(type) {
-	case []byte:
-		*e = Competition(s)
-	case string:
-		*e = Competition(s)
-	default:
-		return fmt.Errorf("unsupported scan type for Competition: %T", src)
-	}
-	return nil
-}
-
-type Verification string
-
-const (
-	VerificationMenunggu Verification = "menunggu"
-	VerificationDitolak  Verification = "ditolak"
-	VerificationBerhasil Verification = "berhasil"
-)
-
-func (e *Verification) Scan(src interface{}) error {
-	switch s := src.(type) {
-	case []byte:
-		*e = Verification(s)
-	case string:
-		*e = Verification(s)
-	default:
-		return fmt.Errorf("unsupported scan type for Verification: %T", src)
-	}
-	return nil
-}
 
 type Member struct {
 	ID           int32          `json:"id"`
@@ -69,8 +29,8 @@ type Team struct {
 	PaymentLink string         `json:"payment_link"`
 	CardLink    string         `json:"card_link"`
 	SkLink      sql.NullString `json:"sk_link"`
-	Type        Competition    `json:"type"`
-	Verified    Verification   `json:"verified"`
+	Type        string         `json:"type"`
+	Verified    string         `json:"verified"`
 }
 
 type User struct {

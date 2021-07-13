@@ -28,7 +28,7 @@ func (u *AdminService) GetTeamsPagination(offset, limit int32) ([]model.Register
 
 	teams := make([]model.RegisterTeamRequest, 0)
 	for _, team := range teamsDb {
-		temp := model.RegisterTeamRequest {
+		temp := model.RegisterTeamRequest{
 			TeamName:    team.TeamName,
 			University:  team.University,
 			FullName:    team.FullName,
@@ -45,4 +45,12 @@ func (u *AdminService) GetTeamsPagination(offset, limit int32) ([]model.Register
 	}
 
 	return teams, nil
+}
+
+func (u *AdminService) Verify(id int32, status string) error {
+	param := db.UpdateVerifiedStatusParams{
+		ID:       id,
+		Verified: status,
+	}
+	return u.query.UpdateVerifiedStatus(context.Background(), param)
 }

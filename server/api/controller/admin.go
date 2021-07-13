@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -51,4 +52,23 @@ func (u *AdminController) GetTeams(c *fiber.Ctx) error {
 	}
 
 	return c.Status(http.StatusOK).JSON(teams)
+}
+
+func (u *AdminController) Verify(c *fiber.Ctx) error {
+	idStr := c.Query("id")
+	if idStr == "" {
+		return errors.New("no id")
+	}
+
+	typeStr := c.Query("type")
+	if typeStr == "" {
+		return errors.New("no type")
+	}
+
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
+	}
+	u.service.Verify(int32(id), typeStr)
+	return nil
 }
