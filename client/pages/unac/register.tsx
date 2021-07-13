@@ -46,19 +46,25 @@ export default function Register() {
       {
         full_name: data.namaAnggota1,
         birth_place: data.tempatLahirAnggota1,
-        birth_date: new Date(data.tanggalLahirAnggota1).toISOString(),
+        birth_date: new Date(
+          data.tanggalLahirAnggota1 || "2020-12-12"
+        ).toISOString(),
         member_number: 1,
       },
       {
         full_name: data.namaAnggota2,
         birth_place: data.tempatLahirAnggota2,
-        birth_date: new Date(data.tanggalLahirAnggota2).toISOString(),
+        birth_date: new Date(
+          data.tanggalLahirAnggota2 || "2020-12-12"
+        ).toISOString(),
         member_number: 2,
       },
       {
         full_name: data.namaAnggota3,
         birth_place: data.tempatLahirAnggota3,
-        birth_date: new Date(data.tanggalLahirAnggota3).toISOString(),
+        birth_date: new Date(
+          data.tanggalLahirAnggota3 || "2020-12-12"
+        ).toISOString(),
         member_number: 3,
       },
     ];

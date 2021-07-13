@@ -46,19 +46,25 @@ export default function Register() {
       {
         full_name: data.namaAnggota1,
         birth_place: data.tempatLahirAnggota1,
-        birth_date: new Date(data.tanggalLahirAnggota1).toISOString(),
+        birth_date: new Date(
+          data.tanggalLahirAnggota1 || "2000-12-12"
+        ).toISOString(),
         member_number: 1,
       },
       {
         full_name: data.namaAnggota2,
         birth_place: data.tempatLahirAnggota2,
-        birth_date: new Date(data.tanggalLahirAnggota2).toISOString(),
+        birth_date: new Date(
+          data.tanggalLahirAnggota2 || "2000-12-12"
+        ).toISOString(),
         member_number: 2,
       },
       {
         full_name: data.namaAnggota3,
         birth_place: data.tempatLahirAnggota3,
-        birth_date: new Date(data.tanggalLahirAnggota3).toISOString(),
+        birth_date: new Date(
+          data.tanggalLahirAnggota3 || "2000-12-12"
+        ).toISOString(),
         member_number: 3,
       },
     ];
@@ -81,6 +87,7 @@ export default function Register() {
         }, 2000);
       })
       .catch((err) => {
+        console.log(err.response.data.message.split("'")[3]);
         const error = errorController(err.response.data.message.split("'")[3]);
         toast.error(error);
       });
@@ -368,7 +375,7 @@ function PembayaranModal({ closeHandler }: PMProps) {
             <AiFillCloseCircle />
           </div>
           <div className="w-full h-auto text-white font-bold text-2xl flex justify-center mb-4">
-            Tata Cara Pembayaran UNAC
+            Tata Cara Pembayaran TAC
           </div>
           <div className="w-full h-auto text-white text-base flex justify-center mb-4 text-start flex-col">
             <p>Info pembayaran sebesar: </p>
