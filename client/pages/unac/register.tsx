@@ -1,5 +1,5 @@
 import Layout from "../../components/Layout";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/router";
 import Button from "../../components/Button";
 import { useState } from "react";
@@ -9,9 +9,11 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import api from "../../lib/axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Register() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, control } = useForm();
   const router = useRouter();
   const { type } = router.query;
 
@@ -69,7 +71,7 @@ export default function Register() {
     delete data.namaAnggota3;
     delete data.tempatLahirAnggota3;
     delete data.tanggalLahirAnggota3;
-    console.log(data);
+
     await api
       .post("/competition/register", data)
       .then(() => {
@@ -108,16 +110,16 @@ export default function Register() {
           <Orb
             active={typeof type === "undefined" || type === "team"}
             title="Identitas Tim"
-            left="4"
+            left="-left-4"
           />
           <div className="h-6 w-16 py-2.5">
             <div className="w-full h-full bg-orange"></div>
           </div>
-          <Orb active={type === "anggota"} title="Anggota Tim" left="4" />
+          <Orb active={type === "anggota"} title="Anggota Tim" left="-left-4" />
           <div className="h-6 w-16 py-2.5">
             <div className="w-full h-full bg-orange"></div>
           </div>
-          <Orb active={type === "berkas"} title="Berkas" left="2" />
+          <Orb active={type === "berkas"} title="Berkas" left="-left-2" />
         </div>
         <form className="flex flex-col w-1/2">
           {(typeof type === "undefined" || type === "team") && (
@@ -129,6 +131,7 @@ export default function Register() {
               {forms1.map((form, index) => (
                 <div className="w-full" key={index}>
                   <p className="text-white font-bold text-sm mb-1">{form.lb}</p>
+                  <p className="text-white text-sm mb-1">* Wajib diisi</p>
                   <input
                     {...register(form.rg)}
                     placeholder={form.pc}
@@ -155,6 +158,7 @@ export default function Register() {
                     <p className="text-white font-bold text-sm mb-1">
                       {form.lb}
                     </p>
+                    <p className="text-white text-sm mb-1">* Wajib diisi</p>
                     <input
                       {...register(`namaAnggota${index + 1}`)}
                       placeholder={`Masukkan nama anggota ${index + 1}..`}
@@ -165,6 +169,7 @@ export default function Register() {
                     <p className="text-white font-bold text-sm mb-1">
                       TEMPAT TANGGAL LAHIR
                     </p>
+                    <p className="text-white text-sm mb-1">* Wajib diisi</p>
                   </div>
                   <div className="w-full mb-2 flex">
                     <input
@@ -172,15 +177,28 @@ export default function Register() {
                       placeholder="Tempat lahir.."
                       type={"text"}
                       required
-                      className="mr-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+                      className="mr-4 bg-black-80 border-white border-2 h-10 w-1/2 p-2 rounded-lg focus:outline-none text-white"
                     />
-                    <input
+                    <Controller
+                      control={control}
+                      name={`tanggalLahirAnggota${index + 1}`}
+                      render={({ field }) => (
+                        <DatePicker
+                          placeholderText="Tanggal lahir.."
+                          onChange={(date) => field.onChange(date)}
+                          selected={field.value}
+                          wrapperClassName="w-1/2"
+                          className="bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+                        />
+                      )}
+                    />
+                    {/* <input
                       {...register(`tanggalLahirAnggota${index + 1}`)}
                       placeholder="Tanggal lahir, format: tahun-bulan-tanggal"
                       type={"text"}
                       required
                       className="bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
-                    />
+                    /> */}
                   </div>
                 </div>
               ))}

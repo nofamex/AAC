@@ -156,7 +156,7 @@ function SignUpModal({ closeHandler }: SignUpModalProps) {
           router.reload();
         }, 2000);
       })
-      .catch((err) => console.log(err));
+      .catch(() => toast.error("Gagal membuat akun, email sudah digunakan"));
   };
 
   return (
