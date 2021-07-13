@@ -13,13 +13,14 @@ export default function Dashboard() {
   const user = JSON.parse(userString || "{}");
 
   const [status, setStatus] = useState({ status: "", type: "" });
+  const [err, setErr] = useState(false);
 
   useEffect(() => {
     async function data() {
       api
         .get("/competition/profile")
         .then((res) => setStatus(res.data))
-        .catch((err) => console.log(err));
+        .catch(() => setErr(true));
     }
     data();
   }, []);
@@ -60,18 +61,20 @@ export default function Dashboard() {
             DASHBOARD
           </p>
           <div className="w-full flex-grow">
-            <DashboardCard
-              text={
-                status.status === "berhasil"
-                  ? "Verifikasi Berhasil"
-                  : status.status === "ditolak"
-                  ? "Verifikasi Ditolak"
-                  : "Menunggu Verifikasi"
-              }
-              status={status.status}
-              handler={() => router.push("/dashboard/detail/")}
-              type={status.type}
-            />
+            {!err && (
+              <DashboardCard
+                text={
+                  status.status === "berhasil"
+                    ? "Verifikasi Berhasil"
+                    : status.status === "ditolak"
+                    ? "Verifikasi Ditolak"
+                    : "Menunggu Verifikasi"
+                }
+                status={status.status}
+                handler={() => router.push("/dashboard/detail/")}
+                type={status.type}
+              />
+            )}
           </div>
         </div>
       </div>

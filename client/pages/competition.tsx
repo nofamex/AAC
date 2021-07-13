@@ -39,7 +39,7 @@ export default function Competition() {
           >
             <CompetitionCard
               handler={UNAChandler}
-              image="/picture/unac-logo.svg"
+              image="/picture/unac-logo.png"
               desc={UNACDesc}
             />
           </motion.div>
@@ -49,7 +49,7 @@ export default function Competition() {
           >
             <CompetitionCard
               handler={TACHandler}
-              image="/picture/tac-logo.svg"
+              image="/picture/tac-logo.png"
               desc={TACDesc}
             />
           </motion.div>
