@@ -79,8 +79,6 @@ func (u *CompeService) CreateMember(members *[]model.Member, id int32) error {
 		}
 	}
 
-	
-
 	return nil
 }
 
@@ -88,12 +86,12 @@ func (u *CompeService) GetUserById(id int32) (db.User, error) {
 	return u.query.GetUserById(context.Background(), id)
 }
 
-func (u *CompeService) GetTeamById(id int32) (*model.RegisterTeamRequest, error) {
+func (u *CompeService) GetTeamById(id int32) (*model.TeamProfile, error) {
 	teamDb, err := u.query.GetTeamById(context.Background(), id)
 	if err != nil {
 		return nil, err
 	}
-	team := model.RegisterTeamRequest {
+	team := model.TeamProfile{
 		TeamName:    teamDb.TeamName,
 		University:  teamDb.University,
 		FullName:    teamDb.FullName,
@@ -105,6 +103,7 @@ func (u *CompeService) GetTeamById(id int32) (*model.RegisterTeamRequest, error)
 		CardLink:    teamDb.CardLink,
 		SkLink:      teamDb.SkLink.String,
 		Type:        teamDb.Type,
+		Status:      teamDb.Verified,
 	}
 	return &team, nil
 }
@@ -117,7 +116,7 @@ func (u *CompeService) GetMemberByTeamId(id int32) (*[]model.Member, error) {
 
 	members := make([]model.Member, 0)
 	for _, member := range memberDb {
-		temp := model.Member {
+		temp := model.Member{
 			FullName:     member.FullName,
 			BirthPlace:   member.BirthPlace,
 			BirthDate:    member.BirthDate,
@@ -128,7 +127,7 @@ func (u *CompeService) GetMemberByTeamId(id int32) (*[]model.Member, error) {
 	}
 	return &members, nil
 }
-func (u *CompeService) AddTeamIdToUser(id, teamId int32) (error) {
+func (u *CompeService) AddTeamIdToUser(id, teamId int32) error {
 	param := db.AddTeamIdToUserParams{
 		ID: id,
 		TeamID: sql.NullInt32{
