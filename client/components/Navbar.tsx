@@ -80,8 +80,8 @@ function SignInModal({ createAccountHandler, closeHandler }: SignInModalProps) {
 
   return (
     <>
-      <div className="h-screen w-full absolute flex flex-col items-center justify-center bg-black-80 bg-opacity-90 z-20"></div>
-      <div className="h-screen w-full absolute flex flex-col items-center justify-center z-30">
+      <div className="h-screen w-full fixed flex flex-col items-center justify-center bg-black-80 bg-opacity-90 z-20"></div>
+      <div className="h-screen w-full fixed flex flex-col items-center justify-center z-30">
         <motion.div
           className="h-auto w-full md:w-80 bg-compe border-2 border-compe rounded-xl flex flex-col font-dm p-4"
           initial={{ scale: 0 }}
@@ -161,8 +161,8 @@ function SignUpModal({ closeHandler }: SignUpModalProps) {
 
   return (
     <>
-      <div className="h-screen w-full absolute flex flex-col items-center justify-center bg-black-80 bg-opacity-90 z-10"></div>
-      <div className="h-screen w-full absolute flex flex-col items-center justify-center z-20">
+      <div className="h-screen w-full flex fixed flex-col items-center justify-center bg-black-80 bg-opacity-90 z-10"></div>
+      <div className="h-screen w-full flex fixed flex-col items-center justify-center z-20">
         <motion.div
           className="h-auto w-full md:w-80 bg-compe border-2 border-compe rounded-xl flex flex-col font-dm p-4"
           initial={{ scale: 0 }}
