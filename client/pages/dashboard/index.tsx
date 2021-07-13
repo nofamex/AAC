@@ -19,7 +19,7 @@ export default function Dashboard() {
       api
         .get("/competition/profile")
         .then((res) => setStatus(res.data))
-        .catch(() => router.push("/"));
+        .catch((err) => console.log(err));
     }
     data();
   }, []);
