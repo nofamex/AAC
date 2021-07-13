@@ -12,7 +12,7 @@ export default function Dashboard() {
   const userString = getUser();
   const user = JSON.parse(userString || "{}");
 
-  const [status, setStatus] = useState({ status: "" });
+  const [status, setStatus] = useState({ status: "", type: "" });
 
   useEffect(() => {
     async function data() {
@@ -73,6 +73,7 @@ export default function Dashboard() {
               status={status.status}
               next="Terima kasih telah mendaftar! Data anda sedang diverifikasi oleh panitia. Silahkan cek email secara berkala untuk informasi lebih lanjut!"
               handler={() => router.push("/dashboard/detail/")}
+              type={status.type}
             />
           </div>
         </div>
@@ -107,13 +108,22 @@ interface DashboardCardProps {
   text: string;
   next: string;
   handler: Function;
+  type: string;
 }
 
-function DashboardCard({ status, text, next, handler }: DashboardCardProps) {
+function DashboardCard({
+  status,
+  text,
+  next,
+  handler,
+  type,
+}: DashboardCardProps) {
   return (
     <div className="w-full h-auto sm:h-1/3 border-2 border-white rounded-xl mb-4 font-dm text-white p-4 flex flex-col sm:flex-row">
       <div className="h-full w-2/3">
-        <p className="font-bold text-2xl mb-4">UNAC</p>
+        <p className="font-bold text-2xl mb-4">
+          {type === "unac" ? "UNAC" : "TAC"}
+        </p>
         <p className="font-bold text-lg mb-4 flex flex-col sm:flex-row items-start sm:items-center">
           STATUS
           <span className="ml-0 sm:ml-8">

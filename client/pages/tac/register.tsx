@@ -21,19 +21,19 @@ export default function Register() {
   const [showPM, setShowPM] = useState(false);
 
   const teamButtonHandler = () => {
-    router.replace("/unac/register?type=anggota");
+    router.replace("/tac/register?type=anggota");
   };
 
   const anggotaPreviousButtonHandler = () => {
-    router.replace("/unac/register?type=team");
+    router.replace("/tac/register?type=team");
   };
 
   const anggotaNextButtonHandler = () => {
-    router.replace("/unac/register?type=berkas");
+    router.replace("/tac/register?type=berkas");
   };
 
   const berkasPreviousButtonHandler = () => {
-    router.replace("/unac/register?type=anggota");
+    router.replace("/tac/register?type=anggota");
   };
 
   const berkasNextButtonHandler = () => {
@@ -41,7 +41,7 @@ export default function Register() {
   };
 
   const submitHandler = async (data: any) => {
-    data.type = "unac";
+    data.type = "tac";
     data.members = [
       {
         full_name: data.namaAnggota1,
@@ -109,9 +109,7 @@ export default function Register() {
       case "PaymentLink":
         return "Pastikan link BUKTI PEMBAYARAN tidak kosong dan formatnya sudah benar";
       case "CardLink":
-        return "Pastikan link KTM PESERTA tidak kosong dan formatnya sudah benar";
-      case "SkLink":
-        return "Pastikan SURAT KETERANGAN MAHASISWA AKTIF formatnya sudah benar";
+        return "Pastikan link KARTU TANDA PESERTA PESERTA tidak kosong dan formatnya sudah benar";
       default:
         return "Terjadi kesalahan silahkan cek kembali form anda";
     }
@@ -133,7 +131,7 @@ export default function Register() {
             className="font-bold italic text-xl sm:text-3xl md:text-4xl flex justify-center"
             style={{ textShadow: "0 0 25px #7303C0" }}
           >
-            <span className="text-stroke text-center">REGISTRASI UNAC</span>
+            <span className="text-stroke text-center">REGISTRASI TAC</span>
           </p>
         </div>
         <div className="h-20 w-full flex justify-center font-dm mb-8">
@@ -283,31 +281,15 @@ export default function Register() {
                 />
               </div>
               <div className="w-full">
-                <p className="text-white font-bold text-sm mb-1">KTM PESERTA</p>
+                <p className="text-white font-bold text-sm mb-1">
+                  KARTU TANDA PELAJAR PESERTA
+                </p>
                 <p className="text-white text-sm mb-1">
-                  * Semua pas foto KTM disatukan kedalam satu zip
+                  * Semua pas foto kartu disatukan kedalam satu zip
                 </p>
                 <input
                   {...register("card_link")}
-                  placeholder="Masukkan link file KTM peserta, Format: https://linkanda.com"
-                  type="text"
-                  required
-                  className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
-                />
-              </div>
-              <div className="w-full">
-                <p className="text-white font-bold text-sm mb-1">
-                  SURAT KETERANGAN MAHASISWA AKTIF
-                </p>
-                <p className="text-white text-sm mb-1">
-                  * Khusus untuk mahasiswa angkatan 2017 ke atas
-                </p>
-                <p className="text-white text-sm mb-1">
-                  * Semua surat disatukan ke dalam zip
-                </p>
-                <input
-                  {...register("sk_link")}
-                  placeholder="Masukkan link file foto surat, Format: https://linkanda.com"
+                  placeholder="Masukkan link file KARTU TANDA PELAJAR peserta, Format: https://linkanda.com"
                   type="text"
                   required
                   className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
@@ -391,12 +373,12 @@ function PembayaranModal({ closeHandler }: PMProps) {
           <div className="w-full h-auto text-white text-base flex justify-center mb-4 text-start flex-col">
             <p>Info pembayaran sebesar: </p>
             <p>
-              ➔ Early Bird : Rp 25.000 (Dua Puluh Lima Ribu Rupiah) -{">"} 12
-              Juli - 28 Juli
+              ➔ Early Bird : Rp 20.000 (Dua Puluh Ribu Rupiah) -{">"} 14 Juli -
+              30 Juli
             </p>
             <p>
-              ➔ Reguler : Rp 50.000 (Lima Puluh Ribu Rupiah) -{">"} 29 Juli - 19
-              Agustus
+              ➔ Reguler : Rp 40.000 (Empat Puluh Ribu Rupiah) -{">"} 31 Juli -
+              20 Agustus
             </p>
             <p>
               Pembayaran biaya pendaftaran dapat dilakukan melalui transfer ke

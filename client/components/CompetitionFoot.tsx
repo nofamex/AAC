@@ -13,7 +13,7 @@ export default function CompetitionFoot({ type }: FootProps) {
 
   const registerHandler = () => {
     isAuthenticated()
-      ? router.push("/unac/register")
+      ? router.push(`/${type}/register`)
       : toast.error("Silahkan Sign In terlebih dahulu");
   };
   return (
@@ -31,9 +31,7 @@ export default function CompetitionFoot({ type }: FootProps) {
           className="font-bold italic text-3xl sm:text-5xl md:text-6xl flex justify-center"
           style={{ textShadow: "0 0 25px #7303C0" }}
         >
-          <span className="text-stroke text-center">
-            {type === "unac" ? "TUNGGU APA LAGI" : "PENDAFTARAN SEGERA DIBUKA"}
-          </span>
+          <span className="text-stroke text-center">TUNGGU APA LAGI</span>
         </p>
       </div>
       <div className="z-10">

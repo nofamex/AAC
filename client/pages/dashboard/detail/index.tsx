@@ -24,6 +24,7 @@ export default function DashboardDetail() {
     photo_link: "",
     card_link: "",
     status: "",
+    type: "",
   });
 
   useEffect(() => {
@@ -100,7 +101,9 @@ export default function DashboardDetail() {
             className="font-bold italic text-5xl md:text-6xl"
             style={{ textShadow: "0 0 25px #7303C0" }}
           >
-            <span className="text-stroke">UNAC DETAIL</span>
+            <span className="text-stroke">
+              {status.type === "unac" ? "UNAC DETAIL" : "TAC DETAIL"}
+            </span>
           </p>
         </div>
         <div className="w-full h-auto flex justify-center">
