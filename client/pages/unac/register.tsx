@@ -1,5 +1,5 @@
 import Layout from "../../components/Layout";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/router";
 import Button from "../../components/Button";
 import { useState } from "react";
@@ -9,9 +9,11 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import api from "../../lib/axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Register() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, control } = useForm();
   const router = useRouter();
   const { type } = router.query;
 
@@ -175,15 +177,28 @@ export default function Register() {
                       placeholder="Tempat lahir.."
                       type={"text"}
                       required
-                      className="mr-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+                      className="mr-4 bg-black-80 border-white border-2 h-10 w-1/2 p-2 rounded-lg focus:outline-none text-white"
                     />
-                    <input
+                    <Controller
+                      control={control}
+                      name={`tanggalLahirAnggota${index + 1}`}
+                      render={({ field }) => (
+                        <DatePicker
+                          placeholderText="Tanggal lahir.."
+                          onChange={(date) => field.onChange(date)}
+                          selected={field.value}
+                          wrapperClassName="w-1/2"
+                          className="bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+                        />
+                      )}
+                    />
+                    {/* <input
                       {...register(`tanggalLahirAnggota${index + 1}`)}
                       placeholder="Tanggal lahir, format: tahun-bulan-tanggal"
                       type={"text"}
                       required
                       className="bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
-                    />
+                    /> */}
                   </div>
                 </div>
               ))}
