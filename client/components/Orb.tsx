@@ -10,7 +10,7 @@ export default function Orb({ title, left, active }: OrbProps) {
       <div className="h-full w-full border-2 border-orange rounded-full flex justify-center items-center">
         <div
           className={`rounded-full bg-gradient-to-r from-persimmon to-orange ${
-            active ? "h-3.5 w-3.5" : "h-2.5 w-2.5"
+            active ? "h-3.5 w-3.5" : ""
           } transition-all`}
         ></div>
       </div>
