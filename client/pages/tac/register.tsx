@@ -400,8 +400,8 @@ function PembayaranModal({ closeHandler }: PMProps) {
 const forms1 = [
   { lb: "NAMA TIM", pc: "Masukkan nama tim..", rg: "team_name", tp: "text" },
   {
-    lb: "ASAL PERGURUAN TINGGI",
-    pc: "Masukkan asal perguruan tinggi..",
+    lb: "ASAL SEKOLAH",
+    pc: "Masukkan asal sekolah..",
     rg: "university",
     tp: "text",
   },
