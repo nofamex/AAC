@@ -80,11 +80,42 @@ export default function Register() {
           router.push("/dashboard");
         }, 2000);
       })
-      .catch(() =>
-        toast.error("Registrasi gagal, perhatikan kembali form yang anda isi")
-      );
+      .catch((err) => {
+        console.log(err.response.data.message.split("'")[3]);
+        const error = errorController(err.response.data.message.split("'")[3]);
+        toast.error(error);
+      });
 
     setShow(false);
+  };
+
+  const errorController = (error: string) => {
+    switch (error) {
+      case "TeamName":
+        return "NAMA TIM tidak boleh dikosongkan";
+      case "University":
+        return "ASAL PERGURUAN TINGGI tidak boleh dikosongkan";
+      case "FullName":
+        return "Pastikan biodata yang diisi sudah benar";
+      case "Phone":
+        return "NO TELEPON KETUA tidak boleh dikosongkan";
+      case "IDLine":
+        return "ID LINE KETUA tidak boleh dikosongkan";
+      case "Email":
+        return "Pastikan EMAIL KETUA tidak kosong dan formatnya sudah benar";
+      case "BirthPlace":
+        return "TEMPAT TANGGAL LAHIR tidak boleh dikosongkan";
+      case "PhotoLink":
+        return "Pastikan link PAS FOTO PESERTA tidak kosong dan formatnya sudah benar";
+      case "PaymentLink":
+        return "Pastikan link BUKTI PEMBAYARAN tidak kosong dan formatnya sudah benar";
+      case "CardLink":
+        return "Pastikan link KTM PESERTA tidak kosong dan formatnya sudah benar";
+      case "SkLink":
+        return "Pastikan SURAT KETERANGAN MAHASISWA AKTIF formatnya sudah benar";
+      default:
+        return "Terjadi kesalahan silahkan cek kembali form anda";
+    }
   };
 
   return (
@@ -187,6 +218,7 @@ export default function Register() {
                           placeholderText="Tanggal lahir.."
                           onChange={(date) => field.onChange(date)}
                           selected={field.value}
+                          showYearDropdown={true}
                           wrapperClassName="w-1/2"
                           className="bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
                         />
