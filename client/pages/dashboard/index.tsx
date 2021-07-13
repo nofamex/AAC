@@ -1,13 +1,30 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Layout from "../../components/Layout";
 import { IoMdExit } from "react-icons/io";
 import Button from "../../components/Button";
 import { useRouter } from "next/router";
 import { getUser, logOut } from "../../lib/auth";
+import api from "../../lib/axios";
+import { useState, useEffect } from "react";
 
 export default function Dashboard() {
   const router = useRouter();
   const userString = getUser();
   const user = JSON.parse(userString || "{}");
+
+  const [status, setStatus] = useState({ status: "" });
+
+  useEffect(() => {
+    async function data() {
+      api
+        .get("/competition/profile")
+        .then((res) => setStatus(res.data))
+        .catch(() => router.push("/"));
+    }
+    data();
+  }, []);
+
+  console.log(status);
 
   const logOutHandler = () => {
     logOut();
@@ -45,18 +62,18 @@ export default function Dashboard() {
             DASHBOARD
           </p>
           <div className="w-full flex-grow">
-            {/* <DashboardCard
-              text="Ditolak"
-              status="failed"
-              next="preeliminaries bulan depan"
-              handler={() => router.push("/dashboard/detail/1")}
-            />
             <DashboardCard
-              text="Menunggu"
-              status="waiting"
-              next="preeliminaries bulan depan"
-              handler={() => router.push("/dashboard/detail/2")}
-            /> */}
+              text={
+                status.status === "berhasil"
+                  ? "Verifikasi Berhasil"
+                  : status.status === "ditolak"
+                  ? "Verifikasi Ditolak"
+                  : "Menunggu Verifikasi"
+              }
+              status={status.status}
+              next="Terima kasih telah mendaftar! Data anda sedang diverifikasi oleh panitia. Silahkan cek email secara berkala untuk informasi lebih lanjut!"
+              handler={() => router.push("/dashboard/detail/")}
+            />
           </div>
         </div>
       </div>
@@ -73,9 +90,9 @@ export function StatusBar({ text, type }: StatusBarProps) {
   return (
     <div
       className={`h-6 w-auto ${
-        type === "success"
+        type === "berhasil"
           ? "bg-success"
-          : type === "failed"
+          : type === "ditolak"
           ? "bg-error"
           : "bg-orange"
       } p-4 flex items-center rounded-button text-xs sm:text-base font-normal`}
