@@ -26,7 +26,7 @@ export default function SignIn() {
   return (
     <Layout>
       <div className="h-16 w-full bg-black-80 z-0"></div>
-      <div className="h-section w-full bg-black-80 z-0 flex flex-col items-center justify-center">
+      <div className="h-section w-full bg-black-80 z-0 flex flex-col items-center justify-center sm:h-screen">
         <div className="h-20 w-full text-white flex justify-center z-10 sm:hidden">
           <p
             className="font-bold italic text-5xl md:text-6xl"
@@ -36,7 +36,7 @@ export default function SignIn() {
           </p>
         </div>
         <div className="w-full h-auto flex flex-col justify-center items-center sm:hidden">
-          <form className="w-full h-auto text-white text-lg flex flex-col justify-center mb-4">
+          <form className="w-full h-auto text-white text-lg flex flex-col justify-center mb-4 p-4">
             {signInForm.map((sf, index) => (
               <div className="w-full" key={index}>
                 <p className="text-white font-bold text-sm mb-1">{sf.lb}</p>
