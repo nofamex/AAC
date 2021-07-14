@@ -1,13 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Layout from "../../components/Layout";
 import { IoMdExit } from "react-icons/io";
 import Button from "../../components/Button";
 import { useRouter } from "next/router";
 import { getUser, logOut } from "../../lib/auth";
+import api from "../../lib/axios";
+import { useState, useEffect } from "react";
 
 export default function Dashboard() {
   const router = useRouter();
   const userString = getUser();
   const user = JSON.parse(userString || "{}");
+
+  const [status, setStatus] = useState({ status: "", type: "" });
+  const [err, setErr] = useState(false);
+
+  useEffect(() => {
+    async function data() {
+      api
+        .get("/competition/profile")
+        .then((res) => setStatus(res.data))
+        .catch(() => setErr(true));
+    }
+    data();
+  }, []);
 
   const logOutHandler = () => {
     logOut();
@@ -45,18 +61,20 @@ export default function Dashboard() {
             DASHBOARD
           </p>
           <div className="w-full flex-grow">
-            {/* <DashboardCard
-              text="Ditolak"
-              status="failed"
-              next="preeliminaries bulan depan"
-              handler={() => router.push("/dashboard/detail/1")}
-            />
-            <DashboardCard
-              text="Menunggu"
-              status="waiting"
-              next="preeliminaries bulan depan"
-              handler={() => router.push("/dashboard/detail/2")}
-            /> */}
+            {!err ? (
+              <DashboardCard
+                text={
+                  status.status === "berhasil"
+                    ? "Verifikasi Berhasil"
+                    : status.status === "ditolak"
+                    ? "Verifikasi Ditolak"
+                    : "Menunggu Verifikasi"
+                }
+                status={status.status}
+                handler={() => router.push("/dashboard/detail/")}
+                type={status.type}
+              />
+            ) : null}
           </div>
         </div>
       </div>
@@ -73,9 +91,9 @@ export function StatusBar({ text, type }: StatusBarProps) {
   return (
     <div
       className={`h-6 w-auto ${
-        type === "success"
+        type === "berhasil"
           ? "bg-success"
-          : type === "failed"
+          : type === "ditolak"
           ? "bg-error"
           : "bg-orange"
       } p-4 flex items-center rounded-button text-xs sm:text-base font-normal`}
@@ -88,15 +106,17 @@ export function StatusBar({ text, type }: StatusBarProps) {
 interface DashboardCardProps {
   status: string;
   text: string;
-  next: string;
   handler: Function;
+  type: string;
 }
 
-function DashboardCard({ status, text, next, handler }: DashboardCardProps) {
+function DashboardCard({ status, text, handler, type }: DashboardCardProps) {
   return (
     <div className="w-full h-auto sm:h-1/3 border-2 border-white rounded-xl mb-4 font-dm text-white p-4 flex flex-col sm:flex-row">
       <div className="h-full w-2/3">
-        <p className="font-bold text-2xl mb-4">UNAC</p>
+        <p className="font-bold text-2xl mb-4">
+          {type === "unac" ? "UNAC" : "TAC"}
+        </p>
         <p className="font-bold text-lg mb-4 flex flex-col sm:flex-row items-start sm:items-center">
           STATUS
           <span className="ml-0 sm:ml-8">
@@ -104,9 +124,13 @@ function DashboardCard({ status, text, next, handler }: DashboardCardProps) {
           </span>
         </p>
         <p className="font-bold text-lg flex flex-col sm:flex-row items-start sm:items-center mb-4 sm:mb-0">
-          Acara Selanjutnya
+          Acara Selanjutnya:
           <span className="font-normal text-sm sm:text-base ml-0 sm:ml-8">
-            {next}
+            {status === "menunggu"
+              ? "Terima kasih telah mendaftar! Data anda sedang diverifikasi oleh panitia. Silahkan cek email secara berkala untuk informasi lebih lanjut!"
+              : status === "berhasil"
+              ? "Babak preliminary"
+              : "Cek email anda untuk keterangan tolakan"}
           </span>
         </p>
       </div>

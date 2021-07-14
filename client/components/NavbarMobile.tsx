@@ -10,11 +10,10 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useRouter } from "next/router";
 
 interface NavbarMobileProps {
-  handler: Function;
   menus: { page: string; text: string }[];
 }
 
-export default function NavbarMobile({ handler, menus }: NavbarMobileProps) {
+export default function NavbarMobile({ menus }: NavbarMobileProps) {
   const NavMenuMobile = tw.p`mb-4 cursor-pointer text-center opacity-75 hover:opacity-100`;
 
   const router = useRouter();
@@ -47,7 +46,9 @@ export default function NavbarMobile({ handler, menus }: NavbarMobileProps) {
             </div>
           </div>
         ) : (
-          <Button text="Sign In" handler={() => handler()} filled={false} />
+          <Link href={"/signin"}>
+            <NavMenuMobile>Sign In</NavMenuMobile>
+          </Link>
         )}
       </Menu>
     </div>

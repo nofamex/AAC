@@ -40,7 +40,7 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
 
   const registerHandler = () => {
     isAuthenticated()
-      ? router.push("/unac/register")
+      ? router.push(`/${type}/register`)
       : toast.error("Silahkan Sign In terlebih dahulu");
   };
 
@@ -97,15 +97,13 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
                 filled={false}
               />
             </a>
-            {type === "unac" && (
-              <div>
-                <Button
-                  text="Daftar Sekarang"
-                  handler={registerHandler}
-                  filled={true}
-                />
-              </div>
-            )}
+            <div>
+              <Button
+                text="Daftar Sekarang"
+                handler={registerHandler}
+                filled={true}
+              />
+            </div>
           </div>
         </div>
       </div>
