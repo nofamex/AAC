@@ -61,7 +61,7 @@ export default function Dashboard() {
             DASHBOARD
           </p>
           <div className="w-full flex-grow">
-            {!err && (
+            {!err ? (
               <DashboardCard
                 text={
                   status.status === "berhasil"
@@ -74,7 +74,7 @@ export default function Dashboard() {
                 handler={() => router.push("/dashboard/detail/")}
                 type={status.type}
               />
-            )}
+            ) : null}
           </div>
         </div>
       </div>
