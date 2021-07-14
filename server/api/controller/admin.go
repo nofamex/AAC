@@ -70,5 +70,8 @@ func (u *AdminController) Verify(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 	u.service.Verify(int32(id), typeStr)
+
+	team, err := u.service.GetTeamById(int32(id))
+	util.SendMail(u.config, team.Email, team.Type)
 	return nil
 }

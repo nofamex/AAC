@@ -54,3 +54,8 @@ func (u *AdminService) Verify(id int32, status string) error {
 	}
 	return u.query.UpdateVerifiedStatus(context.Background(), param)
 }
+
+func (u *AdminService) GetTeamById(id int32) (db.Team, error) {
+	return u.query.GetTeamById(context.Background(), id)
+}
+
