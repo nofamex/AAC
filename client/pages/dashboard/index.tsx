@@ -35,7 +35,7 @@ export default function Dashboard() {
   return (
     <Layout>
       <div className="h-16 w-full bg-black-80 z-0"></div>
-      <div className="w-full min-h-section h-auto bg-black-80 flex flex-col lg:flex-row p-16">
+      <div className="w-full min-h-screen h-auto bg-black-80 flex flex-col lg:flex-row p-16">
         <div className="w-full lg:w-1/3 h-72 bg-compe mr-4 rounded-xl p-8 font-dm mb-4 lg:mb-0">
           <p className="text-2xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-persimmon to-orange mb-4">
             PROFILE
