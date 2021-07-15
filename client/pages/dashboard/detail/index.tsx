@@ -40,7 +40,7 @@ export default function DashboardDetail() {
   const dateFormatter = (date: any) => {
     const dateF = new Date(date);
     const month = dateF.getUTCMonth() + 1;
-    const days = dateF.getUTCDate();
+    const days = dateF.getUTCDate() + 1;
     const year = dateF.getUTCFullYear();
     const newDate = `${days}/${month}/${year}`;
     return newDate;
