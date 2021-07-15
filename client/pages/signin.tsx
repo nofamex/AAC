@@ -17,7 +17,7 @@ export default function SignIn() {
         setLogin(res.data);
         toast.success("Berhasil Login");
         setTimeout(() => {
-          router.reload();
+          router.push("/");
         }, 2000);
       })
       .catch(() => toast.error("Gagal login, pastikan input anda sudah benar"));

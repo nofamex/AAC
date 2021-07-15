@@ -15,7 +15,7 @@ export default function SignUp() {
       .then(() => {
         toast.success("Berhasil membuat akun");
         setTimeout(() => {
-          router.reload();
+          router.push("/signin");
         }, 2000);
       })
       .catch(() => toast.error("Gagal membuat akun, email sudah digunakan"));
