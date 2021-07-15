@@ -14,7 +14,7 @@ sqlc:
 	sqlc generate -f server/sqlc.yaml
 
 prod-up:
-	sudo docker-compose -f ./docker-compose-prod.yml up -d
+	docker-compose -f ./docker-compose-prod.yml up
 
 prod-down:
-	sudo docker-compose -f ./docker-compose-prod.yml down
+	docker-compose -f ./docker-compose-prod.yml down --rmi local

@@ -9,7 +9,7 @@ export default function SignUp() {
   const { register, handleSubmit } = useForm();
   const router = useRouter();
 
-  const signInHandler = async (data: any) => {
+  const signupHandler = async (data: any) => {
     await api
       .post("/auth/register", data)
       .then(() => {
@@ -34,7 +34,7 @@ export default function SignUp() {
           </p>
         </div>
         <div className="w-full h-auto flex flex-col justify-center items-center sm:hidden">
-          <form className="w-full h-auto text-white text-lg flex flex-col justify-center mb-4 p-4">
+          <form onSubmit={handleSubmit(signupHandler)} className="w-full h-auto text-white text-lg flex flex-col justify-center mb-4 p-4">
             {signUpForm.map((sf, index) => (
               <div className="w-full" key={index}>
                 <p className="text-white font-bold text-sm mb-1">{sf.lb}</p>
@@ -48,7 +48,8 @@ export default function SignUp() {
             ))}
             <Button
               text="Submit"
-              handler={handleSubmit(signInHandler)}
+              handler={console.log}
+              // handler={handleSubmit(signupHandler)}
               filled={true}
             />
           </form>
