@@ -10,7 +10,7 @@ export default function SignInDesktop() {
   const { register, handleSubmit } = useForm();
   const router = useRouter();
 
-  const signInDesktopHandler = async (data: any) => {
+  const signInMobileHandler = async (data: any) => {
     await api
       .post("/auth/login", data)
       .then((res) => {
@@ -50,7 +50,7 @@ export default function SignInDesktop() {
             ))}
             <Button
               text="Submit"
-              handler={handleSubmit(signInDesktopHandler)}
+              handler={handleSubmit(signInMobileHandler)}
               filled={true}
             />
           </form>
