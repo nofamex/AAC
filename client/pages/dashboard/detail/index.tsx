@@ -46,8 +46,6 @@ export default function DashboardDetail() {
     return newDate;
   };
 
-  console.log(status);
-
   let detailsIDT: any[] = [];
   let detailsAgt: any[] = [];
   let detailsBks: any[] = [];

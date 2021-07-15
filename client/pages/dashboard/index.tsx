@@ -32,8 +32,6 @@ export default function Dashboard() {
     router.push("/");
   };
 
-  console.log(status);
-
   return (
     <Layout>
       <div className="h-16 w-full bg-black-80 z-0"></div>
