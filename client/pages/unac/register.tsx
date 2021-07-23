@@ -157,7 +157,10 @@ export default function Register() {
           </div>
           <Orb active={type === "berkas"} title="Berkas" left="-left-2" />
         </div>
-        <form className="flex flex-col w-1/2">
+        <form
+          className="flex flex-col w-1/2"
+          onSubmit={handleSubmit(submitHandler)}
+        >
           {(typeof type === "undefined" || type === "team") && (
             <motion.div
               className="w-full"
