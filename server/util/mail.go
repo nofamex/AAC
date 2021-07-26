@@ -6,11 +6,11 @@ import (
 )
 
 var (
-	UnacTmpt = `Subject: Verifikasi Pendaftaran Peserta UNAC 2021
+UnacTmpt = `Subject:  Verifikasi Pendaftaran Peserta UNAC 2021
 
 Halo, peserta Unair National Accounting Competition 2021
 
-Selamat! Anda telah terdaftar menjadi peserta UNAC 2021. Untuk kegiatan selanjutnya seluruh peserta diharapkan masuk ke Group Whatsapp melalui link berikut https://chat.whatsapp.com/HhJ2TF3YMA2CMlMO2NvzVS
+Selamat! Anda telah terdaftar menjadi peserta UNAC 2021. Untuk kegiatan selanjutnya ketua tim diharapkan masuk ke Group Whatsapp melalui link berikut https://chat.whatsapp.com/HhJ2TF3YMA2CMlMO2NvzVS
 
 Silahkan log-in akun anda melalui website www.aacunair.id untuk melihat informasi lebih lanjut mengenai lomba.
 
@@ -27,11 +27,11 @@ ID Line: ribkajulianovac
 Whatsapp: 082141798916
 `
 
-TacTmpt = `Subject: Verifikasi Pendaftaran Peserta TAC 2021
+TacTmpt = `Subject: Pendaftaran Peserta TAC 2021
 
 Halo, peserta Teenage Accounting Competition 2021
 
-Selamat! Anda telah terdaftar menjadi peserta TAC 2021. Untuk kegiatan selanjutnya seluruh peserta diharapkan masuk ke Group Whatsapp melalui link berikut https://chat.whatsapp.com/Fmyq6HtKlCqFM7vZymEE0t
+Selamat! Anda telah terdaftar menjadi peserta TAC 2021. Untuk kegiatan selanjutnya ketua tim diharapkan masuk ke Group Whatsapp melalui link berikut https://chat.whatsapp.com/Fmyq6HtKlCqFM7vZymEE0t
 
 Silahkan log-in akun anda melalui website www.aacunair.id untuk melihat informasi lebih lanjut mengenai lomba.
 
