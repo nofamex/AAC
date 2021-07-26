@@ -2,11 +2,9 @@
 import { useState, useEffect } from "react";
 import Layout from "../../../components/Layout";
 import { StatusBar } from "../index";
-import { useRouter } from "next/router";
 import api from "../../../lib/axios";
 
 export default function DashboardDetail() {
-  const router = useRouter();
   const [status, setStatus] = useState({
     team_name: "",
     university: "",
@@ -39,10 +37,10 @@ export default function DashboardDetail() {
 
   const dateFormatter = (date: any) => {
     const dateF = new Date(date);
+    const dateArr = dateF.toDateString().split(" ");
     const month = dateF.getUTCMonth() + 1;
-    const days = dateF.getUTCDate() + 1;
     const year = dateF.getUTCFullYear();
-    const newDate = `${days}/${month}/${year}`;
+    const newDate = `${dateArr[2]}/${month}/${year}`;
     return newDate;
   };
 
