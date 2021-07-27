@@ -12,7 +12,7 @@ export default function UnacTimeline() {
     },
     {
       title: "Daftar Ulang",
-      desc: "19 Agustus-7 September 2021",
+      desc: "29 Agustus-7 September 2021",
     },
     {
       title: "Technical Meeting",
