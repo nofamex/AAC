@@ -23,7 +23,7 @@ export default function Competition() {
   return (
     <Layout>
       <div className="h-16 w-full bg-black-80"></div>
-      <div className="h-compeMobile md:h-section md:min-h-screen w-full bg-black-80 flex flex-col items-center justify-center">
+      <div className="h-compeMobile md:h-section md:min-h-screen w-full bg-black-80 flex flex-col items-center justify-center overflow-x-hidden">
         <div className="w-full h-24 font-dm text-white flex flex-col items-center justify-center mb-5">
           <p
             className="font-bold italic text-3xl sm:text-5xl md:text-6xl"
