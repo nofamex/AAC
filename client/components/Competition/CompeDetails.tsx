@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/link-passhref */
+import PatternBG from "@components/Context/PatternBG";
+import Button from "@components/Context/Button";
+import Slider from "@components/Context/Slider";
+import { isAuthenticated } from "@lib/auth";
 import Image from "next/image";
-import PatternBG from "./PatternBG";
-import Button from "./Button";
-import Slider from "./Slider";
 import { useRouter } from "next/router";
-import { isAuthenticated } from "../lib/auth";
 import { toast } from "react-toastify";
 
 interface CompeDetailsProps {

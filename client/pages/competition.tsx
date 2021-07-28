@@ -1,5 +1,5 @@
-import CompetitionCard from "../components/CompetitionCard";
-import Layout from "../components/Layout";
+import CompetitionCard from "@components/Competition/CompetitionCard";
+import Layout from "@components/Context/Layout";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 

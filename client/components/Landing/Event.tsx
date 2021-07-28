@@ -1,8 +1,8 @@
+import PatternBG from "@components/Context/PatternBG";
+import EventCard from "@components/Landing/EventCard";
+import { useWindowSize } from "@hooks/useWindowSize";
 import { useState } from "react";
-import EventCard from "../components/EventCard";
-import { useWindowSize } from "../hooks/useWindowSize";
 import { useRouter } from "next/router";
-import PatternBG from "./PatternBG";
 
 export default function Event() {
   const size = useWindowSize();

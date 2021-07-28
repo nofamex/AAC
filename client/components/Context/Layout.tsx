@@ -1,8 +1,8 @@
 // @ts-nocheck
-import Footer from "./Footer";
-import Navbar from "./Navbar";
+import Footer from "@components/Context/Footer";
+import Navbar from "@components/Context/Nav/Navbar";
+import { useScrollPosition } from "@hooks/useScrollPostion";
 import { useState } from "react";
-import { useScrollPosition } from "../hooks/useScrollPostion";
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

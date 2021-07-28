@@ -1,5 +1,5 @@
+import Button from "@components/Context/Button";
 import Image from "next/image";
-import Button from "./Button";
 
 interface EventCardProps {
   handler: Function;

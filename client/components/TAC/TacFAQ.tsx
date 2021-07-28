@@ -1,4 +1,4 @@
-import FAQ from "./FAQ";
+import FAQ from "@components/Context/FAQ";
 
 export default function TacFAQ() {
   const faqContent = [

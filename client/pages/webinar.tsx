@@ -1,5 +1,5 @@
-import ComingSoon from "../components/ComingSoon";
-import Layout from "../components/Layout";
+import ComingSoon from "@components/Landing/ComingSoon";
+import Layout from "@components/Context/Layout";
 
 export default function Webinar() {
   return (

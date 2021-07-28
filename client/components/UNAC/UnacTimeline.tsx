@@ -1,8 +1,8 @@
-import PatternBG from "./PatternBG";
+import PatternBG from "@components/Context/PatternBG";
+import { useWindowSize } from "@hooks/useWindowSize";
 import { Chrono } from "react-chrono";
-import { useWindowSize } from "../hooks/useWindowSize";
 
-export default function TacTimeline() {
+export default function UnacTimeline() {
   const size = useWindowSize();
 
   const timelineItems = [
@@ -23,11 +23,11 @@ export default function TacTimeline() {
       desc: "9 September 2021",
     },
     {
-      title: "Webinar TAC",
+      title: "Babak Semifinal",
       desc: "10 September 2021",
     },
     {
-      title: "Babak Semifinal & Techincal Meeting",
+      title: "Webinar & Techincal Meeting",
       desc: "11 September 2021",
     },
     {

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
-import Layout from "../../../components/Layout";
+import Layout from "@components/Context/Layout";
+import api from "@lib/axios";
 import { StatusBar } from "../index";
-import api from "../../../lib/axios";
+import { useState, useEffect } from "react";
 
 export default function DashboardDetail() {
   const [status, setStatus] = useState({

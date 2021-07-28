@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/link-passhref */
+import Button from "@components/Context/Button";
+import NavItem from "@components/Context/Nav/NavItem";
+import { isAuthenticated } from "@lib/auth";
 import Image from "next/image";
 import Link from "next/link";
-import Button from "./Button";
-import NavItem from "./NavItem";
-import { isAuthenticated } from "../lib/auth";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useRouter } from "next/router";
 

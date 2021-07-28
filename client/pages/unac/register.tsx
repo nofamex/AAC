@@ -1,14 +1,14 @@
-import Layout from "../../components/Layout";
+import Layout from "@components/Context/Layout";
+import Button from "@components/Context/Button";
+import DangerModal from "@components/Modal/DangerModal";
+import Orb from "@components/Context/Orb";
+import api from "@lib/axios";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/router";
-import Button from "../../components/Button";
 import { useState, useEffect } from "react";
-import DangerModal from "../../components/DangerModal";
-import Orb from "../../components/Orb";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import api from "../../lib/axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 

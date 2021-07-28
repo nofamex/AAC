@@ -1,4 +1,4 @@
-import PatternBG from "./PatternBG";
+import PatternBG from "@components/Context/PatternBG";
 import { SiLine } from "react-icons/si";
 
 interface ContactProps {

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Layout from "../../components/Layout";
+import Layout from "@components/Context/Layout";
+import Button from "@components/Context/Button";
+import { getUser, logOut } from "@lib/auth";
+import api from "@lib/axios";
 import { IoMdExit } from "react-icons/io";
-import Button from "../../components/Button";
 import { useRouter } from "next/router";
-import { getUser, logOut } from "../../lib/auth";
-import api from "../../lib/axios";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Countdown from "react-countdown";
