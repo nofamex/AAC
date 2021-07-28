@@ -93,7 +93,7 @@ export default function DashboardDetail() {
   return (
     <Layout>
       <div className="h-16 w-full bg-black-80 z-0"></div>
-      <div className="h-auto w-full bg-black-80">
+      <div className="h-auto min-h-screen w-full bg-black-80">
         <div className="h-20 w-full text-white flex justify-center z-10">
           <p
             className="font-bold italic text-5xl md:text-6xl"

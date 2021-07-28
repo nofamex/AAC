@@ -2,7 +2,7 @@ import Layout from "../../components/Layout";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/router";
 import Button from "../../components/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DangerModal from "../../components/DangerModal";
 import Orb from "../../components/Orb";
 import { AiFillCloseCircle } from "react-icons/ai";
@@ -19,6 +19,24 @@ export default function Register() {
 
   const [show, setShow] = useState(false);
   const [showPM, setShowPM] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  useEffect(() => {
+    async function data() {
+      api
+        .get("/competition/profile")
+        .then(() => setIsRegistered(true))
+        .catch(() => setIsRegistered(false));
+    }
+    data();
+  }, []);
+
+  if (isRegistered) {
+    toast.error("Anda sudah terdaftar pada salah satu kompetisi");
+    setTimeout(() => {
+      router.push("/");
+    }, 2000);
+  }
 
   const teamButtonHandler = () => {
     router.replace("/tac/register?type=anggota");
@@ -41,30 +59,33 @@ export default function Register() {
   };
 
   const submitHandler = async (data: any) => {
+    const date1 = new Date(data.tanggalLahirAnggota1);
+    date1.setDate(date1.getDate() + 1);
+
+    const date2 = new Date(data.tanggalLahirAnggota2);
+    date2.setDate(date2.getDate() + 1);
+
+    const date3 = new Date(data.tanggalLahirAnggota3);
+    date3.setDate(date3.getDate() + 1);
+
     data.type = "tac";
     data.members = [
       {
         full_name: data.namaAnggota1,
         birth_place: data.tempatLahirAnggota1,
-        birth_date: new Date(
-          data.tanggalLahirAnggota1 || "2000-12-12"
-        ).toISOString(),
+        birth_date: date1,
         member_number: 1,
       },
       {
         full_name: data.namaAnggota2,
         birth_place: data.tempatLahirAnggota2,
-        birth_date: new Date(
-          data.tanggalLahirAnggota2 || "2000-12-12"
-        ).toISOString(),
+        birth_date: date2,
         member_number: 2,
       },
       {
         full_name: data.namaAnggota3,
         birth_place: data.tempatLahirAnggota3,
-        birth_date: new Date(
-          data.tanggalLahirAnggota3 || "2000-12-12"
-        ).toISOString(),
+        birth_date: date3,
         member_number: 3,
       },
     ];
