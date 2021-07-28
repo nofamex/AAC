@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Layout from "@components/Context/Layout";
+import PrivateRoute from "@components/Context/PrivateRoute";
 import api from "@lib/axios";
 import { StatusBar } from "../index";
 import { useState, useEffect } from "react";
@@ -92,52 +93,56 @@ export default function DashboardDetail() {
 
   return (
     <Layout>
-      <div className="h-16 w-full bg-black-80 z-0"></div>
-      <div className="h-auto min-h-screen w-full bg-black-80">
-        <div className="h-20 w-full text-white flex justify-center z-10">
-          <p
-            className="font-bold italic text-5xl md:text-6xl"
-            style={{ textShadow: "0 0 25px #7303C0" }}
-          >
-            <span className="text-stroke">
-              {status.type === "unac" ? "UNAC DETAIL" : "TAC DETAIL"}
-            </span>
-          </p>
-        </div>
-        <div className="w-full h-auto flex justify-center">
-          <DetailStatus
-            text={
-              status.status === "berhasil"
-                ? "Verifikasi Berhasil"
-                : status.status === "ditolak"
-                ? "Verifikasi Ditolak"
-                : "Menunggu Verifikasi"
-            }
-            status={status.status}
-            message="Cek email anda untuk keterangan tolakan"
-          />
-        </div>
-        <div className="w-full h-full flex sm:flex-row px-4 sm:px-10 md:px-14 lg:px-20 xl:px-40 mt-8">
-          <div className="h-auto w-1/3 font-dm text-white mr-4">
-            <p className="font-bold text-2xl sm:text-4xl mb-4">Identitas Tim</p>
-            {detailsIDT.map((dt, index) => (
-              <DetailLabels label={dt.lb} content={dt.ct} key={index} />
-            ))}
+      <PrivateRoute>
+        <div className="h-16 w-full bg-black-80 z-0"></div>
+        <div className="h-auto min-h-screen w-full bg-black-80">
+          <div className="h-20 w-full text-white flex justify-center z-10">
+            <p
+              className="font-bold italic text-5xl md:text-6xl"
+              style={{ textShadow: "0 0 25px #7303C0" }}
+            >
+              <span className="text-stroke">
+                {status.type === "unac" ? "UNAC DETAIL" : "TAC DETAIL"}
+              </span>
+            </p>
           </div>
-          <div className="h-auto w-1/3 text-white font-dm mr-4">
-            <p className="font-bold text-2xl sm:text-4xl mb-4">Anggota Tim</p>
-            {detailsAgt.map((dt, index) => (
-              <DetailLabels label={dt.lb} content={dt.ct} key={index} />
-            ))}
+          <div className="w-full h-auto flex justify-center">
+            <DetailStatus
+              text={
+                status.status === "berhasil"
+                  ? "Verifikasi Berhasil"
+                  : status.status === "ditolak"
+                  ? "Verifikasi Ditolak"
+                  : "Menunggu Verifikasi"
+              }
+              status={status.status}
+              message="Cek email anda untuk keterangan tolakan"
+            />
           </div>
-          <div className="h-auto w-1/3 text-white font-dm">
-            <p className="font-bold text-2xl sm:text-4xl mb-4">Berkas</p>
-            {detailsBks.map((dt, index) => (
-              <DetailLabels label={dt.lb} content={dt.ct} key={index} />
-            ))}
+          <div className="w-full h-full flex sm:flex-row px-4 sm:px-10 md:px-14 lg:px-20 xl:px-40 mt-8">
+            <div className="h-auto w-1/3 font-dm text-white mr-4">
+              <p className="font-bold text-2xl sm:text-4xl mb-4">
+                Identitas Tim
+              </p>
+              {detailsIDT.map((dt, index) => (
+                <DetailLabels label={dt.lb} content={dt.ct} key={index} />
+              ))}
+            </div>
+            <div className="h-auto w-1/3 text-white font-dm mr-4">
+              <p className="font-bold text-2xl sm:text-4xl mb-4">Anggota Tim</p>
+              {detailsAgt.map((dt, index) => (
+                <DetailLabels label={dt.lb} content={dt.ct} key={index} />
+              ))}
+            </div>
+            <div className="h-auto w-1/3 text-white font-dm">
+              <p className="font-bold text-2xl sm:text-4xl mb-4">Berkas</p>
+              {detailsBks.map((dt, index) => (
+                <DetailLabels label={dt.lb} content={dt.ct} key={index} />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </PrivateRoute>
     </Layout>
   );
 }

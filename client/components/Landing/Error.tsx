@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function ComingSoon() {
+export default function Error() {
   return (
     <>
       <div className="h-hero min-h-screen bg-black-80 flex justify-center relative">
@@ -9,9 +9,10 @@ export default function ComingSoon() {
             className="font-bold italic text-5xl md:text-8xl flex justify-center"
             style={{ textShadow: "0 0 25px #7303C0" }}
           >
-            <span className="text-stroke text-center">COMING SOON</span>
+            <span className="text-stroke text-center">
+              Halaman Tidak Ditemukan
+            </span>
           </p>
-          <p>Halaman ini akan datang segera</p>
         </div>
         <Image
           src="/picture/pattern.svg"
