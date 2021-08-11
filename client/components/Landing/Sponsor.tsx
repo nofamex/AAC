@@ -11,12 +11,12 @@ export default function Sponsor() {
           <span className="text-stroke">SPONSOR KAMI</span>
         </p>
       </div>
-      <div className="w-3/5 min-h-sponsor max-h-screen bg-compe rounded-xl flex flex-col justify-center bg-opacity-30 py-4">
+      <div className="w-3/5 min-h-sponsor max-h-screen bg-white rounded-xl flex flex-col justify-center py-4">
         <SponsorRow>
           <SponsorLogo
             src="/picture/sponsor/Pelindo.png"
-            width="w-44"
-            height="h-10"
+            width="w-52"
+            height="h-14"
           />
           <SponsorLogo
             src="/picture/sponsor/Pegadaian.png"
