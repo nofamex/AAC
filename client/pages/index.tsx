@@ -5,6 +5,7 @@ import HeaderMobile from "@components/Landing/HeaderMobile";
 import Event from "@components/Landing/Event";
 import Timeline from "@components/Landing/Timeline";
 import ContactUs from "@components/Landing/ContactUs";
+import Sponsor from "@components/Landing/Sponsor";
 import { useScrollPosition } from "@hooks/useScrollPostion";
 import { useState } from "react";
 
@@ -28,6 +29,7 @@ export default function Home() {
       <Event />
       <Timeline />
       <ContactUs />
+      <Sponsor />
     </Layout>
   );
 }

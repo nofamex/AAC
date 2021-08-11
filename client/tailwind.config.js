@@ -59,6 +59,7 @@ module.exports = {
       },
       minHeight: {
         section: "44rem",
+        sponsor: "8rem",
       },
     },
   },
