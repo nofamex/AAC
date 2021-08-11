@@ -23,17 +23,17 @@ export default function Sponsor() {
             width="w-44"
             height="h-24"
           />
+          <SponsorLogo
+            src="/picture/sponsor/himalaya.png"
+            width="w-36"
+            height="h-10"
+          />
         </SponsorRow>
         <SponsorRow>
           <SponsorLogo
             src="/picture/sponsor/harisenin.png"
             width="w-28"
             height="h-4"
-          />
-          <SponsorLogo
-            src="/picture/sponsor/himalaya.png"
-            width="w-24"
-            height="h-8"
           />
           <SponsorLogo
             src="/picture/sponsor/GWLC.png"
