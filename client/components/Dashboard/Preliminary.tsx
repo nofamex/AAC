@@ -1,7 +1,12 @@
 import { HiDownload } from "react-icons/hi";
 import Countdown from "react-countdown";
 
-export default function Preliminary() {
+interface PreliminaryProps {
+  started: boolean;
+  phase: string;
+}
+
+export default function Preliminary({ started, phase }: PreliminaryProps) {
   const renderer = ({ days, hours, minutes }: any) => {
     return (
       <div className="flex font-dm font-bold text-3xl">
@@ -9,7 +14,7 @@ export default function Preliminary() {
           {days} <span className="mr-1 ml-1">:</span>
         </p>
         <p>
-          {hours} <span className="mr-1 ml-1">:</span>
+          {hours} <span className="mr-1+ ml-1">:</span>
         </p>
         <p>{minutes}</p>
       </div>
@@ -17,8 +22,8 @@ export default function Preliminary() {
   };
 
   return (
-    <div className="border-white border-2 rounded-lg w-full h-auto p-4">
-      <p className="font-bold text-lg">Babak Preliminary</p>
+    <div className="border-white border-2 rounded-lg w-full h-auto p-4 mt-4">
+      <p className="font-bold text-lg">Babak {phase}</p>
       <p className="text-lg mt-4">
         Akan dimulai tanggal <span className="font-bold">28 Agustus 2021</span>
       </p>
@@ -30,12 +35,16 @@ export default function Preliminary() {
         </span>
         Download
       </button>
-      <div className="flex flex-col justify-center items-center w-full h-auto mt-4">
-        <p className="font-bold text-white text-xl">Lomba sudah bisa dimulai</p>
-        <button className="rounded-2xl text-white font-bold text-xl px-16 py-3 mt-2 flex justify-center items-center bg-gradient-to-r from-persimmon to-orange">
-          Mulai {">"}
-        </button>
-      </div>
+      {started && (
+        <div className="flex flex-col justify-center items-center w-full h-auto mt-4">
+          <p className="font-bold text-white text-xl">
+            Lomba sudah bisa dimulai
+          </p>
+          <button className="rounded-2xl text-white font-bold text-xl px-16 py-3 mt-2 flex justify-center items-center bg-gradient-to-r from-persimmon to-orange">
+            Mulai {">"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

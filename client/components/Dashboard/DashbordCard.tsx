@@ -1,6 +1,7 @@
 import Button from "@components/Context/Button";
 import StatusBar from "@components/Dashboard/StatusBar";
 import Postliminary from "@components/Dashboard/Postliminary";
+import Preliminary from "./Preliminary";
 
 interface DashboardCardProps {
   status: string;
@@ -42,7 +43,8 @@ export default function DashboardCard({
           <Button text="Detail>" filled={false} handler={() => handler()} />
         </div>
       </div>
-      <Postliminary />
+      <Postliminary status="verified" />
+      <Preliminary started={false} phase="Elimination" />
     </div>
   );
 }
