@@ -2,7 +2,7 @@
 import Layout from "@components/Context/Layout";
 import PrivateRoute from "@components/Context/PrivateRoute";
 import api from "@lib/axios";
-import { StatusBar } from "../index";
+import StatusBar from "@components/Dashboard/StatusBar";
 import { useState, useEffect } from "react";
 
 export default function DashboardDetail() {

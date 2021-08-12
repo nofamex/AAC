@@ -1,14 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Layout from "@components/Context/Layout";
-import Button from "@components/Context/Button";
 import PrivateRoute from "@components/Context/PrivateRoute";
 import { getUser, logOut } from "@lib/auth";
 import api from "@lib/axios";
 import { IoMdExit } from "react-icons/io";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import Countdown from "react-countdown";
+import DashboardCard from "@components/Dashboard/DashbordCard";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -65,110 +63,16 @@ export default function Dashboard() {
               DASHBOARD
             </p>
             <div className="w-full flex-grow">
-              {!err ? (
-                <DashboardCard
-                  text={
-                    status.status === "berhasil"
-                      ? "Verifikasi Berhasil"
-                      : status.status === "ditolak"
-                      ? "Verifikasi Ditolak"
-                      : "Menunggu Verifikasi"
-                  }
-                  status={status.status}
-                  handler={() => router.push("/dashboard/detail/")}
-                  type={status.type}
-                />
-              ) : null}
+              <DashboardCard
+                text="Verifikasi Berhasil"
+                status="berhasil"
+                handler={() => router.push("/dashboard/detail/")}
+                type={status.type}
+              />
             </div>
           </div>
         </div>
       </PrivateRoute>
     </Layout>
-  );
-}
-
-interface StatusBarProps {
-  text: string;
-  type: string;
-}
-
-export function StatusBar({ text, type }: StatusBarProps) {
-  return (
-    <div
-      className={`h-6 w-auto ${
-        type === "berhasil"
-          ? "bg-success"
-          : type === "ditolak"
-          ? "bg-error"
-          : "bg-orange"
-      } p-4 flex items-center rounded-button text-xs sm:text-base font-normal`}
-    >
-      {text}
-    </div>
-  );
-}
-
-interface DashboardCardProps {
-  status: string;
-  text: string;
-  handler: Function;
-  type: string;
-}
-
-function DashboardCard({ status, text, handler, type }: DashboardCardProps) {
-  const waUNAC = "https://chat.whatsapp.com/HhJ2TF3YMA2CMlMO2NvzVS";
-  const waTAC = " https://chat.whatsapp.com/Fmyq6HtKlCqFM7vZymEE0t";
-
-  const renderer = ({ days, hours, minutes }: any) => {
-    return (
-      <div className="flex font-dm font-bold text-xl">
-        <p>
-          {days} <span className="mr-1 ml-1">:</span>
-        </p>
-        <p>
-          {hours} <span className="mr-1 ml-1">:</span>
-        </p>
-        <p>{minutes}</p>
-      </div>
-    );
-  };
-
-  return (
-    <div className="w-full h-auto sm:h-1/3 border-2 border-white rounded-xl mb-4 font-dm text-white p-4 flex flex-col sm:flex-row">
-      <div className="h-full w-2/3">
-        <p className="font-bold text-2xl mb-4">
-          {type === "unac" ? "UNAC" : "TAC"}
-        </p>
-        <p className="font-bold text-lg mb-4 flex flex-col sm:flex-row items-start sm:items-center">
-          STATUS
-          <span className="ml-0 sm:ml-8">
-            <StatusBar text={text} type={status} />
-          </span>
-        </p>
-        <p className="font-bold text-lg flex flex-col sm:flex-row items-start sm:items-center mb-4 sm:mb-0">
-          <span className="font-normal text-sm sm:text-base">
-            {status === "menunggu"
-              ? "Terima kasih telah mendaftar! Data anda sedang diverifikasi oleh panitia. Silahkan cek email secara berkala untuk informasi lebih lanjut!"
-              : status === "berhasil"
-              ? "Acara selanjutnya: Babak preliminary"
-              : "Cek email anda untuk keterangan tolakan"}
-          </span>
-        </p>
-        {status === "berhasil" && (
-          <>
-            <Countdown date={new Date(2021, 7, 28)} renderer={renderer} />
-            <p className="font-normal text-base">
-              Silahkan masuk grup whatsapp
-              <span className="text-blue-600 underline cursor-pointer ml-2">
-                <Link href={type === "unac" ? waUNAC : waTAC}>disini</Link>
-              </span>
-            </p>
-          </>
-        )}
-      </div>
-      <div className="flex justify-start sm:justify-center items-center w-full sm:w-1/3">
-        <Button text="Detail>" filled={false} handler={() => handler()} />
-      </div>
-    </div>
   );
 }
