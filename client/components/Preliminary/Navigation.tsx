@@ -30,7 +30,11 @@ export default function Navigation() {
         <div className="w-full h-auto flex flex-col">
           <div className="flex justify-center mb-2">
             {row1.map((r, i) => (
-              <Number key={`r1${i}`} nums={r} />
+              <Number
+                key={`r1${i}`}
+                nums={r}
+                selected={r === 2 ? true : false}
+              />
             ))}
           </div>
           <div className="flex justify-center mb-2">

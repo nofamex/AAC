@@ -1,7 +1,8 @@
 import Button from "@components/Context/Button";
 import Layout from "@components/Context/Layout";
 import Navigation from "@components/Preliminary/Navigation";
-import QuestionBox from "@components/Preliminary/QuestinBox";
+import QuestionBox from "@components/Preliminary/QuestionBox";
+import FillBox from "@components/Preliminary/FillBox";
 
 export default function PremsComps() {
   return (
@@ -19,13 +20,13 @@ export default function PremsComps() {
         <div className="w-full flex h-auto">
           <div className="h-auto w-9/12 p-2">
             <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-persimmon to-orange h-10 mb-2 text-center">
-              PAGE X OF XX
+              PAGE 2 OF 12
             </p>
             <QuestionBox num={11} difficulty="Easy" />
             <QuestionBox num={12} difficulty="Medium" />
             <QuestionBox num={13} difficulty="Hard" />
-            <QuestionBox num={14} difficulty="Easy" />
-            <QuestionBox num={15} difficulty="Medium" />
+            <FillBox num={14} difficulty="Easy" />
+            <FillBox num={15} difficulty="Medium" />
             <div className="w-full flex justify-end">
               <Button text="Lanjut >" filled={true} handler={() => {}} />
             </div>
