@@ -16,7 +16,8 @@ create table team (
 
   type varchar(5) not null,
   verified varchar(10) default 'menunggu' not null,
-  status_prelim varchar(10) default 'kosong' not null
+  status_prelim varchar(10) default 'kosong' not null,
+  status_elim varchar(10) default 'kosong' not null
 );
 
 -- user

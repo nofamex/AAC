@@ -140,6 +140,7 @@ type Team struct {
 	Type         string         `json:"type"`
 	Verified     string         `json:"verified"`
 	StatusPrelim string         `json:"status_prelim"`
+	StatusElim   string         `json:"status_elim"`
 }
 
 type User struct {

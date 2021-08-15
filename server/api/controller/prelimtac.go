@@ -80,6 +80,29 @@ func (u *PrelimTacController) Start(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(master)
 }
 
+func (u *PrelimTacController) Finish(c *fiber.Ctx) error {
+	token := c.Get("authorization")
+	token, err := u.tokenMaker.GetToken(token)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	payload, err := u.tokenMaker.VerifyToken(token)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	user, err := u.userService.GetUserById(int(payload.UserId))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "selesai")
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
+}
 // submit
 func (u *PrelimTacController) SubmitPg(c *fiber.Ctx) error {
 	token := c.Get("authorization")

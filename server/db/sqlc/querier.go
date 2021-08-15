@@ -33,6 +33,7 @@ type Querier interface {
 	SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error
 	UpdatePagePrelimTac(ctx context.Context, teamID int32) error
 	UpdatePagePrelimUnac(ctx context.Context, teamID int32) error
+	UpdatePrelimStatus(ctx context.Context, arg UpdatePrelimStatusParams) error
 	UpdateVerifiedStatus(ctx context.Context, arg UpdateVerifiedStatusParams) error
 }
 
