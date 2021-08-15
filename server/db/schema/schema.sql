@@ -46,3 +46,124 @@ create table member (
 
   foreign key (team_id) references team(id)
 );
+
+-- soal
+CREATE TABLE prelim_unac_pg (
+  id SERIAL PRIMARY KEY,
+  soal text not null,
+  pilihan1 text not null,
+  pilihan2 text not null,
+  pilihan3 text not null,
+  pilihan4 text not null,
+  jawaban int not null,
+  bobot int not null,
+  paket int not null
+);
+
+CREATE TABLE prelim_unac_isian (
+  id SERIAL PRIMARY KEY,
+  soal text not null,
+  jawaban text not null,
+  bobot int not null,
+  paket int not null
+);
+
+CREATE TABLE prelim_tac_pg (
+  id SERIAL PRIMARY KEY,
+  soal text not null,
+  pilihan1 text not null,
+  pilihan2 text not null,
+  pilihan3 text not null,
+  pilihan4 text not null,
+  jawaban int not null,
+  bobot int not null,
+  paket int not null
+);
+
+CREATE TABLE elim_unac_battle_of_sandwich (
+  id SERIAL PRIMARY KEY,
+  soal text not null,
+  pilihan1 text not null,
+  pilihan2 text not null,
+  pilihan3 text not null,
+  pilihan4 text not null,
+  jawaban int not null,
+  bobot int not null,
+  paket int not null
+);
+
+CREATE TABLE elim_unac_rescue_the_number (
+  id SERIAL PRIMARY KEY,
+  soal text,
+  jawaban text,
+  bobot int
+);
+
+-- logic
+CREATE TABLE prelim_unac_master (
+  id SERIAL PRIMARY KEY,
+  team_id int UNIQUE not null,
+  token varchar not null,
+  orders varchar not null,
+  paket int not null,
+  score int not null default 0,
+  last_page int not null default 1,
+  FOREIGN KEY (team_id) REFERENCES team (id)
+);
+
+CREATE TABLE prelim_tac_master (
+  id SERIAL PRIMARY KEY,
+  team_id int UNIQUE not null,
+  token varchar not null,
+  orders varchar not null,
+  paket int not null,
+  score int not null default 0,
+  last_page int not null default 1,
+  FOREIGN KEY (team_id) REFERENCES team (id)
+);
+
+-- jawaban
+CREATE TABLE prelim_unac_pg_jawaban (
+  id SERIAL PRIMARY KEY,
+  team_id int not null,
+  soal_id int not null unique,
+  jawaban int not null,
+  FOREIGN KEY (team_id) REFERENCES prelim_unac_master (team_id),
+  FOREIGN KEY (soal_id) REFERENCES prelim_unac_pg (id)
+);
+
+
+CREATE TABLE prelim_unac_isian_jawaban (
+  id SERIAL PRIMARY KEY,
+  team_id int not null,
+  soal_id int not null unique,
+  jawaban text not null,
+  FOREIGN KEY (team_id) REFERENCES prelim_unac_master (team_id),
+  FOREIGN KEY (soal_id) REFERENCES prelim_unac_isian (id)
+);
+
+
+CREATE TABLE prelim_tac_pg_jawaban (
+  id SERIAL PRIMARY KEY,
+  team_id int not null,
+  soal_id int not null unique,
+  jawaban int not null,
+  FOREIGN KEY (team_id) REFERENCES prelim_tac_master (team_id),
+  FOREIGN KEY (soal_id) REFERENCES prelim_tac_pg (id)
+);
+
+create table statistics (
+  id serial not null primary key,
+  tac_daftar integer,
+  tac_verif integer,
+  unac_daftar integer,
+  unac_verif integer
+);
+
+CREATE TABLE config (
+  id SERIAL PRIMARY KEY,
+  prelim_unac_start timestamp,
+  prelim_unac_stop timestamp,
+  prelim_tac_start timestamp,
+  prelim_tac_stop timestamp
+);

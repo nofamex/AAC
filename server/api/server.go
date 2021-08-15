@@ -2,9 +2,11 @@ package api
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/nofamex/AAC/server/api/controller"
 	"github.com/nofamex/AAC/server/api/middleware"
 	db "github.com/nofamex/AAC/server/db/sqlc"
@@ -39,6 +41,10 @@ func NewServer(config util.Config, querier db.Querier) (*Server, error) {
 func (server *Server) setupRouter() {
 	router := fiber.New()
 	router.Use(cors.New(cors.ConfigDefault))
+	router.Use(logger.New(logger.Config{
+		Format: "[${time}] ${method} |${status}| - ${path} | ${latency}\n",
+		Output: os.Stdout,
+	}))
 
 	router.Get("/", func(ctx *fiber.Ctx) error {
 		return ctx.SendString("test")
@@ -46,6 +52,10 @@ func (server *Server) setupRouter() {
 	// routing goes here
 	api := router.Group("/api")
 	v1 := api.Group("/v1")
+
+	config := v1.Group("config")
+	configCtrl := controller.NewConfigController(server.query, server.tokenMaker, server.config)
+	config.Get("/time", configCtrl.Time)
 
 	userCtrl := controller.NewUserController(server.query, server.tokenMaker, server.config)
 	auth := v1.Group("/auth")
@@ -65,27 +75,27 @@ func (server *Server) setupRouter() {
 	admin := v1.Group("/admin", middleware.AdminMiddleware(server.tokenMaker))
 	admin.Get("/teams", adminCtrl.GetTeams)
 	admin.Get("/verify", adminCtrl.Verify)
+
+	prelim := v1.Group("/prelim", middleware.AuthMiddleware(server.tokenMaker))
+	unacPrelim := prelim.Group("unac")
+
+	unacPrelimCtrl := controller.NewPrelimUnacController(server.query, server.tokenMaker, server.config)
+	unacPrelim.Post("start", unacPrelimCtrl.Start)
+	unacPrelim.Get("soal", unacPrelimCtrl.GetSoal)
+	unacPrelim.Get("next", unacPrelimCtrl.NextPage)
+	unacPrelim.Post("submit-pg", unacPrelimCtrl.SubmitPg)
+	unacPrelim.Post("submit-isian", unacPrelimCtrl.SubmitIsian)
+
+	tacPrelimCtrl := controller.NewPrelimTacController(server.query, server.tokenMaker, server.config)
+	tacPrelim := prelim.Group("tac")
+	tacPrelim.Post("start", tacPrelimCtrl.Start)
+	tacPrelim.Get("soal", tacPrelimCtrl.GetSoal)
+	tacPrelim.Get("next", tacPrelimCtrl.NextPage)
+	tacPrelim.Post("submit-pg", tacPrelimCtrl.SubmitPg)
 	server.router = router
 }
 
 func (server *Server) StartServer(adress string) error {
-
-	// server.router.Use(cors.New(cors.Config{
-	// 	AllowHeaders:     "Origin, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Origin, Authorization, X-Requested-With",
-	// 	AllowOrigins:     "http://localhost:3000, https://www.aacunair.id",
-	// 	AllowCredentials: true,
-	// 	AllowMethods:     "GET,POST,PUT,DELETE,PATCH",
-	// 	ExposeHeaders:    "Origin",
-	// }))
-
-	// corsSettings := cors.New(cors.Config{
-	// 	AllowOrigins:  "*",
-	// 	AllowMethods:  "GET,POST,HEAD, OPTIONS, PUT, DELETE, PATCH",
-	// 	AllowHeaders:  "Origin, Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization",
-	// 	ExposeHeaders: "Origin",
-	// })
-
-	// server.router.Use(corsSettings)
 
 	return server.router.Listen(adress)
 }

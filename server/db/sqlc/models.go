@@ -7,6 +7,33 @@ import (
 	"time"
 )
 
+type Config struct {
+	ID              int32        `json:"id"`
+	PrelimUnacStart sql.NullTime `json:"prelim_unac_start"`
+	PrelimUnacStop  sql.NullTime `json:"prelim_unac_stop"`
+	PrelimTacStart  sql.NullTime `json:"prelim_tac_start"`
+	PrelimTacStop   sql.NullTime `json:"prelim_tac_stop"`
+}
+
+type ElimUnacBattleOfSandwich struct {
+	ID       int32  `json:"id"`
+	Soal     string `json:"soal"`
+	Pilihan1 string `json:"pilihan1"`
+	Pilihan2 string `json:"pilihan2"`
+	Pilihan3 string `json:"pilihan3"`
+	Pilihan4 string `json:"pilihan4"`
+	Jawaban  int32  `json:"jawaban"`
+	Bobot    int32  `json:"bobot"`
+	Paket    int32  `json:"paket"`
+}
+
+type ElimUnacRescueTheNumber struct {
+	ID      int32          `json:"id"`
+	Soal    sql.NullString `json:"soal"`
+	Jawaban sql.NullString `json:"jawaban"`
+	Bobot   sql.NullInt32  `json:"bobot"`
+}
+
 type Member struct {
 	ID           int32          `json:"id"`
 	FullName     string         `json:"full_name"`
@@ -15,6 +42,87 @@ type Member struct {
 	Nisn         sql.NullString `json:"nisn"`
 	TeamID       int32          `json:"team_id"`
 	MemberNumber int32          `json:"member_number"`
+}
+
+type PrelimTacMaster struct {
+	ID       int32  `json:"id"`
+	TeamID   int32  `json:"team_id"`
+	Token    string `json:"token"`
+	Orders   string `json:"orders"`
+	Paket    int32  `json:"paket"`
+	Score    int32  `json:"score"`
+	LastPage int32  `json:"last_page"`
+}
+
+type PrelimTacPg struct {
+	ID       int32  `json:"id"`
+	Soal     string `json:"soal"`
+	Pilihan1 string `json:"pilihan1"`
+	Pilihan2 string `json:"pilihan2"`
+	Pilihan3 string `json:"pilihan3"`
+	Pilihan4 string `json:"pilihan4"`
+	Jawaban  int32  `json:"jawaban"`
+	Bobot    int32  `json:"bobot"`
+	Paket    int32  `json:"paket"`
+}
+
+type PrelimTacPgJawaban struct {
+	ID      int32 `json:"id"`
+	TeamID  int32 `json:"team_id"`
+	SoalID  int32 `json:"soal_id"`
+	Jawaban int32 `json:"jawaban"`
+}
+
+type PrelimUnacIsian struct {
+	ID      int32  `json:"id"`
+	Soal    string `json:"soal"`
+	Jawaban string `json:"jawaban"`
+	Bobot   int32  `json:"bobot"`
+	Paket   int32  `json:"paket"`
+}
+
+type PrelimUnacIsianJawaban struct {
+	ID      int32  `json:"id"`
+	TeamID  int32  `json:"team_id"`
+	SoalID  int32  `json:"soal_id"`
+	Jawaban string `json:"jawaban"`
+}
+
+type PrelimUnacMaster struct {
+	ID       int32  `json:"id"`
+	TeamID   int32  `json:"team_id"`
+	Token    string `json:"token"`
+	Orders   string `json:"orders"`
+	Paket    int32  `json:"paket"`
+	Score    int32  `json:"score"`
+	LastPage int32  `json:"last_page"`
+}
+
+type PrelimUnacPg struct {
+	ID       int32  `json:"id"`
+	Soal     string `json:"soal"`
+	Pilihan1 string `json:"pilihan1"`
+	Pilihan2 string `json:"pilihan2"`
+	Pilihan3 string `json:"pilihan3"`
+	Pilihan4 string `json:"pilihan4"`
+	Jawaban  int32  `json:"jawaban"`
+	Bobot    int32  `json:"bobot"`
+	Paket    int32  `json:"paket"`
+}
+
+type PrelimUnacPgJawaban struct {
+	ID      int32 `json:"id"`
+	TeamID  int32 `json:"team_id"`
+	SoalID  int32 `json:"soal_id"`
+	Jawaban int32 `json:"jawaban"`
+}
+
+type Statistic struct {
+	ID         int32         `json:"id"`
+	TacDaftar  sql.NullInt32 `json:"tac_daftar"`
+	TacVerif   sql.NullInt32 `json:"tac_verif"`
+	UnacDaftar sql.NullInt32 `json:"unac_daftar"`
+	UnacVerif  sql.NullInt32 `json:"unac_verif"`
 }
 
 type Team struct {
