@@ -2,8 +2,9 @@
 import Layout from "@components/Context/Layout";
 import PrivateRoute from "@components/Context/PrivateRoute";
 import api from "@lib/axios";
-import { StatusBar } from "../index";
+import StatusBar from "@components/Dashboard/StatusBar";
 import { useState, useEffect } from "react";
+import Loader from "@components/Context/Loader";
 
 export default function DashboardDetail() {
   const [status, setStatus] = useState({
@@ -26,11 +27,16 @@ export default function DashboardDetail() {
     type: "",
   });
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function data() {
       api
         .get("/competition/profile")
-        .then((res) => setStatus(res.data))
+        .then((res) => {
+          setStatus(res.data);
+          setLoading(false);
+        })
         .catch((err) => console.log(err));
     }
     data();
@@ -89,6 +95,10 @@ export default function DashboardDetail() {
       { lb: "KTM PESERTA", ct: status.card_link },
       { lb: "SURAT KETERANGAN MAHASISWA AKTIF", ct: status.sk_link },
     ];
+  }
+
+  if (loading) {
+    return <Loader height="h-screen" />;
   }
 
   return (

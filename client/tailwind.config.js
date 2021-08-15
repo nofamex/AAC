@@ -60,6 +60,7 @@ module.exports = {
       minHeight: {
         section: "44rem",
         sponsor: "8rem",
+        questionBox: "16rem",
       },
     },
   },
