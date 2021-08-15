@@ -126,30 +126,33 @@ CREATE TABLE prelim_tac_master (
 CREATE TABLE prelim_unac_pg_jawaban (
   id SERIAL PRIMARY KEY,
   team_id int not null,
-  soal_id int not null unique,
+  soal_id int not null,
   jawaban int not null,
   FOREIGN KEY (team_id) REFERENCES prelim_unac_master (team_id),
-  FOREIGN KEY (soal_id) REFERENCES prelim_unac_pg (id)
+  FOREIGN KEY (soal_id) REFERENCES prelim_unac_pg (id),
+  UNIQUE(team_id, soal_id)
 );
 
 
 CREATE TABLE prelim_unac_isian_jawaban (
   id SERIAL PRIMARY KEY,
   team_id int not null,
-  soal_id int not null unique,
+  soal_id int not null,
   jawaban text not null,
   FOREIGN KEY (team_id) REFERENCES prelim_unac_master (team_id),
-  FOREIGN KEY (soal_id) REFERENCES prelim_unac_isian (id)
+  FOREIGN KEY (soal_id) REFERENCES prelim_unac_isian (id),
+  UNIQUE(team_id, soal_id)
 );
 
 
 CREATE TABLE prelim_tac_pg_jawaban (
   id SERIAL PRIMARY KEY,
   team_id int not null,
-  soal_id int not null unique,
+  soal_id int not null,
   jawaban int not null,
   FOREIGN KEY (team_id) REFERENCES prelim_tac_master (team_id),
-  FOREIGN KEY (soal_id) REFERENCES prelim_tac_pg (id)
+  FOREIGN KEY (soal_id) REFERENCES prelim_tac_pg (id),
+  UNIQUE(team_id, soal_id)
 );
 
 create table statistics (

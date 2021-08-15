@@ -29,7 +29,7 @@ INSERT INTO prelim_unac_pg_jawaban (
 ) VALUES (
   $1, $2, $3
 )
-ON CONFLICT (soal_id) DO UPDATE SET jawaban = EXCLUDED.jawaban;
+ON CONFLICT (team_id, soal_id) DO UPDATE SET jawaban = EXCLUDED.jawaban;
 
 -- name: CreatePrelimUnacIsianJawaban :exec
 INSERT INTO prelim_unac_isian_jawaban (
@@ -39,7 +39,7 @@ INSERT INTO prelim_unac_isian_jawaban (
 ) VALUES (
   $1, $2, $3
 )
-ON CONFLICT (soal_id) DO UPDATE SET jawaban = EXCLUDED.jawaban;;
+ON CONFLICT (team_id, soal_id) DO UPDATE SET jawaban = EXCLUDED.jawaban;;
 
 -- name: GetPagePrelimUnac :one
 SELECT last_page FROM prelim_unac_master

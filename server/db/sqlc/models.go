@@ -28,10 +28,10 @@ type ElimUnacBattleOfSandwich struct {
 }
 
 type ElimUnacRescueTheNumber struct {
-	ID      int32          `json:"id"`
-	Soal    sql.NullString `json:"soal"`
-	Jawaban sql.NullString `json:"jawaban"`
-	Bobot   sql.NullInt32  `json:"bobot"`
+	ID      int32  `json:"id"`
+	Soal    string `json:"soal"`
+	Jawaban string `json:"jawaban"`
+	Bobot   int32  `json:"bobot"`
 }
 
 type Member struct {

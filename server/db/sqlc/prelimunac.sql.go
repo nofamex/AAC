@@ -56,7 +56,7 @@ INSERT INTO prelim_unac_isian_jawaban (
 ) VALUES (
   $1, $2, $3
 )
-ON CONFLICT (soal_id) DO UPDATE SET jawaban = EXCLUDED.jawaban
+ON CONFLICT (team_id, soal_id) DO UPDATE SET jawaban = EXCLUDED.jawaban
 `
 
 type CreatePrelimUnacIsianJawabanParams struct {
@@ -78,7 +78,7 @@ INSERT INTO prelim_unac_pg_jawaban (
 ) VALUES (
   $1, $2, $3
 )
-ON CONFLICT (soal_id) DO UPDATE SET jawaban = EXCLUDED.jawaban
+ON CONFLICT (team_id, soal_id) DO UPDATE SET jawaban = EXCLUDED.jawaban
 `
 
 type CreatePrelimUnacPgJawabanParams struct {
