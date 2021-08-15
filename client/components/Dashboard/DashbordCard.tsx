@@ -7,6 +7,7 @@ interface DashboardCardProps {
   text: string;
   handler: Function;
   type: string;
+  prelimStatus: string;
 }
 
 export default function DashboardCard({
@@ -14,6 +15,7 @@ export default function DashboardCard({
   text,
   handler,
   type,
+  prelimStatus,
 }: DashboardCardProps) {
   return (
     <div className="w-full h-auto sm:h-1/3 border-2 border-white rounded-xl mb-4 font-dm text-white p-4 flex flex-col">
@@ -42,7 +44,13 @@ export default function DashboardCard({
           <Button text="Detail>" filled={false} handler={() => handler()} />
         </div>
       </div>
-      {status === "berhasil" && <Preliminary phase="Preliminary" type={type} />}
+      {status === "berhasil" && (
+        <Preliminary
+          phase="Preliminary"
+          type={type}
+          statusPrelim={prelimStatus}
+        />
+      )}
     </div>
   );
 }
