@@ -253,6 +253,7 @@ func (u *PrelimUnacController) GetSoal(c *fiber.Ctx) error {
 				Soal:  soal.Soal,
 				Bobot: int(soal.Bobot),
 			})
+			resPage.Paket = int(soal.Paket)
 		}
 		resPage.Body = res
 		return c.Status(http.StatusOK).JSON(resPage)

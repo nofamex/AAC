@@ -15,7 +15,8 @@ create table team (
   sk_link varchar(255),
 
   type varchar(5) not null,
-  verified varchar(10) default 'menunggu' not null
+  verified varchar(10) default 'menunggu' not null,
+  status_prelim varchar(10) default 'kosong' not null
 );
 
 -- user

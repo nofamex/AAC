@@ -126,19 +126,20 @@ type Statistic struct {
 }
 
 type Team struct {
-	ID          int32          `json:"id"`
-	TeamName    string         `json:"team_name"`
-	University  string         `json:"university"`
-	FullName    string         `json:"full_name"`
-	Phone       string         `json:"phone"`
-	IDLine      string         `json:"id_line"`
-	Email       string         `json:"email"`
-	PhotoLink   string         `json:"photo_link"`
-	PaymentLink string         `json:"payment_link"`
-	CardLink    string         `json:"card_link"`
-	SkLink      sql.NullString `json:"sk_link"`
-	Type        string         `json:"type"`
-	Verified    string         `json:"verified"`
+	ID           int32          `json:"id"`
+	TeamName     string         `json:"team_name"`
+	University   string         `json:"university"`
+	FullName     string         `json:"full_name"`
+	Phone        string         `json:"phone"`
+	IDLine       string         `json:"id_line"`
+	Email        string         `json:"email"`
+	PhotoLink    string         `json:"photo_link"`
+	PaymentLink  string         `json:"payment_link"`
+	CardLink     string         `json:"card_link"`
+	SkLink       sql.NullString `json:"sk_link"`
+	Type         string         `json:"type"`
+	Verified     string         `json:"verified"`
+	StatusPrelim string         `json:"status_prelim"`
 }
 
 type User struct {
