@@ -1,6 +1,6 @@
+import Button from "@components/Context/Button";
+import { isAuthenticated } from "@lib/auth";
 import Image from "next/image";
-import { isAuthenticated } from "../lib/auth";
-import Button from "./Button";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 

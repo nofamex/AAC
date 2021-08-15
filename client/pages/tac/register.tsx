@@ -1,14 +1,15 @@
-import Layout from "../../components/Layout";
+import Layout from "@components/Context/Layout";
+import Button from "@components/Context/Button";
+import DangerModal from "@components/Modal/DangerModal";
+import Orb from "@components/Context/Orb";
+import PrivateRoute from "@components/Context/PrivateRoute";
+import api from "@lib/axios";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/router";
-import Button from "../../components/Button";
-import { useState } from "react";
-import DangerModal from "../../components/DangerModal";
-import Orb from "../../components/Orb";
+import { useState, useEffect } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import api from "../../lib/axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -19,6 +20,24 @@ export default function Register() {
 
   const [show, setShow] = useState(false);
   const [showPM, setShowPM] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  useEffect(() => {
+    async function data() {
+      api
+        .get("/competition/profile")
+        .then(() => setIsRegistered(true))
+        .catch(() => setIsRegistered(false));
+    }
+    data();
+  }, []);
+
+  if (isRegistered) {
+    toast.error("Anda sudah terdaftar pada salah satu kompetisi");
+    setTimeout(() => {
+      router.push("/");
+    }, 2000);
+  }
 
   const teamButtonHandler = () => {
     router.replace("/tac/register?type=anggota");
@@ -41,30 +60,33 @@ export default function Register() {
   };
 
   const submitHandler = async (data: any) => {
+    const date1 = new Date(data.tanggalLahirAnggota1);
+    date1.setDate(date1.getDate() + 1);
+
+    const date2 = new Date(data.tanggalLahirAnggota2);
+    date2.setDate(date2.getDate() + 1);
+
+    const date3 = new Date(data.tanggalLahirAnggota3);
+    date3.setDate(date3.getDate() + 1);
+
     data.type = "tac";
     data.members = [
       {
         full_name: data.namaAnggota1,
         birth_place: data.tempatLahirAnggota1,
-        birth_date: new Date(
-          data.tanggalLahirAnggota1 || "2000-12-12"
-        ).toISOString(),
+        birth_date: date1,
         member_number: 1,
       },
       {
         full_name: data.namaAnggota2,
         birth_place: data.tempatLahirAnggota2,
-        birth_date: new Date(
-          data.tanggalLahirAnggota2 || "2000-12-12"
-        ).toISOString(),
+        birth_date: date2,
         member_number: 2,
       },
       {
         full_name: data.namaAnggota3,
         birth_place: data.tempatLahirAnggota3,
-        birth_date: new Date(
-          data.tanggalLahirAnggota3 || "2000-12-12"
-        ).toISOString(),
+        birth_date: date3,
         member_number: 3,
       },
     ];
@@ -87,9 +109,14 @@ export default function Register() {
         }, 2000);
       })
       .catch((err) => {
-        console.log(err.response.data.message.split("'")[3]);
-        const error = errorController(err.response.data.message.split("'")[3]);
-        toast.error(error);
+        if (typeof err.response.data.message.split("'")[3] === "undefined") {
+          toast.error("Sudah ada tim dengan nama tersebut");
+        } else {
+          const error = errorController(
+            err.response.data.message.split("'")[3]
+          );
+          toast.error(error);
+        }
       });
 
     setShow(false);
@@ -124,235 +151,247 @@ export default function Register() {
 
   return (
     <Layout>
-      <div className="h-16 w-full bg-black-80"></div>
-      <div className="h-auto w-full bg-black-80 flex flex-col justify-center items-center font-dm relative">
-        {show && (
-          <DangerModal
-            submit={handleSubmit(submitHandler)}
-            closeHandler={() => setShow(false)}
-          />
-        )}
-        {showPM && <PembayaranModal closeHandler={() => setShowPM(false)} />}
-        <div className="h-20 w-full text-white flex justify-center items-center mb-8">
-          <p
-            className="font-bold italic text-xl sm:text-3xl md:text-4xl flex justify-center"
-            style={{ textShadow: "0 0 25px #7303C0" }}
-          >
-            <span className="text-stroke text-center">REGISTRASI TAC</span>
-          </p>
-        </div>
-        <div className="h-20 w-full flex justify-center font-dm mb-8">
-          <Orb
-            active={typeof type === "undefined" || type === "team"}
-            title="Identitas Tim"
-            left="-left-4"
-          />
-          <div className="h-6 w-16 py-2.5">
-            <div className="w-full h-full bg-orange"></div>
-          </div>
-          <Orb active={type === "anggota"} title="Anggota Tim" left="-left-4" />
-          <div className="h-6 w-16 py-2.5">
-            <div className="w-full h-full bg-orange"></div>
-          </div>
-          <Orb active={type === "berkas"} title="Berkas" left="-left-2" />
-        </div>
-        <form
-          className="flex flex-col w-1/2"
-          onSubmit={handleSubmit(submitHandler)}
-        >
-          {(typeof type === "undefined" || type === "team") && (
-            <motion.div
-              className="w-full"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-            >
-              {forms1.map((form, index) => (
-                <div className="w-full" key={index}>
-                  <p className="text-white font-bold text-sm mb-1">{form.lb}</p>
-                  <p className="text-white text-sm mb-1">* Wajib diisi</p>
-                  <input
-                    {...register(form.rg)}
-                    placeholder={form.pc}
-                    type={form.tp}
-                    required
-                    className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
-                  />
-                </div>
-              ))}
-            </motion.div>
+      <PrivateRoute>
+        <div className="h-16 w-full bg-black-80"></div>
+        <div className="h-auto w-full bg-black-80 flex flex-col justify-center items-center font-dm relative">
+          {show && (
+            <DangerModal
+              submit={handleSubmit(submitHandler)}
+              closeHandler={() => setShow(false)}
+            />
           )}
-          {type === "anggota" && (
-            <motion.div
-              className="w-full"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
+          {showPM && <PembayaranModal closeHandler={() => setShowPM(false)} />}
+          <div className="h-20 w-full text-white flex justify-center items-center mb-8">
+            <p
+              className="font-bold italic text-xl sm:text-3xl md:text-4xl flex justify-center"
+              style={{ textShadow: "0 0 25px #7303C0" }}
             >
-              {forms2.map((form, index) => (
-                <div className="w-full" key={index}>
-                  <div className="w-full">
-                    <p className="text-white font-bold text-lg mb-4">
-                      {form.hr}
-                    </p>
+              <span className="text-stroke text-center">REGISTRASI TAC</span>
+            </p>
+          </div>
+          <div className="h-20 w-full flex justify-center font-dm mb-8">
+            <Orb
+              active={typeof type === "undefined" || type === "team"}
+              title="Identitas Tim"
+              left="-left-4"
+            />
+            <div className="h-6 w-16 py-2.5">
+              <div className="w-full h-full bg-orange"></div>
+            </div>
+            <Orb
+              active={type === "anggota"}
+              title="Anggota Tim"
+              left="-left-4"
+            />
+            <div className="h-6 w-16 py-2.5">
+              <div className="w-full h-full bg-orange"></div>
+            </div>
+            <Orb active={type === "berkas"} title="Berkas" left="-left-2" />
+          </div>
+          <form
+            className="flex flex-col w-1/2"
+            onSubmit={handleSubmit(submitHandler)}
+          >
+            {(typeof type === "undefined" || type === "team") && (
+              <motion.div
+                className="w-full"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+              >
+                {forms1.map((form, index) => (
+                  <div className="w-full" key={index}>
                     <p className="text-white font-bold text-sm mb-1">
                       {form.lb}
                     </p>
                     <p className="text-white text-sm mb-1">* Wajib diisi</p>
                     <input
-                      {...register(`namaAnggota${index + 1}`)}
-                      placeholder={`Masukkan nama anggota ${index + 1}..`}
-                      type={"text"}
+                      {...register(form.rg)}
+                      placeholder={form.pc}
+                      type={form.tp}
                       required
                       className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
                     />
-                    <p className="text-white font-bold text-sm mb-1">
-                      TEMPAT TANGGAL LAHIR
+                  </div>
+                ))}
+              </motion.div>
+            )}
+            {type === "anggota" && (
+              <motion.div
+                className="w-full"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+              >
+                {forms2.map((form, index) => (
+                  <div className="w-full" key={index}>
+                    <div className="w-full">
+                      <p className="text-white font-bold text-lg mb-4">
+                        {form.hr}
+                      </p>
+                      <p className="text-white font-bold text-sm mb-1">
+                        {form.lb}
+                      </p>
+                      <p className="text-white text-sm mb-1">* Wajib diisi</p>
+                      <input
+                        {...register(`namaAnggota${index + 1}`)}
+                        placeholder={`Masukkan nama anggota ${index + 1}..`}
+                        type={"text"}
+                        required
+                        className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+                      />
+                      <p className="text-white font-bold text-sm mb-1">
+                        TEMPAT TANGGAL LAHIR
+                      </p>
+                      <p className="text-white text-sm mb-1">* Wajib diisi</p>
+                    </div>
+                    <div className="w-full mb-2 flex">
+                      <input
+                        {...register(`tempatLahirAnggota${index + 1}`)}
+                        placeholder="Tempat lahir.."
+                        type={"text"}
+                        required
+                        className="mr-4 bg-black-80 border-white border-2 h-10 w-1/2 p-2 rounded-lg focus:outline-none text-white"
+                      />
+                      <Controller
+                        control={control}
+                        name={`tanggalLahirAnggota${index + 1}`}
+                        render={({ field }) => (
+                          <DatePicker
+                            placeholderText="Tanggal lahir.."
+                            onChange={(date) => field.onChange(date)}
+                            selected={field.value}
+                            showYearDropdown={true}
+                            wrapperClassName="w-1/2"
+                            className="bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+            {type === "berkas" && (
+              <motion.div
+                className="w-full"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+              >
+                <div className="h-28 w-full flex justify-center mb-8">
+                  <div className="w-full xl:w-1/2 h-full border-2 border-white rounded-xl font-dm text-white text-xs md:text-sm p-4 flex flex-col justify-center overflow-y-scroll md:overflow-y-visible">
+                    <p className="mb-2">
+                      - Masukkan file ZIP ke dalam Google Drive dan share link
+                      file tersebut ke dalam kolom berikut.
                     </p>
-                    <p className="text-white text-sm mb-1">* Wajib diisi</p>
-                  </div>
-                  <div className="w-full mb-2 flex">
-                    <input
-                      {...register(`tempatLahirAnggota${index + 1}`)}
-                      placeholder="Tempat lahir.."
-                      type={"text"}
-                      required
-                      className="mr-4 bg-black-80 border-white border-2 h-10 w-1/2 p-2 rounded-lg focus:outline-none text-white"
-                    />
-                    <Controller
-                      control={control}
-                      name={`tanggalLahirAnggota${index + 1}`}
-                      render={({ field }) => (
-                        <DatePicker
-                          placeholderText="Tanggal lahir.."
-                          onChange={(date) => field.onChange(date)}
-                          selected={field.value}
-                          showYearDropdown={true}
-                          wrapperClassName="w-1/2"
-                          className="bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
-                        />
-                      )}
-                    />
+                    <p>
+                      - Pastikan Link Sharing berada dalam Can Be Viewed by
+                      Anyone with The Link.
+                    </p>
                   </div>
                 </div>
-              ))}
-            </motion.div>
+                <div className="w-full">
+                  <p className="text-white font-bold text-sm mb-1">
+                    PAS FOTO PESERTA
+                  </p>
+                  <p className="text-white text-sm mb-1">
+                    * Semua pas foto disatukan kedalam satu zip
+                  </p>
+                  <p className="text-white text-sm mb-1">
+                    * Setiap foto diberi nama sesuai anggotanya
+                  </p>
+                  <input
+                    {...register("photo_link")}
+                    placeholder="Masukkan link file foto peserta, Format: https://linkanda.com"
+                    type="text"
+                    required
+                    className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+                  />
+                </div>
+                <div className="w-full">
+                  <p className="text-white font-bold text-sm mb-1 flex flex-col md:flex-row">
+                    BUKTI PEMBAYARAN
+                    <span
+                      className="text-orange font-normal ml-0 md:ml-auto underline cursor-pointer"
+                      onClick={() => setShowPM(true)}
+                    >
+                      Keterangan cara pembayaran
+                    </span>
+                  </p>
+                  <input
+                    {...register("payment_link")}
+                    placeholder="Masukkan link bukti pembayaran, Format: https://linkanda.com"
+                    type="text"
+                    required
+                    className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+                  />
+                </div>
+                <div className="w-full">
+                  <p className="text-white font-bold text-sm mb-1">
+                    KARTU TANDA PELAJAR PESERTA
+                  </p>
+                  <p className="text-white text-sm mb-1">
+                    * Semua pas foto kartu disatukan kedalam satu zip
+                  </p>
+                  <input
+                    {...register("card_link")}
+                    placeholder="Masukkan link file KARTU TANDA PELAJAR peserta, Format: https://linkanda.com"
+                    type="text"
+                    required
+                    className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+                  />
+                </div>
+              </motion.div>
+            )}
+          </form>
+
+          {(typeof type === "undefined" || type === "team") && (
+            <div className="w-1/2 mt-4 flex justify-center sm:justify-end">
+              <Button
+                filled={false}
+                text="Lanjut>"
+                handler={teamButtonHandler}
+              />
+            </div>
           )}
+
+          {type === "anggota" && (
+            <div className="w-1/2 mt-4 flex flex-col sm:flex-row items-center sm:justify-between">
+              <div className="mb-2 sm:mb-0">
+                <Button
+                  filled={false}
+                  text="<Sebelum"
+                  handler={anggotaPreviousButtonHandler}
+                />
+              </div>
+              <div>
+                <Button
+                  filled={false}
+                  text="Lanjut>"
+                  handler={anggotaNextButtonHandler}
+                />
+              </div>
+            </div>
+          )}
+
           {type === "berkas" && (
-            <motion.div
-              className="w-full"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-            >
-              <div className="h-28 w-full flex justify-center mb-8">
-                <div className="w-full xl:w-1/2 h-full border-2 border-white rounded-xl font-dm text-white text-xs md:text-sm p-4 flex flex-col justify-center overflow-y-scroll md:overflow-y-visible">
-                  <p className="mb-2">
-                    - Masukkan file ZIP ke dalam Google Drive dan share link
-                    file tersebut ke dalam kolom berikut.
-                  </p>
-                  <p>
-                    - Pastikan Link Sharing berada dalam Can Be Viewed by Anyone
-                    with The Link.
-                  </p>
-                </div>
-              </div>
-              <div className="w-full">
-                <p className="text-white font-bold text-sm mb-1">
-                  PAS FOTO PESERTA
-                </p>
-                <p className="text-white text-sm mb-1">
-                  * Semua pas foto disatukan kedalam satu zip
-                </p>
-                <p className="text-white text-sm mb-1">
-                  * Setiap foto diberi nama sesuai anggotanya
-                </p>
-                <input
-                  {...register("photo_link")}
-                  placeholder="Masukkan link file foto peserta, Format: https://linkanda.com"
-                  type="text"
-                  required
-                  className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+            <div className="w-1/2 mt-4 flex flex-col sm:flex-row items-center sm:justify-between">
+              <div className="mb-2 sm:mb-0">
+                <Button
+                  filled={false}
+                  text="<Sebelum"
+                  handler={berkasPreviousButtonHandler}
                 />
               </div>
-              <div className="w-full">
-                <p className="text-white font-bold text-sm mb-1 flex flex-col md:flex-row">
-                  BUKTI PEMBAYARAN
-                  <span
-                    className="text-orange font-normal ml-0 md:ml-auto underline cursor-pointer"
-                    onClick={() => setShowPM(true)}
-                  >
-                    Keterangan cara pembayaran
-                  </span>
-                </p>
-                <input
-                  {...register("payment_link")}
-                  placeholder="Masukkan link bukti pembayaran, Format: https://linkanda.com"
-                  type="text"
-                  required
-                  className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
+              <div>
+                <Button
+                  filled={true}
+                  text="Lanjut>"
+                  handler={berkasNextButtonHandler}
                 />
               </div>
-              <div className="w-full">
-                <p className="text-white font-bold text-sm mb-1">
-                  KARTU TANDA PELAJAR PESERTA
-                </p>
-                <p className="text-white text-sm mb-1">
-                  * Semua pas foto kartu disatukan kedalam satu zip
-                </p>
-                <input
-                  {...register("card_link")}
-                  placeholder="Masukkan link file KARTU TANDA PELAJAR peserta, Format: https://linkanda.com"
-                  type="text"
-                  required
-                  className="mb-4 bg-black-80 border-white border-2 h-10 w-full p-2 rounded-lg focus:outline-none text-white"
-                />
-              </div>
-            </motion.div>
+            </div>
           )}
-        </form>
-
-        {(typeof type === "undefined" || type === "team") && (
-          <div className="w-1/2 mt-4 flex justify-center sm:justify-end">
-            <Button filled={false} text="Lanjut>" handler={teamButtonHandler} />
-          </div>
-        )}
-
-        {type === "anggota" && (
-          <div className="w-1/2 mt-4 flex flex-col sm:flex-row items-center sm:justify-between">
-            <div className="mb-2 sm:mb-0">
-              <Button
-                filled={false}
-                text="<Sebelum"
-                handler={anggotaPreviousButtonHandler}
-              />
-            </div>
-            <div>
-              <Button
-                filled={false}
-                text="Lanjut>"
-                handler={anggotaNextButtonHandler}
-              />
-            </div>
-          </div>
-        )}
-
-        {type === "berkas" && (
-          <div className="w-1/2 mt-4 flex flex-col sm:flex-row items-center sm:justify-between">
-            <div className="mb-2 sm:mb-0">
-              <Button
-                filled={false}
-                text="<Sebelum"
-                handler={berkasPreviousButtonHandler}
-              />
-            </div>
-            <div>
-              <Button
-                filled={true}
-                text="Lanjut>"
-                handler={berkasNextButtonHandler}
-              />
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      </PrivateRoute>
     </Layout>
   );
 }

@@ -1,12 +1,13 @@
 // @ts-nocheck
-import HeaderVideo from "../components/HeaderVideo";
-import Layout from "../components/Layout";
+import HeaderVideo from "@components/Landing/HeaderVideo";
+import Layout from "@components/Context/Layout";
+import HeaderMobile from "@components/Landing/HeaderMobile";
+import Event from "@components/Landing/Event";
+import Timeline from "@components/Landing/Timeline";
+import ContactUs from "@components/Landing/ContactUs";
+import Sponsor from "@components/Landing/Sponsor";
+import { useScrollPosition } from "@hooks/useScrollPostion";
 import { useState } from "react";
-import { useScrollPosition } from "../hooks/useScrollPostion";
-import HeaderMobile from "../components/HeaderMobile";
-import Event from "../components/Event";
-import Timeline from "../components/Timeline";
-import ContactUs from "../components/ContactUs";
 
 export default function Home() {
   const [scroll, setScroll] = useState(false);
@@ -28,6 +29,7 @@ export default function Home() {
       <Event />
       <Timeline />
       <ContactUs />
+      <Sponsor />
     </Layout>
   );
 }

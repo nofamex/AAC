@@ -1,6 +1,6 @@
+import PatternBG from "@components/Context/PatternBG";
+import { useWindowSize } from "@hooks/useWindowSize";
 import { Chrono } from "react-chrono";
-import { useWindowSize } from "../hooks/useWindowSize";
-import PatternBG from "./PatternBG";
 
 export default function Timeline() {
   const size = useWindowSize();

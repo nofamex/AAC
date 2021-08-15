@@ -1,6 +1,6 @@
-import PatternBG from "./PatternBG";
+import PatternBG from "@components/Context/PatternBG";
+import { useWindowSize } from "@hooks/useWindowSize";
 import { Chrono } from "react-chrono";
-import { useWindowSize } from "../hooks/useWindowSize";
 
 export default function UnacTimeline() {
   const size = useWindowSize();
@@ -12,7 +12,7 @@ export default function UnacTimeline() {
     },
     {
       title: "Daftar Ulang",
-      desc: "19 Agustus-7 September 2021",
+      desc: "29 Agustus-7 September 2021",
     },
     {
       title: "Technical Meeting",

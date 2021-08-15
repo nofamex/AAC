@@ -1,14 +1,14 @@
-import NavbarDesktop from "./NavbarDesktop";
-import NavbarMobile from "./NavbarMobile";
+import NavbarDesktop from "@components/Context/Nav/NavbarDesktop";
+import NavbarMobile from "@components/Context/Nav/NavbarMobile";
+import Button from "@components/Context/Button";
+import api from "@lib/axios";
+import { setLogin } from "@lib/auth";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
-import Button from "./Button";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import api from "../lib/axios";
 import { useRouter } from "next/router";
-import { setLogin } from "../lib/auth";
 
 interface NavbarProps {
   scroll: boolean;

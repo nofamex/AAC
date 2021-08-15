@@ -1,9 +1,9 @@
 // @ts-nocheck
-import PatternBG from "./PatternBG";
-import Trophy from "./Trophy";
+import PatternBG from "@components/Context/PatternBG";
+import Trophy from "@components/Context/Trophy";
+import { useScrollPosition } from "@hooks/useScrollPostion";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useScrollPosition } from "../hooks/useScrollPostion";
 
 interface CompePrizeProps {
   type: string;

@@ -1,11 +1,10 @@
 /* eslint-disable @next/next/link-passhref */
+import { isAuthenticated } from "@lib/auth";
 import Link from "next/link";
-import Button from "./Button";
 import { fallDown as Menu } from "react-burger-menu";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
 import tw from "tailwind-styled-components";
-import { isAuthenticated } from "../lib/auth";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useRouter } from "next/router";
 

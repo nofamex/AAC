@@ -1,7 +1,7 @@
-import Layout from "../components/Layout";
+import Layout from "@components/Context/Layout";
+import Button from "@components/Context/Button";
+import api from "@lib/axios";
 import { useForm } from "react-hook-form";
-import Button from "../components/Button";
-import api from "../lib/axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
@@ -34,7 +34,10 @@ export default function SignUpDesktop() {
           </p>
         </div>
         <div className="w-full h-auto flex flex-col justify-center items-center md:hidden">
-          <form onSubmit={handleSubmit(signUpMobileHandler)} className="w-full h-auto text-white text-lg flex flex-col justify-center mb-4 p-4">
+          <form
+            onSubmit={handleSubmit(signUpMobileHandler)}
+            className="w-full h-auto text-white text-lg flex flex-col justify-center mb-4 p-4"
+          >
             {signUpForm.map((sf, index) => (
               <div className="w-full" key={index}>
                 <p className="text-white font-bold text-sm mb-1">{sf.lb}</p>
@@ -46,12 +49,7 @@ export default function SignUpDesktop() {
                 />
               </div>
             ))}
-            <Button
-              text="Submit"
-              handler={() => {}}
-              // handler={handleSubmit(signUpMobileHandler)}
-              filled={true}
-            />
+            <Button text="Submit" handler={() => {}} filled={true} />
           </form>
           <div className="mt-4 text-white flex justify-center cursor-pointer">
             Sudah punya akun?

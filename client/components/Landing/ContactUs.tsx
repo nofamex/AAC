@@ -1,12 +1,11 @@
+/* eslint-disable jsx-a11y/alt-text */
 import Image from "next/image";
-import PatternBG from "./PatternBG";
 
 export default function ContactUs() {
   return (
     <div>
       <div className="h-16 w-full bg-black-80"></div>
-      {/* karena metok jadi broken, nunggu ada sponsor paling biar ga broken */}
-      {/* <PatternBG position="right" /> */}
+
       <div className="w-full bg-black-80 flex flex-col items-center justify-center">
         <div className="w-full h-24 font-dm text-white flex flex-col items-center justify-center mb-5">
           <p
@@ -19,11 +18,7 @@ export default function ContactUs() {
         <div className="h-12 w-full bg-black-80"></div>
         <div className="text-grey-20 text-2xl">
           <div className="mb-4 flex flex-wrap flex-row items-center content-start">
-            <Image
-              src="/picture/logo/line.svg"
-              height="32px"
-              width="32px"
-            />
+            <Image src="/picture/logo/line.svg" height="32px" width="32px" />
             <p className="ml-3">@grv1752i</p>
           </div>
           <div className="flex flex-wrap flex-row items-center content-start">

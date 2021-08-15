@@ -1,10 +1,10 @@
-import CompePrize from "../../components/CompePrize";
-import Layout from "../../components/Layout";
-import CompeDetails from "../../components/CompeDetails";
-import UnacTimeline from "../../components/UnacTimeline";
-import UnacFAQ from "../../components/UnacFAQ";
-import CompetitionContact from "../../components/CompetitionContact";
-import CompetitionFoot from "../../components/CompetitionFoot";
+import CompePrize from "@components/Competition/CompePrize";
+import Layout from "@components/Context/Layout";
+import CompeDetails from "@components/Competition/CompeDetails";
+import UnacTimeline from "@components/UNAC/UnacTimeline";
+import UnacFAQ from "@components/UNAC/UnacFAQ";
+import CompetitionContact from "@components/Competition/CompetitionContact";
+import CompetitionFoot from "@components/Competition/CompetitionFoot";
 
 export default function UNACHome() {
   return (

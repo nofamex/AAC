@@ -1,10 +1,10 @@
-import CompeDetails from "../../components/CompeDetails";
-import Layout from "../../components/Layout";
-import CompePrize from "../../components/CompePrize";
-import TacTimeline from "../../components/TacTimeline";
-import TacFAQ from "../../components/TacFAQ";
-import CompetitionContact from "../../components/CompetitionContact";
-import CompetitionFoot from "../../components/CompetitionFoot";
+import CompeDetails from "@components/Competition/CompeDetails";
+import Layout from "@components/Context/Layout";
+import CompePrize from "@components/Competition/CompePrize";
+import TacTimeline from "@components/TAC/TacTimeline";
+import TacFAQ from "@components/TAC/TacFAQ";
+import CompetitionContact from "@components/Competition/CompetitionContact";
+import CompetitionFoot from "@components/Competition/CompetitionFoot";
 
 export default function TACHome() {
   return (

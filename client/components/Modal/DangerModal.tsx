@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "@components/Context/Button";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
 
