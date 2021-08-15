@@ -94,9 +94,9 @@ CREATE TABLE elim_unac_battle_of_sandwich (
 
 CREATE TABLE elim_unac_rescue_the_number (
   id SERIAL PRIMARY KEY,
-  soal text,
-  jawaban text,
-  bobot int
+  soal text not null,
+  jawaban text not null,
+  bobot int not null
 );
 
 -- logic
