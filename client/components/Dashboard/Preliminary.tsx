@@ -61,13 +61,9 @@ export default function Preliminary({
 
   const startHandler = () => {
     localStorage.setItem("isPrelimStarted", "true");
-    type === "unac"
-      ? api
-          .post("/prelim/unac/start")
-          .then(() => router.push("/comps/preliminary/unac"))
-      : api
-          .post("/prelim/tac/start")
-          .then(() => router.push("/comps/preliminary/tac"));
+    api
+      .post(`/prelim/${type}/start`)
+      .then(() => router.push(`/comps/preliminary/${type}`));
   };
 
   if (loading) {
@@ -109,7 +105,7 @@ export default function Preliminary({
           Download
         </button>
       </a>
-      {isStarted && statusPrelim !== "selesai" ? (
+      {isStarted && (
         <div className="flex flex-col justify-center items-center w-full h-auto mt-4">
           <p className="font-bold text-white text-xl">
             Lomba sudah bisa dimulai
@@ -122,7 +118,8 @@ export default function Preliminary({
             {hasSession ? "Lanjutkan >" : "Mulai >"}
           </button>
         </div>
-      ) : (
+      )}
+      {statusPrelim === "selesai" && (
         <div className="flex flex-col justify-center items-center w-full h-auto mt-4">
           <BsCheckCircle className="text-green-600 h-28 w-28" />
           <p className="font-bold text-green-600 text-xl">
