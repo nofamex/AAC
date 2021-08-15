@@ -23,7 +23,7 @@ INSERT INTO team (
   type
 ) VALUES (
   $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
-) RETURNING id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified
+) RETURNING id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim
 `
 
 type CreateTeamParams struct {
@@ -69,12 +69,13 @@ func (q *Queries) CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, e
 		&i.SkLink,
 		&i.Type,
 		&i.Verified,
+		&i.StatusPrelim,
 	)
 	return i, err
 }
 
 const getTeamById = `-- name: GetTeamById :one
-SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified FROM team
+SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim FROM team
 WHERE id = $1 LIMIT 1
 `
 
@@ -95,12 +96,13 @@ func (q *Queries) GetTeamById(ctx context.Context, id int32) (Team, error) {
 		&i.SkLink,
 		&i.Type,
 		&i.Verified,
+		&i.StatusPrelim,
 	)
 	return i, err
 }
 
 const getTeamsPagination = `-- name: GetTeamsPagination :many
-SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified FROM team
+SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim FROM team
 ORDER BY id
 OFFSET $1
 LIMIT $2
@@ -134,6 +136,7 @@ func (q *Queries) GetTeamsPagination(ctx context.Context, arg GetTeamsPagination
 			&i.SkLink,
 			&i.Type,
 			&i.Verified,
+			&i.StatusPrelim,
 		); err != nil {
 			return nil, err
 		}

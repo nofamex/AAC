@@ -9,15 +9,30 @@ import (
 type Querier interface {
 	AddTeamIdToUser(ctx context.Context, arg AddTeamIdToUserParams) error
 	CreateMember(ctx context.Context, arg CreateMemberParams) (Member, error)
+	CreatePrelimTac(ctx context.Context, arg CreatePrelimTacParams) (PrelimTacMaster, error)
+	CreatePrelimTacPgJawaban(ctx context.Context, arg CreatePrelimTacPgJawabanParams) error
+	CreatePrelimUnac(ctx context.Context, arg CreatePrelimUnacParams) (PrelimUnacMaster, error)
+	CreatePrelimUnacIsianJawaban(ctx context.Context, arg CreatePrelimUnacIsianJawabanParams) error
+	CreatePrelimUnacPgJawaban(ctx context.Context, arg CreatePrelimUnacPgJawabanParams) error
 	CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, error)
+	GetConfig(ctx context.Context) (Config, error)
 	GetMemberById(ctx context.Context, id int32) (Member, error)
 	GetMemberByTeamId(ctx context.Context, teamID int32) ([]Member, error)
+	GetPagePrelimTac(ctx context.Context, teamID int32) (int32, error)
+	GetPagePrelimUnac(ctx context.Context, teamID int32) (int32, error)
+	GetPrelimTacByTeamId(ctx context.Context, teamID int32) (PrelimTacMaster, error)
+	GetPrelimTacPgById(ctx context.Context, id int32) (PrelimTacPg, error)
+	GetPrelimUnacByTeamId(ctx context.Context, teamID int32) (PrelimUnacMaster, error)
+	GetPrelimUnacIsianById(ctx context.Context, id int32) (PrelimUnacIsian, error)
+	GetPrelimUnacPgById(ctx context.Context, id int32) (PrelimUnacPg, error)
 	GetTeamById(ctx context.Context, id int32) (Team, error)
 	GetTeamsPagination(ctx context.Context, arg GetTeamsPaginationParams) ([]Team, error)
 	GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error)
 	GetUserById(ctx context.Context, id int32) (User, error)
 	RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error)
 	SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error
+	UpdatePagePrelimTac(ctx context.Context, teamID int32) error
+	UpdatePagePrelimUnac(ctx context.Context, teamID int32) error
 	UpdateVerifiedStatus(ctx context.Context, arg UpdateVerifiedStatusParams) error
 }
 

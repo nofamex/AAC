@@ -29,3 +29,4 @@ WHERE id = $1 LIMIT 1;
 UPDATE team
 set verified = $2
 where id = $1;
+

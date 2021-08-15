@@ -32,6 +32,15 @@ func (u *UserService) GetUserByEmail(email string) (*db.GetUserByEmailRow, error
 	return &result, err
 }
 
+func (u *UserService) GetUserById(id int) (*db.User, error) {
+	result, err := u.query.GetUserById(context.Background(), int32(id))
+	if err != nil {
+		return nil, err
+	}
+
+	return &result, err
+}
+
 func (u *UserService) SetRefreshToken(email string, token string) (error) {
 	refreshToken := sql.NullString{
 		String: token,
