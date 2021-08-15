@@ -3,8 +3,32 @@ import Layout from "@components/Context/Layout";
 import Navigation from "@components/Preliminary/Navigation";
 import QuestionBox from "@components/Preliminary/QuestionBox";
 import FillBox from "@components/Preliminary/FillBox";
+import { useEffect, useState } from "react";
+import api from "@lib/axios";
+import Loader from "@components/Context/Loader";
 
-export default function PremsComps() {
+export default function PremsCompsUNAC() {
+  const [endTime, setEndTime] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function data() {
+      api
+        .get("/config/time")
+        .then((res) => {
+          console.log(res.data);
+          setEndTime(res.data.prelim_unac_stop.Time);
+          setLoading(false);
+        })
+        .catch((err) => console.log(err));
+    }
+    data();
+  }, []);
+
+  if (loading) {
+    return <Loader height="h-screen" />;
+  }
+
   return (
     <Layout>
       <div className="h-16 w-full bg-black-80 z-0"></div>
@@ -14,13 +38,13 @@ export default function PremsComps() {
             className="font-bold italic text-5xl md:text-6xl"
             style={{ textShadow: "0 0 25px #7303C0" }}
           >
-            <span className="text-stroke">NAMA LOMBA</span>
+            <span className="text-stroke">UNAC</span>
           </p>
         </div>
         <div className="w-full flex h-auto">
           <div className="h-auto w-9/12 p-2">
             <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-persimmon to-orange h-10 mb-2 text-center">
-              PAGE 2 OF 12
+              PAGE 1 OF 12
             </p>
             <QuestionBox num={11} difficulty="Easy" />
             <QuestionBox num={12} difficulty="Medium" />
@@ -31,7 +55,7 @@ export default function PremsComps() {
               <Button text="Lanjut >" filled={true} handler={() => {}} />
             </div>
           </div>
-          <Navigation />
+          <Navigation endTime={endTime} />
         </div>
       </div>
     </Layout>

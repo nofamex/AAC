@@ -7,6 +7,7 @@ import { IoMdExit } from "react-icons/io";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import DashboardCard from "@components/Dashboard/DashbordCard";
+import Loader from "@components/Context/Loader";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -15,13 +16,20 @@ export default function Dashboard() {
 
   const [status, setStatus] = useState({ status: "", type: "" });
   const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function data() {
       api
         .get("/competition/profile")
-        .then((res) => setStatus(res.data))
-        .catch(() => setErr(true));
+        .then((res) => {
+          setStatus(res.data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setErr(true);
+          setLoading(false);
+        });
     }
     data();
   }, []);
@@ -30,6 +38,21 @@ export default function Dashboard() {
     logOut();
     router.push("/");
   };
+
+  const statusTextChecker = (sts: string) => {
+    switch (sts) {
+      case "berhasil":
+        return "Verifikasi Berhasil";
+      case "menunggu":
+        return "Menunggu Verifikasi";
+      default:
+        return "Verifikasi Gagal";
+    }
+  };
+
+  if (loading) {
+    return <Loader height="h-screen" />;
+  }
 
   return (
     <Layout>
@@ -62,14 +85,18 @@ export default function Dashboard() {
             <p className="text-2xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-persimmon to-orange mb-4">
               DASHBOARD
             </p>
-            <div className="w-full flex-grow">
-              <DashboardCard
-                text="Verifikasi Berhasil"
-                status="berhasil"
-                handler={() => router.push("/dashboard/detail/")}
-                type={status.type}
-              />
-            </div>
+            {err ? (
+              <p className="text-white text-xl">Belum mendaftar di kompetisi</p>
+            ) : (
+              <div className="w-full flex-grow">
+                <DashboardCard
+                  text={statusTextChecker(status.status)}
+                  status={status.status}
+                  handler={() => router.push("/dashboard/detail/")}
+                  type={status.type}
+                />
+              </div>
+            )}
           </div>
         </div>
       </PrivateRoute>

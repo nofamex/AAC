@@ -1,17 +1,22 @@
 import Countdown from "react-countdown";
 import Number from "@components/Preliminary/Number";
+import { toCurrentTimezone } from "@lib/date";
 
-export default function Navigation() {
-  const renderer = ({ days, hours, minutes }: any) => {
+interface NavigationProps {
+  endTime: string;
+}
+
+export default function Navigation({ endTime }: NavigationProps) {
+  const renderer = ({ hours, minutes, seconds, completed }: any) => {
     return (
       <div className="flex font-dm font-bold text-xl">
         <p>
-          {days} <span className="mr-1 ml-1">:</span>
+          {hours} <span className="mr-2">:</span>
         </p>
         <p>
-          {hours} <span className="mr-1+ ml-1">:</span>
+          {minutes} <span className="mr-2">:</span>
         </p>
-        <p>{minutes}</p>
+        <p>{seconds}</p>
       </div>
     );
   };
@@ -21,8 +26,8 @@ export default function Navigation() {
       <div className="w-full h-10 mb-2"></div>
       <div className="w-full h-auto bg-compe rounded-xl flex flex-col justify-center items-center text-white p-4">
         <p className="font-bold text-lg mb-2">Time Left</p>
-        <Countdown date={new Date(2021, 7, 28)} renderer={renderer} />
-        <p className="font-bold text-lg mt-8">Progress</p>
+        <Countdown date={toCurrentTimezone(endTime)} renderer={renderer} />
+        <p className="font-bold text-lg mt-4">Progress</p>
         <p className="text-center text-sm mb-8">
           <span className="font-bold">Ingat!</span> Halaman yang sudah
           dikerjakan tidak bisa diakses kembali
@@ -33,11 +38,11 @@ export default function Navigation() {
               <Number
                 key={`r1${i}`}
                 nums={r}
-                selected={r === 2 ? true : false}
+                selected={String(r) === "1" ? true : false}
               />
             ))}
           </div>
-          <div className="flex justify-center mb-2">
+          {/* <div className="flex justify-center mb-2">
             {row2.map((r, i) => (
               <Number key={`r2${i}`} nums={r} />
             ))}
@@ -46,13 +51,13 @@ export default function Navigation() {
             {row3.map((r, i) => (
               <Number key={`r3${i}`} nums={r} />
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
   );
 }
 
-const row1 = [1, 2, 3, 4];
+const row1 = [1, 2, 3];
 const row2 = [5, 6, 7, 8];
 const row3 = [9, 10, 11, 12];
