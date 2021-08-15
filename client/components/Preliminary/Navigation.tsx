@@ -47,7 +47,7 @@ export default function Navigation({ endTime, page }: NavigationProps) {
           acceptHandler={acceptFinishHandler}
           headerText="Waktu Habis"
           bodyText="Waktu mengerjakan sudah habis, silahkan kembali ke dashboard"
-          innerButtonText="Selesai"
+          innerButtonText="Selesai >"
         />
       )}
       <div className="w-full h-10 mb-2"></div>

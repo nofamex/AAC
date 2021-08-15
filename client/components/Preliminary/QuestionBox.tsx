@@ -12,6 +12,7 @@ interface QustionBoxProps {
   p3: string;
   p4: string;
   type: string;
+  cmpt: string;
 }
 
 export default function QuestionBox({
@@ -25,6 +26,7 @@ export default function QuestionBox({
   p3,
   p4,
   type,
+  cmpt,
 }: QustionBoxProps) {
   const [answer, setAnswer] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
@@ -43,7 +45,7 @@ export default function QuestionBox({
   const clickHandler = (e: any) => {
     e.preventDefault();
     api
-      .post("/prelim/unac/finish", {
+      .post(`/prelim/${cmpt}/submit-isian`, {
         id: id,
         paket: paket,
         jawaban: answer,
@@ -71,6 +73,7 @@ export default function QuestionBox({
                 text={p1}
                 id={String(1)}
                 paket={paket}
+                cmpt={cmpt}
               />
               <Option
                 name={String(id)}
@@ -78,6 +81,7 @@ export default function QuestionBox({
                 text={p2}
                 id={String(2)}
                 paket={paket}
+                cmpt={cmpt}
               />
               <Option
                 name={String(id)}
@@ -85,6 +89,7 @@ export default function QuestionBox({
                 text={p3}
                 id={String(3)}
                 paket={paket}
+                cmpt={cmpt}
               />
               <Option
                 name={String(id)}
@@ -92,6 +97,7 @@ export default function QuestionBox({
                 text={p4}
                 id={String(4)}
                 paket={paket}
+                cmpt={cmpt}
               />
             </form>
           ) : (
@@ -128,11 +134,12 @@ interface OptionProps {
   text: string;
   id: string;
   paket: number;
+  cmpt: string;
 }
 
-function Option({ name, value, text, id, paket }: OptionProps) {
+function Option({ name, value, text, id, paket, cmpt }: OptionProps) {
   const clickHandler = () => {
-    api.post("/prelim/unac/submit-pg", {
+    api.post(`/prelim/${cmpt}/submit-pg`, {
       id: Number(name),
       paket: paket,
       jawaban: Number(value),

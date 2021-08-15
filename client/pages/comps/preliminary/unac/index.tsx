@@ -102,6 +102,7 @@ export default function PremsCompsUNAC() {
                 p3={qs.pilihan3}
                 p4={qs.pilihan4}
                 type={page === 3 ? "essay" : "pg"}
+                cmpt="unac"
               />
             ))}
             <div className="w-full flex justify-end">
@@ -113,7 +114,7 @@ export default function PremsCompsUNAC() {
                 />
               ) : (
                 <Button
-                  text="Selesai"
+                  text="Selesai >"
                   filled={true}
                   handler={() => setEsShow(true)}
                 />
