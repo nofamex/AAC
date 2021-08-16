@@ -101,7 +101,7 @@ export default function PremsCompsTAC() {
                 p2={qs.pilihan2}
                 p3={qs.pilihan3}
                 p4={qs.pilihan4}
-                type={page === 3 ? "essay" : "pg"}
+                type={"pg"}
                 cmpt="tac"
               />
             ))}
