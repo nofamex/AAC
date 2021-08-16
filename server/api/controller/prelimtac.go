@@ -101,8 +101,15 @@ func (u *PrelimTacController) Finish(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
+
+	err = u.service.UpdateSubmitedTac(int(user.TeamID.Int32))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
 	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
 }
+
 // submit
 func (u *PrelimTacController) SubmitPg(c *fiber.Ctx) error {
 	token := c.Get("authorization")

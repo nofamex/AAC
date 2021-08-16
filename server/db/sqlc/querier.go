@@ -34,6 +34,8 @@ type Querier interface {
 	UpdatePagePrelimTac(ctx context.Context, teamID int32) error
 	UpdatePagePrelimUnac(ctx context.Context, teamID int32) error
 	UpdatePrelimStatus(ctx context.Context, arg UpdatePrelimStatusParams) error
+	UpdateSubmitedPrelimTac(ctx context.Context, teamID int32) error
+	UpdateSubmitedPrelimUnac(ctx context.Context, teamID int32) error
 	UpdateVerifiedStatus(ctx context.Context, arg UpdateVerifiedStatusParams) error
 }
 

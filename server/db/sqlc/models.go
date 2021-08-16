@@ -45,13 +45,17 @@ type Member struct {
 }
 
 type PrelimTacMaster struct {
-	ID       int32  `json:"id"`
-	TeamID   int32  `json:"team_id"`
-	Token    string `json:"token"`
-	Orders   string `json:"orders"`
-	Paket    int32  `json:"paket"`
-	Score    int32  `json:"score"`
-	LastPage int32  `json:"last_page"`
+	ID       int32         `json:"id"`
+	TeamID   int32         `json:"team_id"`
+	Token    string        `json:"token"`
+	Orders   string        `json:"orders"`
+	Paket    int32         `json:"paket"`
+	Score    int32         `json:"score"`
+	LastPage int32         `json:"last_page"`
+	Submited sql.NullTime  `json:"submited"`
+	Benar    sql.NullInt32 `json:"benar"`
+	Salah    sql.NullInt32 `json:"salah"`
+	Kosong   sql.NullInt32 `json:"kosong"`
 }
 
 type PrelimTacPg struct {
@@ -89,13 +93,17 @@ type PrelimUnacIsianJawaban struct {
 }
 
 type PrelimUnacMaster struct {
-	ID       int32  `json:"id"`
-	TeamID   int32  `json:"team_id"`
-	Token    string `json:"token"`
-	Orders   string `json:"orders"`
-	Paket    int32  `json:"paket"`
-	Score    int32  `json:"score"`
-	LastPage int32  `json:"last_page"`
+	ID       int32         `json:"id"`
+	TeamID   int32         `json:"team_id"`
+	Token    string        `json:"token"`
+	Orders   string        `json:"orders"`
+	Paket    int32         `json:"paket"`
+	Score    int32         `json:"score"`
+	LastPage int32         `json:"last_page"`
+	Submited sql.NullTime  `json:"submited"`
+	Benar    sql.NullInt32 `json:"benar"`
+	Salah    sql.NullInt32 `json:"salah"`
+	Kosong   sql.NullInt32 `json:"kosong"`
 }
 
 type PrelimUnacPg struct {

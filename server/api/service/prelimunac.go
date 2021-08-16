@@ -82,3 +82,8 @@ func (u *PrelimUnacService) NextPagePrelimUnac(teamId int) error {
 	err := u.query.UpdatePagePrelimUnac(context.Background(), int32(teamId))
 	return err
 }
+
+func (u *PrelimUnacService) UpdateSubmitedUnac(teamId int) error {
+	err := u.query.UpdateSubmitedPrelimUnac(context.Background(), int32(teamId))
+	return err
+}

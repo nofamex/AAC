@@ -26,7 +26,7 @@ INSERT INTO prelim_tac_pg_jawaban (
 ) VALUES (
   $1, $2, $3
 )
-ON CONFLICT (soal_id) DO UPDATE SET jawaban = EXCLUDED.jawaban;
+ON CONFLICT (team_id, soal_id)  DO UPDATE SET jawaban = EXCLUDED.jawaban;
 
 -- name: GetPagePrelimTac :one
 SELECT last_page FROM prelim_tac_master
@@ -35,4 +35,9 @@ WHERE team_id = $1;
 -- name: UpdatePagePrelimTac :exec
 UPDATE prelim_tac_master
 SET last_page = last_page + 1
+WHERE team_id = $1;
+
+-- name: UpdateSubmitedPrelimTac :exec
+UPDATE prelim_tac_master
+SET submited = now()
 WHERE team_id = $1;
