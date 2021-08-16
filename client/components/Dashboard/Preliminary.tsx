@@ -6,13 +6,19 @@ import api from "@lib/axios";
 import Loader from "@components/Context/Loader";
 import { getDate, toCurrentTimezone } from "@lib/date";
 import { useRouter } from "next/router";
+import { BsCheckCircle } from "react-icons/bs";
 
 interface PreliminaryProps {
   phase: string;
   type: string;
+  statusPrelim: string;
 }
 
-export default function Preliminary({ phase, type }: PreliminaryProps) {
+export default function Preliminary({
+  phase,
+  type,
+  statusPrelim,
+}: PreliminaryProps) {
   const UNAC =
     "https://drive.google.com/file/d/1vFTPmUAgkieX8STtYHfKKfafFORpfW8T/view?usp=sharing";
 
@@ -55,9 +61,9 @@ export default function Preliminary({ phase, type }: PreliminaryProps) {
 
   const startHandler = () => {
     localStorage.setItem("isPrelimStarted", "true");
-    type === "unac"
-      ? router.push("/comps/preliminary/unac")
-      : router.push("/comps/preliminary/tac");
+    api
+      .post(`/prelim/${type}/start`)
+      .then(() => router.push(`/comps/preliminary/${type}`));
   };
 
   if (loading) {
@@ -99,7 +105,7 @@ export default function Preliminary({ phase, type }: PreliminaryProps) {
           Download
         </button>
       </a>
-      {isStarted && (
+      {isStarted && statusPrelim !== "selesai" && (
         <div className="flex flex-col justify-center items-center w-full h-auto mt-4">
           <p className="font-bold text-white text-xl">
             Lomba sudah bisa dimulai
@@ -111,6 +117,14 @@ export default function Preliminary({ phase, type }: PreliminaryProps) {
           >
             {hasSession ? "Lanjutkan >" : "Mulai >"}
           </button>
+        </div>
+      )}
+      {statusPrelim === "selesai" && (
+        <div className="flex flex-col justify-center items-center w-full h-auto mt-4">
+          <BsCheckCircle className="text-green-600 h-28 w-28" />
+          <p className="font-bold text-green-600 text-xl">
+            Jawaban anda berhasil disubmit
+          </p>
         </div>
       )}
     </div>

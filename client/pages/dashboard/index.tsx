@@ -14,7 +14,11 @@ export default function Dashboard() {
   const userString = getUser();
   const user = JSON.parse(userString || "{}");
 
-  const [status, setStatus] = useState({ status: "", type: "" });
+  const [status, setStatus] = useState({
+    status: "",
+    type: "",
+    status_prelim: "",
+  });
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -94,6 +98,7 @@ export default function Dashboard() {
                   status={status.status}
                   handler={() => router.push("/dashboard/detail/")}
                   type={status.type}
+                  prelimStatus={status.status_prelim}
                 />
               </div>
             )}
