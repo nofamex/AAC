@@ -102,5 +102,5 @@ LANGUAGE plpgsql;
 create trigger trigger_score_tac_pg
 after insert or update or delete on prelim_tac_pg_jawaban
 for each row
-execute PROCEDURE score_tac();
+execute PROCEDURE score_tac_pg();
 
