@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/go-playground/validator"
@@ -36,11 +37,13 @@ func (u *CompeController) Register(c *fiber.Ctx) error {
 	token := c.Get("authorization")
 	token, err := u.tokenMaker.GetToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	payload, err := u.tokenMaker.VerifyToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
@@ -64,17 +67,20 @@ func (u *CompeController) Register(c *fiber.Ctx) error {
 				return c.Status(http.StatusForbidden).JSON(Message{Message: "duplicate team name"})
 			}
 		}
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	members := requestBody.Members
 	err = u.service.CreateMember(&members, team.ID)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	err = u.service.AddTeamIdToUser(payload.UserId, team.ID)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
@@ -85,26 +91,31 @@ func (u *CompeController) GetTeam(c *fiber.Ctx) error {
 	token := c.Get("authorization")
 	token, err := u.tokenMaker.GetToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	payload, err := u.tokenMaker.VerifyToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	user, err := u.service.GetUserById(payload.UserId)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	team, err := u.service.GetTeamById(user.TeamID.Int32)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	members, err := u.service.GetMemberByTeamId(user.TeamID.Int32)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 

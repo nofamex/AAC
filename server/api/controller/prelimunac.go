@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/go-playground/validator"
@@ -40,21 +41,25 @@ func (u *PrelimUnacController) Start(c *fiber.Ctx) error {
 	token := c.Get("authorization")
 	token, err := u.tokenMaker.GetToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	payload, err := u.tokenMaker.VerifyToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	team, err := u.compeService.GetTeamById(user.TeamID.Int32)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
@@ -75,11 +80,13 @@ func (u *PrelimUnacController) Start(c *fiber.Ctx) error {
 	// create prelim unac master
 	master, err := u.service.CreatePrelimUnac(int(user.TeamID.Int32), paket, token, order)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "mengerjakan")
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 	return c.Status(http.StatusOK).JSON(master)
@@ -89,26 +96,31 @@ func (u *PrelimUnacController) Finish(c *fiber.Ctx) error {
 	token := c.Get("authorization")
 	token, err := u.tokenMaker.GetToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	payload, err := u.tokenMaker.VerifyToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "selesai")
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	err = u.service.UpdateSubmitedUnac(int(user.TeamID.Int32))
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
