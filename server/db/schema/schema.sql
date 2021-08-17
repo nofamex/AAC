@@ -111,8 +111,8 @@ CREATE TABLE prelim_unac_master (
   score int not null default 0,
   last_page int not null default 1,
   submited timestamp,
-  benar int,
-  salah int,
+  benar int not null default 0,
+  salah int not null default 0,
   kosong int default 15,
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
@@ -126,8 +126,8 @@ CREATE TABLE prelim_tac_master (
   score int not null default 0,
   last_page int not null default 1,
   submited timestamp,
-  benar int,
-  salah int,
+  benar int not null default 0,
+  salah int not null default 0,
   kosong int default 15,
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
