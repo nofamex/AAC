@@ -98,7 +98,7 @@ export default function Preliminary({
         rel="noreferrer"
         className="mr-0 mb-4 sm:mr-8 sm:mb-0 flex"
       >
-        <button className="border-2 border-orange rounded-2xl text-orange font-bold text-xl px-16 py-3 mt-2 flex justify-center items-center">
+        <button className="border-2 border-orange rounded-2xl text-orange font-bold text-xl px-16 py-3 mt-2 flex justify-center items-center hover:scale-105 transition-all ease-in-out active:scale-100">
           <span className="mr-2">
             <HiDownload className="text-2xl" />
           </span>
@@ -112,7 +112,7 @@ export default function Preliminary({
           </p>
 
           <button
-            className="rounded-2xl text-white font-bold text-xl px-16 py-3 mt-2 flex justify-center items-center bg-gradient-to-r from-persimmon to-orange"
+            className="rounded-2xl text-white font-bold text-xl px-16 py-3 mt-2 flex justify-center items-center bg-gradient-to-r from-persimmon to-orange hover:scale-105 transition-all ease-in-out active:scale-100"
             onClick={() => startHandler()}
           >
             {hasSession ? "Lanjutkan >" : "Mulai >"}

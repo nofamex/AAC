@@ -50,11 +50,16 @@ export default function QuestionBox({
         paket: paket,
         jawaban: answer,
       })
-      .then(() => setIsSubmit(true));
+      .then(() => {
+        setIsSubmit(true);
+        setTimeout(() => {
+          setIsSubmit(false);
+        }, 1500);
+      });
   };
 
   return (
-    <div className="w-full min-h-questionBox max-h-screen bg-compe rounded-xl flex mb-4">
+    <div className="w-full min-h-questionBox h-auto bg-compe rounded-xl flex mb-4">
       <div className="h-full w-1/12 flex flex-col items-center justify-start text-white font-bold p-4 text-xl">
         <p>No</p>
         <p>{num}</p>
@@ -71,7 +76,7 @@ export default function QuestionBox({
                 name={String(id)}
                 value={String(1)}
                 text={p1}
-                id={String(1)}
+                id={`${id}-1`}
                 paket={paket}
                 cmpt={cmpt}
               />
@@ -79,7 +84,7 @@ export default function QuestionBox({
                 name={String(id)}
                 value={String(2)}
                 text={p2}
-                id={String(2)}
+                id={`${id}-2`}
                 paket={paket}
                 cmpt={cmpt}
               />
@@ -87,7 +92,7 @@ export default function QuestionBox({
                 name={String(id)}
                 value={String(3)}
                 text={p3}
-                id={String(3)}
+                id={`${id}-3`}
                 paket={paket}
                 cmpt={cmpt}
               />
@@ -95,7 +100,7 @@ export default function QuestionBox({
                 name={String(id)}
                 value={String(4)}
                 text={p4}
-                id={String(4)}
+                id={`${id}-4`}
                 paket={paket}
                 cmpt={cmpt}
               />
@@ -146,7 +151,7 @@ function Option({ name, value, text, id, paket, cmpt }: OptionProps) {
     });
   };
   return (
-    <div className="flex justify-start items-center">
+    <div className="flex justify-start items-center mt-2">
       <input
         type="radio"
         name={name}
