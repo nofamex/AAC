@@ -1,0 +1,1 @@
+2021/08/18 21:11:10 prelimunac.go:89: pq: value too long for type character varying(10)

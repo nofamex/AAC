@@ -90,7 +90,7 @@ func (server *Server) setupRouter() {
 	tacPrelimCtrl := controller.NewPrelimTacController(server.query, server.tokenMaker, server.config)
 	tacPrelim := prelim.Group("tac")
 	tacPrelim.Post("start", tacPrelimCtrl.Start)
-	unacPrelim.Post("finish", tacPrelimCtrl.Finish)
+	tacPrelim.Post("finish", tacPrelimCtrl.Finish)
 	tacPrelim.Get("soal", tacPrelimCtrl.GetSoal)
 	tacPrelim.Get("next", tacPrelimCtrl.NextPage)
 	tacPrelim.Post("submit-pg", tacPrelimCtrl.SubmitPg)
