@@ -34,8 +34,10 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
     "/picture/tac-slider-4.png",
   ];
 
-  const handler = () => {
-    console.log("object");
+  const registerHandler = () => {
+    isAuthenticated()
+      ? router.push(`/${type}/register`)
+      : toast.error("Silahkan Sign In terlebih dahulu");
   };
 
   return (
@@ -87,10 +89,17 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
             >
               <Button
                 text="Download Guidebook"
-                handler={handler}
+                handler={() => {}}
                 filled={false}
               />
             </a>
+            <div>
+              <Button
+                text="Daftar Sekarang"
+                handler={registerHandler}
+                filled={true}
+              />
+            </div>
           </div>
         </div>
       </div>
