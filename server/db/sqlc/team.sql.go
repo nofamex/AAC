@@ -23,7 +23,7 @@ INSERT INTO team (
   type
 ) VALUES (
   $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
-) RETURNING id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified
+) RETURNING id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_elim
 `
 
 type CreateTeamParams struct {
@@ -69,12 +69,14 @@ func (q *Queries) CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, e
 		&i.SkLink,
 		&i.Type,
 		&i.Verified,
+		&i.StatusPrelim,
+		&i.StatusElim,
 	)
 	return i, err
 }
 
 const getTeamById = `-- name: GetTeamById :one
-SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified FROM team
+SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_elim FROM team
 WHERE id = $1 LIMIT 1
 `
 
@@ -95,12 +97,14 @@ func (q *Queries) GetTeamById(ctx context.Context, id int32) (Team, error) {
 		&i.SkLink,
 		&i.Type,
 		&i.Verified,
+		&i.StatusPrelim,
+		&i.StatusElim,
 	)
 	return i, err
 }
 
 const getTeamsPagination = `-- name: GetTeamsPagination :many
-SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified FROM team
+SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_elim FROM team
 ORDER BY id
 OFFSET $1
 LIMIT $2
@@ -134,6 +138,8 @@ func (q *Queries) GetTeamsPagination(ctx context.Context, arg GetTeamsPagination
 			&i.SkLink,
 			&i.Type,
 			&i.Verified,
+			&i.StatusPrelim,
+			&i.StatusElim,
 		); err != nil {
 			return nil, err
 		}
@@ -146,6 +152,22 @@ func (q *Queries) GetTeamsPagination(ctx context.Context, arg GetTeamsPagination
 		return nil, err
 	}
 	return items, nil
+}
+
+const updatePrelimStatus = `-- name: UpdatePrelimStatus :exec
+UPDATE team
+set status_prelim = $2
+where id = $1
+`
+
+type UpdatePrelimStatusParams struct {
+	ID           int32  `json:"id"`
+	StatusPrelim string `json:"status_prelim"`
+}
+
+func (q *Queries) UpdatePrelimStatus(ctx context.Context, arg UpdatePrelimStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updatePrelimStatus, arg.ID, arg.StatusPrelim)
+	return err
 }
 
 const updateVerifiedStatus = `-- name: UpdateVerifiedStatus :exec

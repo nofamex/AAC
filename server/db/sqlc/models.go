@@ -28,10 +28,10 @@ type ElimUnacBattleOfSandwich struct {
 }
 
 type ElimUnacRescueTheNumber struct {
-	ID      int32          `json:"id"`
-	Soal    sql.NullString `json:"soal"`
-	Jawaban sql.NullString `json:"jawaban"`
-	Bobot   sql.NullInt32  `json:"bobot"`
+	ID      int32  `json:"id"`
+	Soal    string `json:"soal"`
+	Jawaban string `json:"jawaban"`
+	Bobot   int32  `json:"bobot"`
 }
 
 type Member struct {
@@ -45,13 +45,17 @@ type Member struct {
 }
 
 type PrelimTacMaster struct {
-	ID       int32  `json:"id"`
-	TeamID   int32  `json:"team_id"`
-	Token    string `json:"token"`
-	Orders   string `json:"orders"`
-	Paket    int32  `json:"paket"`
-	Score    int32  `json:"score"`
-	LastPage int32  `json:"last_page"`
+	ID       int32         `json:"id"`
+	TeamID   int32         `json:"team_id"`
+	Token    string        `json:"token"`
+	Orders   string        `json:"orders"`
+	Paket    int32         `json:"paket"`
+	Score    int32         `json:"score"`
+	LastPage int32         `json:"last_page"`
+	Submited sql.NullTime  `json:"submited"`
+	Benar    sql.NullInt32 `json:"benar"`
+	Salah    sql.NullInt32 `json:"salah"`
+	Kosong   sql.NullInt32 `json:"kosong"`
 }
 
 type PrelimTacPg struct {
@@ -89,13 +93,17 @@ type PrelimUnacIsianJawaban struct {
 }
 
 type PrelimUnacMaster struct {
-	ID       int32  `json:"id"`
-	TeamID   int32  `json:"team_id"`
-	Token    string `json:"token"`
-	Orders   string `json:"orders"`
-	Paket    int32  `json:"paket"`
-	Score    int32  `json:"score"`
-	LastPage int32  `json:"last_page"`
+	ID       int32         `json:"id"`
+	TeamID   int32         `json:"team_id"`
+	Token    string        `json:"token"`
+	Orders   string        `json:"orders"`
+	Paket    int32         `json:"paket"`
+	Score    int32         `json:"score"`
+	LastPage int32         `json:"last_page"`
+	Submited sql.NullTime  `json:"submited"`
+	Benar    sql.NullInt32 `json:"benar"`
+	Salah    sql.NullInt32 `json:"salah"`
+	Kosong   sql.NullInt32 `json:"kosong"`
 }
 
 type PrelimUnacPg struct {
@@ -126,19 +134,21 @@ type Statistic struct {
 }
 
 type Team struct {
-	ID          int32          `json:"id"`
-	TeamName    string         `json:"team_name"`
-	University  string         `json:"university"`
-	FullName    string         `json:"full_name"`
-	Phone       string         `json:"phone"`
-	IDLine      string         `json:"id_line"`
-	Email       string         `json:"email"`
-	PhotoLink   string         `json:"photo_link"`
-	PaymentLink string         `json:"payment_link"`
-	CardLink    string         `json:"card_link"`
-	SkLink      sql.NullString `json:"sk_link"`
-	Type        string         `json:"type"`
-	Verified    string         `json:"verified"`
+	ID           int32          `json:"id"`
+	TeamName     string         `json:"team_name"`
+	University   string         `json:"university"`
+	FullName     string         `json:"full_name"`
+	Phone        string         `json:"phone"`
+	IDLine       string         `json:"id_line"`
+	Email        string         `json:"email"`
+	PhotoLink    string         `json:"photo_link"`
+	PaymentLink  string         `json:"payment_link"`
+	CardLink     string         `json:"card_link"`
+	SkLink       sql.NullString `json:"sk_link"`
+	Type         string         `json:"type"`
+	Verified     string         `json:"verified"`
+	StatusPrelim string         `json:"status_prelim"`
+	StatusElim   string         `json:"status_elim"`
 }
 
 type User struct {

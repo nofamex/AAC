@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/go-playground/validator"
@@ -40,21 +41,25 @@ func (u *PrelimTacController) Start(c *fiber.Ctx) error {
 	token := c.Get("authorization")
 	token, err := u.tokenMaker.GetToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	payload, err := u.tokenMaker.VerifyToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	team, err := u.compeService.GetTeamById(user.TeamID.Int32)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
@@ -75,9 +80,50 @@ func (u *PrelimTacController) Start(c *fiber.Ctx) error {
 	// create prelim tac master
 	master, err := u.service.CreatePrelimTac(int(user.TeamID.Int32), paket, token, order)
 	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "ongoing")
+	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 	return c.Status(http.StatusOK).JSON(master)
+}
+
+func (u *PrelimTacController) Finish(c *fiber.Ctx) error {
+	token := c.Get("authorization")
+	token, err := u.tokenMaker.GetToken(token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	payload, err := u.tokenMaker.VerifyToken(token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	user, err := u.userService.GetUserById(int(payload.UserId))
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "selesai")
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	err = u.service.UpdateSubmitedTac(int(user.TeamID.Int32))
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
 }
 
 // submit
@@ -85,16 +131,19 @@ func (u *PrelimTacController) SubmitPg(c *fiber.Ctx) error {
 	token := c.Get("authorization")
 	token, err := u.tokenMaker.GetToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	payload, err := u.tokenMaker.VerifyToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
@@ -112,6 +161,7 @@ func (u *PrelimTacController) SubmitPg(c *fiber.Ctx) error {
 
 	err = u.service.CreatePrelimTacPg(int(user.TeamID.Int32), requestBody.SoalId, requestBody.Jawaban)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
@@ -122,21 +172,25 @@ func (u *PrelimTacController) GetSoal(c *fiber.Ctx) error {
 	token := c.Get("authorization")
 	token, err := u.tokenMaker.GetToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	payload, err := u.tokenMaker.VerifyToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	page, err := u.service.GetPagePrelimTac(int(user.TeamID.Int32))
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
@@ -151,6 +205,7 @@ func (u *PrelimTacController) GetSoal(c *fiber.Ctx) error {
 	var order []int
 	err = json.Unmarshal([]byte(prelim.Orders), &order)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: "order failed"})
 	}
 
@@ -184,16 +239,19 @@ func (u *PrelimTacController) NextPage(c *fiber.Ctx) error {
 	token := c.Get("authorization")
 	token, err := u.tokenMaker.GetToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	payload, err := u.tokenMaker.VerifyToken(token)
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
@@ -205,6 +263,7 @@ func (u *PrelimTacController) NextPage(c *fiber.Ctx) error {
 	// tolong ganti kalo udah ga simul
 	err = u.service.NextPagePrelimTac(int(user.TeamID.Int32))
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 

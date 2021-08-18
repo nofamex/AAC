@@ -92,19 +92,21 @@ func (u *CompeService) GetTeamById(id int32) (*model.TeamProfile, error) {
 		return nil, err
 	}
 	team := model.TeamProfile{
-		TeamName:    teamDb.TeamName,
-		University:  teamDb.University,
-		FullName:    teamDb.FullName,
-		Phone:       teamDb.Phone,
-		IDLine:      teamDb.IDLine,
-		Email:       teamDb.Email,
-		PhotoLink:   teamDb.PhotoLink,
-		PaymentLink: teamDb.PaymentLink,
-		CardLink:    teamDb.CardLink,
-		SkLink:      teamDb.SkLink.String,
-		Type:        teamDb.Type,
-		Status:      teamDb.Verified,
+		TeamName:     teamDb.TeamName,
+		University:   teamDb.University,
+		FullName:     teamDb.FullName,
+		Phone:        teamDb.Phone,
+		IDLine:       teamDb.IDLine,
+		Email:        teamDb.Email,
+		PhotoLink:    teamDb.PhotoLink,
+		PaymentLink:  teamDb.PaymentLink,
+		CardLink:     teamDb.CardLink,
+		SkLink:       teamDb.SkLink.String,
+		Type:         teamDb.Type,
+		Status:       teamDb.Verified,
+		StatusPrelim: teamDb.StatusPrelim,
 	}
+
 	return &team, nil
 }
 
@@ -136,4 +138,12 @@ func (u *CompeService) AddTeamIdToUser(id, teamId int32) error {
 		},
 	}
 	return u.query.AddTeamIdToUser(context.Background(), param)
+}
+
+func (u *CompeService) UpdatePrelimStatus(id int, status string) error {
+	param := db.UpdatePrelimStatusParams{
+		ID:           int32(id),
+		StatusPrelim: status,
+	}
+	return u.query.UpdatePrelimStatus(context.Background(), param)
 }

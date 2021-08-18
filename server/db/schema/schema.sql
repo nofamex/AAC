@@ -15,7 +15,9 @@ create table team (
   sk_link varchar(255),
 
   type varchar(5) not null,
-  verified varchar(10) default 'menunggu' not null
+  verified varchar(10) default 'menunggu' not null,
+  status_prelim varchar(10) default 'kosong' not null,
+  status_elim varchar(10) default 'kosong' not null
 );
 
 -- user
@@ -94,9 +96,9 @@ CREATE TABLE elim_unac_battle_of_sandwich (
 
 CREATE TABLE elim_unac_rescue_the_number (
   id SERIAL PRIMARY KEY,
-  soal text,
-  jawaban text,
-  bobot int
+  soal text not null,
+  jawaban text not null,
+  bobot int not null
 );
 
 -- logic
@@ -108,6 +110,10 @@ CREATE TABLE prelim_unac_master (
   paket int not null,
   score int not null default 0,
   last_page int not null default 1,
+  submited timestamp,
+  benar int not null default 0,
+  salah int not null default 0,
+  kosong int default 15,
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 
@@ -119,6 +125,10 @@ CREATE TABLE prelim_tac_master (
   paket int not null,
   score int not null default 0,
   last_page int not null default 1,
+  submited timestamp,
+  benar int not null default 0,
+  salah int not null default 0,
+  kosong int default 15,
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 
@@ -126,30 +136,33 @@ CREATE TABLE prelim_tac_master (
 CREATE TABLE prelim_unac_pg_jawaban (
   id SERIAL PRIMARY KEY,
   team_id int not null,
-  soal_id int not null unique,
+  soal_id int not null,
   jawaban int not null,
   FOREIGN KEY (team_id) REFERENCES prelim_unac_master (team_id),
-  FOREIGN KEY (soal_id) REFERENCES prelim_unac_pg (id)
+  FOREIGN KEY (soal_id) REFERENCES prelim_unac_pg (id),
+  UNIQUE(team_id, soal_id)
 );
 
 
 CREATE TABLE prelim_unac_isian_jawaban (
   id SERIAL PRIMARY KEY,
   team_id int not null,
-  soal_id int not null unique,
+  soal_id int not null,
   jawaban text not null,
   FOREIGN KEY (team_id) REFERENCES prelim_unac_master (team_id),
-  FOREIGN KEY (soal_id) REFERENCES prelim_unac_isian (id)
+  FOREIGN KEY (soal_id) REFERENCES prelim_unac_isian (id),
+  UNIQUE(team_id, soal_id)
 );
 
 
 CREATE TABLE prelim_tac_pg_jawaban (
   id SERIAL PRIMARY KEY,
   team_id int not null,
-  soal_id int not null unique,
+  soal_id int not null,
   jawaban int not null,
   FOREIGN KEY (team_id) REFERENCES prelim_tac_master (team_id),
-  FOREIGN KEY (soal_id) REFERENCES prelim_tac_pg (id)
+  FOREIGN KEY (soal_id) REFERENCES prelim_tac_pg (id),
+  UNIQUE(team_id, soal_id)
 );
 
 create table statistics (
