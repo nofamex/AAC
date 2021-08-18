@@ -84,7 +84,7 @@ func (u *PrelimUnacController) Start(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "mengerjakan")
+	err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "ongoing")
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
