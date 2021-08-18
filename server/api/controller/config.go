@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -31,6 +32,7 @@ func (u *ConfigController) Time(c *fiber.Ctx) error {
 
 	config, err := u.service.GetConfig()
 	if err != nil {
+		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 	return c.Status(http.StatusOK).JSON(config)

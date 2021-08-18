@@ -64,3 +64,8 @@ func (u *PrelimTacService) NextPagePrelimTac(teamId int) error {
 	err := u.query.UpdatePagePrelimTac(context.Background(), int32(teamId))
 	return err
 }
+
+func (u *PrelimTacService) UpdateSubmitedTac(teamId int) error {
+	err := u.query.UpdateSubmitedPrelimTac(context.Background(), int32(teamId))
+	return err
+}

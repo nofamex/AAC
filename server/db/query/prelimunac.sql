@@ -49,3 +49,8 @@ WHERE team_id = $1;
 UPDATE prelim_unac_master
 SET last_page = last_page + 1
 WHERE team_id = $1;
+
+-- name: UpdateSubmitedPrelimUnac :exec
+UPDATE prelim_unac_master
+SET submited = now()
+WHERE team_id = $1;

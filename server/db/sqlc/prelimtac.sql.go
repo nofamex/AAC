@@ -16,7 +16,7 @@ INSERT INTO  prelim_tac_master (
   score
 ) VALUES (
   $1, $2, $3, $4, $5
-) RETURNING id, team_id, token, orders, paket, score, last_page
+) RETURNING id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong
 `
 
 type CreatePrelimTacParams struct {
@@ -44,6 +44,10 @@ func (q *Queries) CreatePrelimTac(ctx context.Context, arg CreatePrelimTacParams
 		&i.Paket,
 		&i.Score,
 		&i.LastPage,
+		&i.Submited,
+		&i.Benar,
+		&i.Salah,
+		&i.Kosong,
 	)
 	return i, err
 }
@@ -56,7 +60,7 @@ INSERT INTO prelim_tac_pg_jawaban (
 ) VALUES (
   $1, $2, $3
 )
-ON CONFLICT (soal_id) DO UPDATE SET jawaban = EXCLUDED.jawaban
+ON CONFLICT (team_id, soal_id)  DO UPDATE SET jawaban = EXCLUDED.jawaban
 `
 
 type CreatePrelimTacPgJawabanParams struct {
@@ -83,7 +87,7 @@ func (q *Queries) GetPagePrelimTac(ctx context.Context, teamID int32) (int32, er
 }
 
 const getPrelimTacByTeamId = `-- name: GetPrelimTacByTeamId :one
-SELECT id, team_id, token, orders, paket, score, last_page from prelim_tac_master
+SELECT id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong from prelim_tac_master
 WHERE team_id = $1
 `
 
@@ -98,6 +102,10 @@ func (q *Queries) GetPrelimTacByTeamId(ctx context.Context, teamID int32) (Preli
 		&i.Paket,
 		&i.Score,
 		&i.LastPage,
+		&i.Submited,
+		&i.Benar,
+		&i.Salah,
+		&i.Kosong,
 	)
 	return i, err
 }
@@ -132,5 +140,16 @@ WHERE team_id = $1
 
 func (q *Queries) UpdatePagePrelimTac(ctx context.Context, teamID int32) error {
 	_, err := q.db.ExecContext(ctx, updatePagePrelimTac, teamID)
+	return err
+}
+
+const updateSubmitedPrelimTac = `-- name: UpdateSubmitedPrelimTac :exec
+UPDATE prelim_tac_master
+SET submited = now()
+WHERE team_id = $1
+`
+
+func (q *Queries) UpdateSubmitedPrelimTac(ctx context.Context, teamID int32) error {
+	_, err := q.db.ExecContext(ctx, updateSubmitedPrelimTac, teamID)
 	return err
 }

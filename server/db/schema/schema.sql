@@ -16,7 +16,8 @@ create table team (
 
   type varchar(5) not null,
   verified varchar(10) default 'menunggu' not null,
-  status_prelim varchar(10) default 'kosong' not null
+  status_prelim varchar(10) default 'kosong' not null,
+  status_elim varchar(10) default 'kosong' not null
 );
 
 -- user
@@ -109,6 +110,10 @@ CREATE TABLE prelim_unac_master (
   paket int not null,
   score int not null default 0,
   last_page int not null default 1,
+  submited timestamp,
+  benar int not null default 0,
+  salah int not null default 0,
+  kosong int default 15,
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 
@@ -120,6 +125,10 @@ CREATE TABLE prelim_tac_master (
   paket int not null,
   score int not null default 0,
   last_page int not null default 1,
+  submited timestamp,
+  benar int not null default 0,
+  salah int not null default 0,
+  kosong int default 15,
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 

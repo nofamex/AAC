@@ -16,7 +16,7 @@ INSERT INTO  prelim_unac_master (
   score
 ) VALUES (
   $1, $2, $3, $4, $5
-) RETURNING id, team_id, token, orders, paket, score, last_page
+) RETURNING id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong
 `
 
 type CreatePrelimUnacParams struct {
@@ -44,6 +44,10 @@ func (q *Queries) CreatePrelimUnac(ctx context.Context, arg CreatePrelimUnacPara
 		&i.Paket,
 		&i.Score,
 		&i.LastPage,
+		&i.Submited,
+		&i.Benar,
+		&i.Salah,
+		&i.Kosong,
 	)
 	return i, err
 }
@@ -105,7 +109,7 @@ func (q *Queries) GetPagePrelimUnac(ctx context.Context, teamID int32) (int32, e
 }
 
 const getPrelimUnacByTeamId = `-- name: GetPrelimUnacByTeamId :one
-SELECT id, team_id, token, orders, paket, score, last_page from prelim_unac_master
+SELECT id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong from prelim_unac_master
 WHERE team_id = $1
 `
 
@@ -120,6 +124,10 @@ func (q *Queries) GetPrelimUnacByTeamId(ctx context.Context, teamID int32) (Prel
 		&i.Paket,
 		&i.Score,
 		&i.LastPage,
+		&i.Submited,
+		&i.Benar,
+		&i.Salah,
+		&i.Kosong,
 	)
 	return i, err
 }
@@ -172,5 +180,16 @@ WHERE team_id = $1
 
 func (q *Queries) UpdatePagePrelimUnac(ctx context.Context, teamID int32) error {
 	_, err := q.db.ExecContext(ctx, updatePagePrelimUnac, teamID)
+	return err
+}
+
+const updateSubmitedPrelimUnac = `-- name: UpdateSubmitedPrelimUnac :exec
+UPDATE prelim_unac_master
+SET submited = now()
+WHERE team_id = $1
+`
+
+func (q *Queries) UpdateSubmitedPrelimUnac(ctx context.Context, teamID int32) error {
+	_, err := q.db.ExecContext(ctx, updateSubmitedPrelimUnac, teamID)
 	return err
 }

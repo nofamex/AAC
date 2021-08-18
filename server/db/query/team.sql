@@ -30,3 +30,7 @@ UPDATE team
 set verified = $2
 where id = $1;
 
+-- name: UpdatePrelimStatus :exec
+UPDATE team
+set status_prelim = $2
+where id = $1;
