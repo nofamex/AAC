@@ -15,8 +15,8 @@ services:
 
   server:
     container_name: server-aac
-    volumes:
-      - ./log:./log
+    # volumes:
+    #   - ./log:./log
     build:
       context: .
       dockerfile: Dockerfile-server
