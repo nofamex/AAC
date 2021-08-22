@@ -56,6 +56,7 @@ module.exports = {
       },
       inset: {
         pattern: "40%",
+        wbpat: "90vh",
       },
       minHeight: {
         section: "44rem",
