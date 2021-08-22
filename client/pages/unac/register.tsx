@@ -154,7 +154,7 @@ export default function Register() {
   return (
     <Layout>
       <PrivateRoute>
-        <div className="h-16 w-full bg-black-80"></div>
+        <div className="h-16 w-full bg-black-80" />
         <div className="h-auto w-full bg-black-80 flex flex-col justify-center items-center font-dm relative">
           {show && (
             <DangerModal
@@ -178,7 +178,7 @@ export default function Register() {
               left="-left-4"
             />
             <div className="h-6 w-16 py-2.5">
-              <div className="w-full h-full bg-orange"></div>
+              <div className="w-full h-full bg-orange" />
             </div>
             <Orb
               active={type === "anggota"}
@@ -186,7 +186,7 @@ export default function Register() {
               left="-left-4"
             />
             <div className="h-6 w-16 py-2.5">
-              <div className="w-full h-full bg-orange"></div>
+              <div className="w-full h-full bg-orange" />
             </div>
             <Orb active={type === "berkas"} title="Berkas" left="-left-2" />
           </div>
@@ -423,7 +423,7 @@ interface PMProps {
 function PembayaranModal({ closeHandler }: PMProps) {
   return (
     <>
-      <div className="h-full w-full absolute flex flex-col items-center justify-center bg-black-80 bg-opacity-90 z-10"></div>
+      <div className="h-full w-full absolute flex flex-col items-center justify-center bg-black-80 bg-opacity-90 z-10" />
       <div className="h-full w-full absolute flex flex-col items-center justify-center z-20">
         <motion.div
           className="h-auto w-full md:w-1/2 bg-compe border-2 border-compe rounded-xl flex flex-col font-dm p-4"

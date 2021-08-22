@@ -20,10 +20,10 @@ export default function Preliminary({
   statusPrelim,
 }: PreliminaryProps) {
   const UNAC =
-    "https://drive.google.com/file/d/1vFTPmUAgkieX8STtYHfKKfafFORpfW8T/view?usp=sharing";
+    "https://drive.google.com/file/d/1Mb8gR9pg3-3oN-7oGUGD8YQMx9-bEbSK/view?usp=sharing";
 
   const TAC =
-    "https://drive.google.com/file/d/1A-rlbeaFFfptOo1dI7FNwjEA1Og-01TO/view?usp=sharing";
+    "https://drive.google.com/file/d/1T-DG50hqL3YRBVvEXY5DwFQP7lYgxd7p/view?usp=sharing";
 
   const router = useRouter();
 

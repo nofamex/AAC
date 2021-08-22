@@ -9,7 +9,7 @@ import CompetitionFoot from "@components/Competition/CompetitionFoot";
 export default function TACHome() {
   return (
     <Layout>
-      <div className="h-16 w-full bg-black-80"></div>
+      <div className="h-16 w-full bg-black-80" />
       <CompeDetails type="tac" />
       <CompePrize type="tac" />
       <TacTimeline />
