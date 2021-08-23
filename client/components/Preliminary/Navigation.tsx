@@ -50,7 +50,7 @@ export default function Navigation({ endTime, page }: NavigationProps) {
           innerButtonText="Selesai >"
         />
       )}
-      <div className="w-full h-10 mb-2"></div>
+      <div className="w-full h-10 mb-2" />
       <div className="w-full h-auto bg-compe rounded-xl flex flex-col justify-center items-center text-white p-4">
         <p className="font-bold text-lg mb-2">Time Left</p>
         <Countdown date={toCurrentTimezone(endTime)} renderer={renderer} />
