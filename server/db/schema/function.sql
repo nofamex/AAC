@@ -256,6 +256,6 @@ $$
 LANGUAGE plpgsql;
 
 create trigger trigger_score_unac_isian
-after insert or update or delete on prelim_unac_isan_jawaban
+after insert or update or delete on prelim_unac_isian_jawaban
 for each row
 execute PROCEDURE score_unac_isian();
