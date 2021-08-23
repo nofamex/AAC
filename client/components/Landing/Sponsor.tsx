@@ -28,22 +28,37 @@ export default function Sponsor() {
             width="w-36"
             height="h-10"
           />
+          <SponsorLogo
+            src="/picture/sponsor/Danareksa.png"
+            width="w-44"
+            height="h-14"
+          />
         </SponsorRow>
         <SponsorRow>
           <SponsorLogo
+            src="/picture/sponsor/BNI.png"
+            width="w-24"
+            height="h-10"
+          />
+          <SponsorLogo
             src="/picture/sponsor/harisenin.png"
-            width="w-28"
+            width="w-20"
             height="h-4"
           />
           <SponsorLogo
             src="/picture/sponsor/GWLC.png"
-            width="w-12"
-            height="h-8"
+            width="w-10"
+            height="h-7"
           />
           <SponsorLogo
             src="/picture/sponsor/IAIJatim.png"
+            width="w-12"
+            height="h-9"
+          />
+          <SponsorLogo
+            src="/picture/sponsor/arekFeua.png"
             width="w-16"
-            height="h-10"
+            height="h-12"
           />
         </SponsorRow>
       </div>
