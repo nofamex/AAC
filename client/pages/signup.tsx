@@ -23,7 +23,7 @@ export default function SignUpDesktop() {
 
   return (
     <Layout>
-      <div className="h-16 w-full bg-black-80 z-0"></div>
+      <div className="h-16 w-full bg-black-80 z-0" />
       <div className="h-section w-full bg-black-80 z-0 flex flex-col items-center justify-center sm:h-screen">
         <div className="h-20 w-full text-white flex justify-center z-10 md:hidden">
           <p

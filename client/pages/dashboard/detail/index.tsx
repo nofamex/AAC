@@ -3,7 +3,7 @@ import Layout from "@components/Context/Layout";
 import PrivateRoute from "@components/Context/PrivateRoute";
 import api from "@lib/axios";
 import StatusBar from "@components/Dashboard/StatusBar";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Loader from "@components/Context/Loader";
 
 export default function DashboardDetail() {
@@ -47,8 +47,7 @@ export default function DashboardDetail() {
     const dateArr = dateF.toDateString().split(" ");
     const month = dateF.getUTCMonth() + 1;
     const year = dateF.getUTCFullYear();
-    const newDate = `${dateArr[2]}/${month}/${year}`;
-    return newDate;
+    return `${dateArr[2]}/${month}/${year}`;
   };
 
   let detailsIDT: any[] = [];
@@ -104,7 +103,7 @@ export default function DashboardDetail() {
   return (
     <Layout>
       <PrivateRoute>
-        <div className="h-16 w-full bg-black-80 z-0"></div>
+        <div className="h-16 w-full bg-black-80 z-0" />
         <div className="h-auto min-h-screen w-full bg-black-80">
           <div className="h-20 w-full text-white flex justify-center z-10">
             <p
@@ -126,7 +125,6 @@ export default function DashboardDetail() {
                   : "Menunggu Verifikasi"
               }
               status={status.status}
-              message="Cek email anda untuk keterangan tolakan"
             />
           </div>
           <div className="w-full h-full flex sm:flex-row px-4 sm:px-10 md:px-14 lg:px-20 xl:px-40 mt-8">
@@ -160,10 +158,9 @@ export default function DashboardDetail() {
 interface DSProps {
   text: string;
   status: string;
-  message: string;
 }
 
-function DetailStatus({ text, status, message }: DSProps) {
+function DetailStatus({ text, status }: DSProps) {
   return (
     <div className="w-auto h-full border-2 border-white rounded-xl font-dm text-white flex flex-col justify-center p-4">
       <p className="font-bold text-lg flex flex-row items-start sm:items-center">

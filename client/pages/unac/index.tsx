@@ -9,7 +9,7 @@ import CompetitionFoot from "@components/Competition/CompetitionFoot";
 export default function UNACHome() {
   return (
     <Layout>
-      <div className="h-16 w-full bg-black-80 z-0"></div>
+      <div className="h-16 w-full bg-black-80 z-0" />
       <CompeDetails type="unac" />
       <CompePrize type="unac" />
       <UnacTimeline />
