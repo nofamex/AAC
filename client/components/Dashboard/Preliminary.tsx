@@ -83,14 +83,14 @@ export default function Preliminary({
           )}
         </span>
       </p>
-      <Countdown
+      {/* <Countdown
         date={toCurrentTimezone(
           type === "unac"
             ? data.prelim_unac_start.Time
             : data.prelim_tac_start.Time
         )}
         renderer={renderer}
-      />
+      /> */}
       <p className="text-lg mt-4">Aturan dan cara pengerjaan lomba:</p>
       <a
         href={type === "unac" ? UNAC : TAC}
