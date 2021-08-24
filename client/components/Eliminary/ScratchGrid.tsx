@@ -44,14 +44,12 @@ export default function ScratchGrid({ generated }: any) {
   };
 
   const findWordChecker = (x: number, y: number, selectedWord: string[]) => {
-    const selectedArr = wordsInstance.utils.createPathFromPair(firstWord, {
-      x,
-      y,
-    });
     let word = "";
-    selectedArr.forEach((element: { x: number; y: number }) => {
-      word += simulQuestion[element.y][element.x];
-    });
+    wordsInstance.utils
+      .createPathFromPair(firstWord, { x, y })
+      .forEach((element: { x: number; y: number }) => {
+        word += simulQuestion[element.y][element.x];
+      });
     if (simulWordArr.includes(word)) {
       selectedWord.forEach((element) => {
         findedWord.push(element);
