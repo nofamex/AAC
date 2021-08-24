@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { wordArr } from "@lib/word";
+import { useState, useEffect } from "react";
+import { simulWordArr, simulQuestion } from "@lib/word";
+import Cookies from "js-cookie";
 
 export default function ScratchGrid({ generated }: any) {
   const wordsInstance = generated.instance;
@@ -7,6 +8,12 @@ export default function ScratchGrid({ generated }: any) {
   const [lastWord, setLastWord] = useState<any>({});
   const [selectedWord, setSelectedWord] = useState<any>([]);
   const [findedWord, setFindedWord] = useState<any>([]);
+
+  useEffect(() => {
+    if (typeof Cookies.get("scratchFindedWord") !== "undefined") {
+      setFindedWord(JSON.parse(Cookies.get("scratchFindedWord") || ""));
+    }
+  }, []);
 
   const refreshSelected = () => {
     setFirstWord({});
@@ -37,14 +44,24 @@ export default function ScratchGrid({ generated }: any) {
   };
 
   const findWordChecker = (x: number, y: number, selectedWord: string[]) => {
-    if (wordArr.includes(wordsInstance.read(firstWord, { x, y }))) {
-      setFindedWord([...selectedWord, ...findedWord, `x-${x},y-${y}`]);
+    const selectedArr = wordsInstance.utils.createPathFromPair(firstWord, {
+      x,
+      y,
+    });
+    let word = "";
+    selectedArr.forEach((element: { x: number; y: number }) => {
+      word += simulQuestion[element.y][element.x];
+    });
+    if (simulWordArr.includes(word)) {
+      selectedWord.forEach((element) => {
+        findedWord.push(element);
+      });
       refreshSelected();
-      console.log(
-        `Berhasil Menemukan ${wordsInstance.read(firstWord, { x, y })}`
-      );
+      Cookies.set("scratchFindedWord", JSON.stringify(findedWord));
     }
   };
+
+  console.log(findedWord);
 
   return (
     <div className="h-full w-11/12 rounded-xl bg-compe ml-4 p-4 text-white font-md font-bold flex flex-col justify-center items-center">
