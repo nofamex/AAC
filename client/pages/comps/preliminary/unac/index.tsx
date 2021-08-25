@@ -123,7 +123,7 @@ export default function PremsCompsUNAC() {
                 )}
               </div>
             </div>
-            <Navigation endTime={endTime} page={page} />
+            <Navigation endTime={endTime} page={page} cmpt="unac" />
           </div>
         </div>
       </Layout>
