@@ -1,1 +1,4 @@
 2021/08/18 21:11:10 prelimunac.go:89: pq: value too long for type character varying(10)
+2021/08/25 16:46:57 compe.go:106: sql: no rows in result set
+2021/08/25 16:47:25 compe.go:106: sql: no rows in result set
+2021/08/25 16:48:45 compe.go:106: sql: no rows in result set

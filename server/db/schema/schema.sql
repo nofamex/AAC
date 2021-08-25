@@ -16,8 +16,8 @@ create table team (
 
   type varchar(5) not null,
   verified varchar(10) default 'menunggu' not null,
-  verified_prelim varchar(10) default 'menunggu' not null,
   status_prelim varchar(10) default 'kosong' not null,
+  status_payment_prelim varchar(10) default 'kosong' not null,
   status_elim varchar(10) default 'kosong' not null
 );
 
@@ -175,12 +175,20 @@ CREATE TABLE prelim_tac_pg_jawaban (
 CREATE TABLE "elim_unac_master" (
   "id" SERIAL PRIMARY KEY,
   "team_id" int UNIQUE NOT NULL,
+  "orders" varchar not null,
+  "last_order" int not null default 0,
   "total_score" int NOT NULL DEFAULT 0,
   "total_benar" int NOT NULL DEFAULT 0,
   "total_salah" int NOT NULL DEFAULT 0,
-  "bos_score" int NOT NULL DEFAULT 0,
-  "bos_benar" int NOT NULL DEFAULT 0,
-  "bos_salah" int NOT NULL DEFAULT 0,
+  "bos1_score" int NOT NULL DEFAULT 0,
+  "bos1_benar" int NOT NULL DEFAULT 0,
+  "bos1_salah" int NOT NULL DEFAULT 0,
+  "bos2_score" int NOT NULL DEFAULT 0,
+  "bos2_benar" int NOT NULL DEFAULT 0,
+  "bos2_salah" int NOT NULL DEFAULT 0,
+  "bos3_score" int NOT NULL DEFAULT 0,
+  "bos3_benar" int NOT NULL DEFAULT 0,
+  "bos3_salah" int NOT NULL DEFAULT 0,
   "sthw_score" int NOT NULL DEFAULT 0,
   "sthw_benar" int NOT NULL DEFAULT 0,
   "sthw_salah" int NOT NULL DEFAULT 0,
@@ -270,7 +278,7 @@ CREATE TABLE config (
   prelim_unac_start timestamp,
   prelim_unac_stop timestamp,
   prelim_tac_start timestamp,
-  prelim_tac_stop timestamp
+  prelim_tac_stop timestamp,
   "battle_of_sandwich_start" timestamp,
   "battle_of_sandwich_stop" timestamp,
   "scratch_the_hidden_words_start" timestamp,

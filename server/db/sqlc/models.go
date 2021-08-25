@@ -7,12 +7,37 @@ import (
 	"time"
 )
 
+type BattleOfSandwichJawaban struct {
+	ID      int32  `json:"id"`
+	TeamID  int32  `json:"team_id"`
+	SoalID  int32  `json:"soal_id"`
+	Jawaban string `json:"jawaban"`
+}
+
+type BattleOfSandwichMaster struct {
+	ID       int32  `json:"id"`
+	TeamID   int32  `json:"team_id"`
+	Token    string `json:"token"`
+	Orders   string `json:"orders"`
+	Paket    int32  `json:"paket"`
+	LastPage int32  `json:"last_page"`
+	Benar    int32  `json:"benar"`
+	Salah    int32  `json:"salah"`
+	Score    int32  `json:"score"`
+}
+
 type Config struct {
-	ID              int32        `json:"id"`
-	PrelimUnacStart sql.NullTime `json:"prelim_unac_start"`
-	PrelimUnacStop  sql.NullTime `json:"prelim_unac_stop"`
-	PrelimTacStart  sql.NullTime `json:"prelim_tac_start"`
-	PrelimTacStop   sql.NullTime `json:"prelim_tac_stop"`
+	ID                         int32        `json:"id"`
+	PrelimUnacStart            sql.NullTime `json:"prelim_unac_start"`
+	PrelimUnacStop             sql.NullTime `json:"prelim_unac_stop"`
+	PrelimTacStart             sql.NullTime `json:"prelim_tac_start"`
+	PrelimTacStop              sql.NullTime `json:"prelim_tac_stop"`
+	BattleOfSandwichStart      sql.NullTime `json:"battle_of_sandwich_start"`
+	BattleOfSandwichStop       sql.NullTime `json:"battle_of_sandwich_stop"`
+	ScratchTheHiddenWordsStart sql.NullTime `json:"scratch_the_hidden_words_start"`
+	ScratchTheHiddenWordsStop  sql.NullTime `json:"scratch_the_hidden_words_stop"`
+	RescueTheNumberStart       sql.NullTime `json:"rescue_the_number_start"`
+	RescueTheNumberStop        sql.NullTime `json:"rescue_the_number_stop"`
 }
 
 type ElimUnacBattleOfSandwich struct {
@@ -27,11 +52,42 @@ type ElimUnacBattleOfSandwich struct {
 	Paket    int32  `json:"paket"`
 }
 
+type ElimUnacMaster struct {
+	ID         int32  `json:"id"`
+	TeamID     int32  `json:"team_id"`
+	Orders     string `json:"orders"`
+	LastOrder  int32  `json:"last_order"`
+	TotalScore int32  `json:"total_score"`
+	TotalBenar int32  `json:"total_benar"`
+	TotalSalah int32  `json:"total_salah"`
+	Bos1Score  int32  `json:"bos1_score"`
+	Bos1Benar  int32  `json:"bos1_benar"`
+	Bos1Salah  int32  `json:"bos1_salah"`
+	Bos2Score  int32  `json:"bos2_score"`
+	Bos2Benar  int32  `json:"bos2_benar"`
+	Bos2Salah  int32  `json:"bos2_salah"`
+	Bos3Score  int32  `json:"bos3_score"`
+	Bos3Benar  int32  `json:"bos3_benar"`
+	Bos3Salah  int32  `json:"bos3_salah"`
+	SthwScore  int32  `json:"sthw_score"`
+	SthwBenar  int32  `json:"sthw_benar"`
+	SthwSalah  int32  `json:"sthw_salah"`
+	RtnScore   int32  `json:"rtn_score"`
+	RtnBenar   int32  `json:"rtn_benar"`
+	RtnSalah   int32  `json:"rtn_salah"`
+}
+
 type ElimUnacRescueTheNumber struct {
 	ID      int32  `json:"id"`
 	Soal    string `json:"soal"`
 	Jawaban string `json:"jawaban"`
 	Bobot   int32  `json:"bobot"`
+}
+
+type ElimUnacScratchTheHiddenWord struct {
+	ID      int32  `json:"id"`
+	Jawaban string `json:"jawaban"`
+	Benar   bool   `json:"benar"`
 }
 
 type Member struct {
@@ -53,8 +109,8 @@ type PrelimTacMaster struct {
 	Score    int32         `json:"score"`
 	LastPage int32         `json:"last_page"`
 	Submited sql.NullTime  `json:"submited"`
-	Benar    sql.NullInt32 `json:"benar"`
-	Salah    sql.NullInt32 `json:"salah"`
+	Benar    int32         `json:"benar"`
+	Salah    int32         `json:"salah"`
 	Kosong   sql.NullInt32 `json:"kosong"`
 }
 
@@ -101,8 +157,8 @@ type PrelimUnacMaster struct {
 	Score    int32         `json:"score"`
 	LastPage int32         `json:"last_page"`
 	Submited sql.NullTime  `json:"submited"`
-	Benar    sql.NullInt32 `json:"benar"`
-	Salah    sql.NullInt32 `json:"salah"`
+	Benar    int32         `json:"benar"`
+	Salah    int32         `json:"salah"`
 	Kosong   sql.NullInt32 `json:"kosong"`
 }
 
@@ -125,6 +181,38 @@ type PrelimUnacPgJawaban struct {
 	Jawaban int32 `json:"jawaban"`
 }
 
+type RescueTheNumberJawaban struct {
+	ID      int32 `json:"id"`
+	TeamID  int32 `json:"team_id"`
+	SoalID  int32 `json:"soal_id"`
+	Jawaban int32 `json:"jawaban"`
+}
+
+type RescueTheNumberMaster struct {
+	ID     int32  `json:"id"`
+	TeamID int32  `json:"team_id"`
+	Token  string `json:"token"`
+	Benar  int32  `json:"benar"`
+	Salah  int32  `json:"salah"`
+	Score  int32  `json:"score"`
+}
+
+type ScratchTheHiddenWordsJawaban struct {
+	ID      int32  `json:"id"`
+	TeamID  int32  `json:"team_id"`
+	SoalID  int32  `json:"soal_id"`
+	Jawaban string `json:"jawaban"`
+}
+
+type ScratchTheHiddenWordsMaster struct {
+	ID     int32  `json:"id"`
+	TeamID int32  `json:"team_id"`
+	Token  string `json:"token"`
+	Benar  int32  `json:"benar"`
+	Salah  int32  `json:"salah"`
+	Score  int32  `json:"score"`
+}
+
 type Statistic struct {
 	ID         int32         `json:"id"`
 	TacDaftar  sql.NullInt32 `json:"tac_daftar"`
@@ -134,21 +222,22 @@ type Statistic struct {
 }
 
 type Team struct {
-	ID           int32          `json:"id"`
-	TeamName     string         `json:"team_name"`
-	University   string         `json:"university"`
-	FullName     string         `json:"full_name"`
-	Phone        string         `json:"phone"`
-	IDLine       string         `json:"id_line"`
-	Email        string         `json:"email"`
-	PhotoLink    string         `json:"photo_link"`
-	PaymentLink  string         `json:"payment_link"`
-	CardLink     string         `json:"card_link"`
-	SkLink       sql.NullString `json:"sk_link"`
-	Type         string         `json:"type"`
-	Verified     string         `json:"verified"`
-	StatusPrelim string         `json:"status_prelim"`
-	StatusElim   string         `json:"status_elim"`
+	ID                  int32          `json:"id"`
+	TeamName            string         `json:"team_name"`
+	University          string         `json:"university"`
+	FullName            string         `json:"full_name"`
+	Phone               string         `json:"phone"`
+	IDLine              string         `json:"id_line"`
+	Email               string         `json:"email"`
+	PhotoLink           string         `json:"photo_link"`
+	PaymentLink         string         `json:"payment_link"`
+	CardLink            string         `json:"card_link"`
+	SkLink              sql.NullString `json:"sk_link"`
+	Type                string         `json:"type"`
+	Verified            string         `json:"verified"`
+	StatusPrelim        string         `json:"status_prelim"`
+	StatusPaymentPrelim string         `json:"status_payment_prelim"`
+	StatusElim          string         `json:"status_elim"`
 }
 
 type User struct {

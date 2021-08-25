@@ -103,7 +103,7 @@ func (u *CompeController) GetTeam(c *fiber.Ctx) error {
 
 	user, err := u.service.GetUserById(payload.UserId)
 	if err != nil {
-		log.Println(err)
+		log.Printf("err:%s \npayload:%#v\n", err.Error(), payload)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
