@@ -5,17 +5,48 @@ import RescueQuestion from "@components/Eliminary/RescueQuestion";
 import PrivateRoute from "@components/Context/PrivateRoute";
 import CompsModal from "@components/Modal/CompsModal";
 import Button from "@components/Context/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "@lib/axios";
+import { useRouter } from "next/router";
+import Loader from "@components/Context/Loader";
 
 export default function RescueNumbers() {
+  const router = useRouter();
   const [show, setShow] = useState(false);
+  const [endTIme, setEndTime] = useState<any>();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function data() {
+      api
+        .get("/config/time")
+        .then((res) => {
+          setEndTime(res.data.rescue_the_number_stop.Time);
+          setLoading(false);
+        })
+        .catch((err) => console.log(err));
+    }
+    data();
+  }, []);
+
+  const acceptFinishHandler = () => {
+    api.post("/elim/unac/rescue/finish").then(() => {
+      localStorage.removeItem("isRescueStarted");
+      router.push("/dashboard");
+    });
+  };
+
+  if (loading) {
+    return <Loader height="h-screen" />;
+  }
+
   return (
     <PrivateRoute>
       <Layout>
         {show && (
           <CompsModal
             closeHandler={() => setShow(false)}
-            acceptHandler={() => console.log("selesai")}
+            acceptHandler={acceptFinishHandler}
             headerText="Anda yakin ingin menyelesaikan?"
             bodyText="Tugas yang sudah selesai tidak bisa dikerjakan kembali"
             innerButtonText="Lanjut"
@@ -35,23 +66,21 @@ export default function RescueNumbers() {
             <div className="h-full w-3/5 flex flex-col items-end">
               <RescueHeader />
               <RescueQuestion />
-            </div>
-            <div className="h-full w-2/5">
-              <ScratchTimer />
-            </div>
-          </div>
-          <div className="h-screen w-full flex">
-            <div className="h-16 w-3/5 flex justify-end">
-              <div className="w-4/5 h-full flex items-center justify-end mr-4">
-                <Button
-                  text="Selesai >"
-                  filled={true}
-                  handler={() => setShow(true)}
-                />
+              <div className="h-16 w-3/5 flex justify-end mt-4">
+                <div className="w-4/5 flex items-center justify-end mr-4">
+                  <Button
+                    text="Selesai >"
+                    filled={true}
+                    handler={() => setShow(true)}
+                  />
+                </div>
               </div>
             </div>
-            <div className="h-full w-2/5" />
+            <div className="h-full w-2/5">
+              <ScratchTimer endTime={endTIme} type="rescue" />
+            </div>
           </div>
+          <div className="h-96 w-full flex" />
         </div>
       </Layout>
     </PrivateRoute>

@@ -123,7 +123,7 @@ export default function PremsCompsTAC() {
                 )}
               </div>
             </div>
-            <Navigation endTime={endTime} page={page} />
+            <Navigation endTime={endTime} page={page} cmpt="tac" />
           </div>
         </div>
       </Layout>

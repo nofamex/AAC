@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { simulWordArr, simulQuestion } from "@lib/word";
 import Cookies from "js-cookie";
+import api from "@lib/axios";
 
 export default function ScratchGrid({ generated }: any) {
   const wordsInstance = generated.instance;
@@ -14,6 +15,10 @@ export default function ScratchGrid({ generated }: any) {
       setFindedWord(JSON.parse(Cookies.get("scratchFindedWord") || ""));
     }
   }, []);
+
+  const submitAnswerHandler = async (jawaban: string) => {
+    await api.post("/elim/unac/scratch/submit", { jawaban });
+  };
 
   const refreshSelected = () => {
     setFirstWord({});
@@ -43,7 +48,11 @@ export default function ScratchGrid({ generated }: any) {
     }
   };
 
-  const findWordChecker = (x: number, y: number, selectedWord: string[]) => {
+  const findWordChecker = async (
+    x: number,
+    y: number,
+    selectedWord: string[]
+  ) => {
     let word = "";
     wordsInstance.utils
       .createPathFromPair(firstWord, { x, y })
@@ -56,10 +65,9 @@ export default function ScratchGrid({ generated }: any) {
       });
       refreshSelected();
       Cookies.set("scratchFindedWord", JSON.stringify(findedWord));
+      submitAnswerHandler(word);
     }
   };
-
-  console.log(findedWord);
 
   return (
     <div className="h-full w-11/12 rounded-xl bg-compe ml-4 p-4 text-white font-md font-bold flex flex-col justify-center items-center">

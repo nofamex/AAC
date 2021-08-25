@@ -6,9 +6,13 @@ import { useForm } from "react-hook-form";
 
 interface PostliminaryProps {
   status: string;
+  paymentStatus: string;
 }
 
-export default function Postliminary({ status }: PostliminaryProps) {
+export default function Postliminary({
+  status,
+  paymentStatus,
+}: PostliminaryProps) {
   const [isShow, setIsShow] = useState(false);
   const {
     register,
@@ -32,10 +36,10 @@ export default function Postliminary({ status }: PostliminaryProps) {
   };
 
   return (
-    <div className="border-white border-2 rounded-lg w-full h-auto p-4">
+    <div className="border-white border-2 rounded-lg w-full h-auto p-4 mt-4">
       {isShow && <PostliminaryModal closeHandler={() => setIsShow(false)} />}
       <p className="font-bold text-lg">Babak Preliminary</p>
-      {status === "pass" ? (
+      {status === "lolos" && paymentStatus === "kosong" ? (
         <>
           <p className="text-lg mt-4">
             Selamat!{" "}
@@ -66,15 +70,13 @@ export default function Postliminary({ status }: PostliminaryProps) {
             <Button text="Submit" filled={false} handler={handleSubmit} />
           </div>
         </>
-      ) : status === "failed" ? (
+      ) : status === "gagal" ? (
         <p className="text-lg mt-4">
           Maaf anda tidak beruntung silahkan coba tahun depan
         </p>
-      ) : status === "verified" ? (
-        <p className="text-lg mt-4">Verifikasi pembayaran berhasil</p>
-      ) : (
-        <p className="text-lg mt-4">Verifikasi pembayaran Gagal</p>
-      )}
+      ) : status === "lolos" && paymentStatus === "bayar" ? (
+        <p className="text-lg mt-4">Pembyaran anda sedang di verifikasi</p>
+      ) : null}
     </div>
   );
 }

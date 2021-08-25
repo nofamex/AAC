@@ -9,14 +9,15 @@ import { useRouter } from "next/router";
 interface NavigationProps {
   endTime: string;
   page: number;
+  cmpt: string;
 }
 
-export default function Navigation({ endTime, page }: NavigationProps) {
+export default function Navigation({ endTime, page, cmpt }: NavigationProps) {
   const [show, setShow] = useState(false);
   const router = useRouter();
 
   const acceptFinishHandler = () => {
-    api.post("/prelim/unac/finish").then(() => {
+    api.post(`/prelim/${cmpt}/finish`).then(() => {
       router.push("/dashboard");
       localStorage.removeItem("isPrelimStarted");
     });
@@ -70,22 +71,32 @@ export default function Navigation({ endTime, page }: NavigationProps) {
               />
             ))}
           </div>
-          {/* <div className="flex justify-center mb-2">
-            {row2.map((r, i) => (
-              <Number key={`r2${i}`} nums={r} />
-            ))}
+          <div className="flex justify-center mb-2">
+            {/* {row2.map((r, i) => (
+              <Number
+                key={`r2${i}`}
+                nums={r}
+                selected={r === page ? true : false}
+                page={page}
+              />
+            ))} */}
           </div>
           <div className="flex justify-center">
-            {row3.map((r, i) => (
-              <Number key={`r3${i}`} nums={r} />
-            ))}
-          </div> */}
+            {/* {row3.map((r, i) => (
+              <Number
+                key={`r3${i}`}
+                nums={r}
+                selected={r === page ? true : false}
+                page={page}
+              />
+            ))} */}
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-const row1 = [1, 2, 3];
+const row1 = [1, 2];
 const row2 = [5, 6, 7, 8];
 const row3 = [9, 10, 11, 12];
