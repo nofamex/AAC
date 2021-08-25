@@ -75,13 +75,7 @@ export default function Preliminary({
       <p className="font-bold text-lg">Babak {phase}</p>
       <p className="text-lg mt-4">
         Akan dimulai tanggal{" "}
-        <span className="font-bold text-orange">
-          {getDate(
-            type === "unac"
-              ? new Date(data.prelim_unac_start.Time)
-              : new Date(data.prelim_tac_start.Time)
-          )}
-        </span>
+        <span className="font-bold text-orange">28 Agustus 2021</span>
       </p>
       <Countdown
         date={toCurrentTimezone(
