@@ -16,7 +16,7 @@ export const getDate = (dt: Date) => {
 
   const month = monthNames[dt.getMonth()];
 
-  return `${dt.getDate()} ${month} ${dt.getUTCFullYear()}`;
+  return `${dt.getDate() - 1} ${month} ${dt.getUTCFullYear()}`;
 };
 
 export const toCurrentTimezone = (crt: string) => {

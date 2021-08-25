@@ -9,7 +9,7 @@ import Loader from "@components/Context/Loader";
 import CompsModal from "@components/Modal/CompsModal";
 import { useRouter } from "next/router";
 
-export default function PremsCompsTAC() {
+export default function Sandwich() {
   const router = useRouter();
   const [endTime, setEndTime] = useState("");
   const [loading, setLoading] = useState(true);
@@ -24,11 +24,11 @@ export default function PremsCompsTAC() {
       api
         .get("/config/time")
         .then((res) => {
-          setEndTime(res.data.prelim_tac_stop.Time);
+          setEndTime(res.data.battle_of_sandwich_stop.Time);
         })
         .catch((err) => console.log(err));
       api
-        .get("/prelim/tac/soal")
+        .get("/prelim/sandwich/soal")
         .then((res) => {
           setQuestion(res.data.body);
           setPage(res.data.page);
@@ -41,13 +41,13 @@ export default function PremsCompsTAC() {
   }, []);
 
   const acceptContinueHandler = () => {
-    api.get("/prelim/tac/next").then(() => router.reload());
+    api.get("/prelim/sandwich/next").then(() => router.reload());
   };
 
   const acceptFinishHandler = () => {
-    api.post("/prelim/tac/finish").then(() => {
+    api.post("/prelim/sandwich/finish").then(() => {
+      localStorage.removeItem("isSandwichStarted");
       router.push("/dashboard");
-      localStorage.removeItem("isPrelimStarted");
     });
   };
 
@@ -83,7 +83,7 @@ export default function PremsCompsTAC() {
               className="font-bold italic text-5xl md:text-6xl"
               style={{ textShadow: "0 0 25px #7303C0" }}
             >
-              <span className="text-stroke">TAC</span>
+              <span className="text-stroke">Battle of Sandwich</span>
             </p>
           </div>
           <div className="w-full flex h-auto">
@@ -103,12 +103,12 @@ export default function PremsCompsTAC() {
                   p2={qs.pilihan2}
                   p3={qs.pilihan3}
                   p4={qs.pilihan4}
-                  type={"pg"}
-                  cmpt="tac"
+                  type={page === 2 ? "essay" : "pg"}
+                  cmpt="recue"
                 />
               ))}
               <div className="w-full flex justify-end">
-                {page !== 3 ? (
+                {page !== 2 ? (
                   <Button
                     text="Lanjut >"
                     filled={true}
@@ -123,7 +123,7 @@ export default function PremsCompsTAC() {
                 )}
               </div>
             </div>
-            <Navigation endTime={endTime} page={page} cmpt="tac" />
+            <Navigation endTime={endTime} page={page} cmpt="sandwich" />
           </div>
         </div>
       </Layout>

@@ -18,6 +18,7 @@ export default function Dashboard() {
     status: "",
     type: "",
     status_prelim: "",
+    status_payment_prelim: "",
   });
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -61,7 +62,7 @@ export default function Dashboard() {
   return (
     <Layout>
       <PrivateRoute>
-        <div className="h-16 w-full bg-black-80 z-0"></div>
+        <div className="h-16 w-full bg-black-80 z-0" />
         <div className="w-full min-h-screen h-auto bg-black-80 flex flex-col lg:flex-row p-16">
           <div className="w-full lg:w-1/3 h-72 bg-compe mr-4 rounded-xl p-8 font-dm mb-4 lg:mb-0">
             <p className="text-2xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-persimmon to-orange mb-4">
@@ -99,6 +100,7 @@ export default function Dashboard() {
                   handler={() => router.push("/dashboard/detail/")}
                   type={status.type}
                   prelimStatus={status.status_prelim}
+                  statusPaymentPrelim={status.status_payment_prelim}
                 />
               </div>
             )}

@@ -68,7 +68,7 @@ export default function QuestionBox({
         <div
           dangerouslySetInnerHTML={{ __html: question }}
           className="text-xl select-none"
-        ></div>
+        />
         <div className="w-full auto flex flex-col mt-4">
           {type === "pg" ? (
             <form>
@@ -163,7 +163,7 @@ function Option({ name, value, text, id, paket, cmpt }: OptionProps) {
         htmlFor={id}
         className="text-red-default text-lg order-2 ml-3 select-none"
         dangerouslySetInnerHTML={{ __html: text }}
-      ></label>
+      />
     </div>
   );
 }

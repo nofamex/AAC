@@ -58,7 +58,7 @@ export default function PremsCompsUNAC() {
   return (
     <PrivateRoute>
       <Layout>
-        <div className="h-16 w-full bg-black-80 z-0"></div>
+        <div className="h-16 w-full bg-black-80 z-0" />
         {pgShow && (
           <CompsModal
             closeHandler={() => setPgShow(false)}
@@ -123,7 +123,7 @@ export default function PremsCompsUNAC() {
                 )}
               </div>
             </div>
-            <Navigation endTime={endTime} page={page} />
+            <Navigation endTime={endTime} page={page} cmpt="unac" />
           </div>
         </div>
       </Layout>
