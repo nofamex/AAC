@@ -34,12 +34,6 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
     "/picture/tac-slider-4.png",
   ];
 
-  const registerHandler = () => {
-    isAuthenticated()
-      ? router.push(`/${type}/register`)
-      : toast.error("Silahkan Sign In terlebih dahulu");
-  };
-
   return (
     <div className="h-section w-full bg-black-80 flex flex-col justify-center items-center overflow-hidden relative">
       <PatternBG position="right" />
@@ -93,13 +87,6 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
                 filled={false}
               />
             </a>
-            <div>
-              <Button
-                text="Daftar Sekarang"
-                handler={registerHandler}
-                filled={true}
-              />
-            </div>
           </div>
         </div>
       </div>
