@@ -101,17 +101,19 @@ type Member struct {
 }
 
 type PrelimTacMaster struct {
-	ID       int32         `json:"id"`
-	TeamID   int32         `json:"team_id"`
-	Token    string        `json:"token"`
-	Orders   string        `json:"orders"`
-	Paket    int32         `json:"paket"`
-	Score    int32         `json:"score"`
-	LastPage int32         `json:"last_page"`
-	Submited sql.NullTime  `json:"submited"`
-	Benar    int32         `json:"benar"`
-	Salah    int32         `json:"salah"`
-	Kosong   sql.NullInt32 `json:"kosong"`
+	ID          int32          `json:"id"`
+	TeamID      int32          `json:"team_id"`
+	Token       string         `json:"token"`
+	Orders      string         `json:"orders"`
+	Paket       int32          `json:"paket"`
+	Score       int32          `json:"score"`
+	LastPage    int32          `json:"last_page"`
+	Submited    sql.NullTime   `json:"submited"`
+	Benar       int32          `json:"benar"`
+	Salah       int32          `json:"salah"`
+	Kosong      sql.NullInt32  `json:"kosong"`
+	StatusBayar sql.NullString `json:"status_bayar"`
+	StatusLolos sql.NullString `json:"status_lolos"`
 }
 
 type PrelimTacPg struct {
@@ -149,17 +151,19 @@ type PrelimUnacIsianJawaban struct {
 }
 
 type PrelimUnacMaster struct {
-	ID       int32         `json:"id"`
-	TeamID   int32         `json:"team_id"`
-	Token    string        `json:"token"`
-	Orders   string        `json:"orders"`
-	Paket    int32         `json:"paket"`
-	Score    int32         `json:"score"`
-	LastPage int32         `json:"last_page"`
-	Submited sql.NullTime  `json:"submited"`
-	Benar    int32         `json:"benar"`
-	Salah    int32         `json:"salah"`
-	Kosong   sql.NullInt32 `json:"kosong"`
+	ID          int32          `json:"id"`
+	TeamID      int32          `json:"team_id"`
+	Token       string         `json:"token"`
+	Orders      string         `json:"orders"`
+	Paket       int32          `json:"paket"`
+	Score       int32          `json:"score"`
+	LastPage    int32          `json:"last_page"`
+	Submited    sql.NullTime   `json:"submited"`
+	Benar       int32          `json:"benar"`
+	Salah       int32          `json:"salah"`
+	Kosong      sql.NullInt32  `json:"kosong"`
+	StatusBayar sql.NullString `json:"status_bayar"`
+	StatusLolos sql.NullString `json:"status_lolos"`
 }
 
 type PrelimUnacPg struct {

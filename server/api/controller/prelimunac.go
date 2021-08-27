@@ -74,9 +74,20 @@ func (u *PrelimUnacController) Start(c *fiber.Ctx) error {
 		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Belum di verifikasi"})
 	}
 	// random paket
-	paket := 4
+	paket := util.RandomPaket()
 	// generate sequence
-	order := util.RandomOrderUnacSimul()
+	pgIds, err := u.service.GetUnacPgIdByPaket(paket)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	isianIds, err := u.service.GetUnacIsianIdByPaket(paket)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	order := util.RandomOrderUnac(pgIds, isianIds)
 	// create prelim unac master
 	master, err := u.service.CreatePrelimUnac(int(user.TeamID.Int32), paket, token, order)
 	if err != nil {
@@ -253,7 +264,7 @@ func (u *PrelimUnacController) GetSoal(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
-	if page > 3 {
+	if page > 12 {
 		return c.Status(http.StatusBadRequest).JSON(Message{Message: "already submited last page"})
 	}
 	prelim, err := u.service.GetTeamById(int(user.TeamID.Int32))
@@ -267,13 +278,11 @@ func (u *PrelimUnacController) GetSoal(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: "order failed"})
 	}
 
-	// tolong ganti kalo udah ga simul
-
 	resPage := PageResponse{
 		Page: int(page),
 	}
 	order = order[5*(page-1) : 5*(page)]
-	if page <= 2 {
+	if page <= 10 {
 		res := []Soal{}
 		for i, id := range order {
 			soal, _ := u.service.GetPrelimUnacPg(id)

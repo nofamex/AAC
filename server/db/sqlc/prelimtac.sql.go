@@ -16,7 +16,7 @@ INSERT INTO  prelim_tac_master (
   score
 ) VALUES (
   $1, $2, $3, $4, $5
-) RETURNING id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong
+) RETURNING id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong, status_bayar, status_lolos
 `
 
 type CreatePrelimTacParams struct {
@@ -48,6 +48,8 @@ func (q *Queries) CreatePrelimTac(ctx context.Context, arg CreatePrelimTacParams
 		&i.Benar,
 		&i.Salah,
 		&i.Kosong,
+		&i.StatusBayar,
+		&i.StatusLolos,
 	)
 	return i, err
 }
@@ -87,7 +89,7 @@ func (q *Queries) GetPagePrelimTac(ctx context.Context, teamID int32) (int32, er
 }
 
 const getPrelimTacByTeamId = `-- name: GetPrelimTacByTeamId :one
-SELECT id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong from prelim_tac_master
+SELECT id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong, status_bayar, status_lolos from prelim_tac_master
 WHERE team_id = $1
 `
 
@@ -106,6 +108,8 @@ func (q *Queries) GetPrelimTacByTeamId(ctx context.Context, teamID int32) (Preli
 		&i.Benar,
 		&i.Salah,
 		&i.Kosong,
+		&i.StatusBayar,
+		&i.StatusLolos,
 	)
 	return i, err
 }
@@ -130,6 +134,33 @@ func (q *Queries) GetPrelimTacPgById(ctx context.Context, id int32) (PrelimTacPg
 		&i.Paket,
 	)
 	return i, err
+}
+
+const getTacPgIdByPaket = `-- name: GetTacPgIdByPaket :many
+SELECT id from prelim_tac_pg where paket = $1
+`
+
+func (q *Queries) GetTacPgIdByPaket(ctx context.Context, paket int32) ([]int32, error) {
+	rows, err := q.db.QueryContext(ctx, getTacPgIdByPaket, paket)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []int32
+	for rows.Next() {
+		var id int32
+		if err := rows.Scan(&id); err != nil {
+			return nil, err
+		}
+		items = append(items, id)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const updatePagePrelimTac = `-- name: UpdatePagePrelimTac :exec

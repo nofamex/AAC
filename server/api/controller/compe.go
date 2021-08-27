@@ -110,7 +110,8 @@ func (u *CompeController) GetTeam(c *fiber.Ctx) error {
 	team, err := u.service.GetTeamById(user.TeamID.Int32)
 	if err != nil {
 		log.Println(err)
-		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+		// return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+		return c.Status(http.StatusOK).JSON(user)
 	}
 
 	members, err := u.service.GetMemberByTeamId(user.TeamID.Int32)

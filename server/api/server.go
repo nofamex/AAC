@@ -76,7 +76,7 @@ func (server *Server) setupRouter() {
 	admin.Get("/teams", adminCtrl.GetTeams)
 	admin.Get("/verify", adminCtrl.Verify)
 
-	prelim := v1.Group("/prelim", middleware.PrelimMiddleware(server.tokenMaker))
+	prelim := v1.Group("/prelim", middleware.AuthMiddleware(server.tokenMaker))
 	unacPrelim := prelim.Group("unac")
 
 	unacPrelimCtrl := controller.NewPrelimUnacController(server.query, server.tokenMaker, server.config)

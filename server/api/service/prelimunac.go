@@ -87,3 +87,13 @@ func (u *PrelimUnacService) UpdateSubmitedUnac(teamId int) error {
 	err := u.query.UpdateSubmitedPrelimUnac(context.Background(), int32(teamId))
 	return err
 }
+
+func (u *PrelimUnacService) GetUnacPgIdByPaket(paket int) ([]int32, error) {
+	page, err := u.query.GetUnacPgIdByPaket(context.Background(), int32(paket))
+	return page, err
+}
+
+func (u *PrelimUnacService) GetUnacIsianIdByPaket(paket int) ([]int32, error) {
+	page, err := u.query.GetUnacIsianIdByPaket(context.Background(), int32(paket))
+	return page, err
+}
