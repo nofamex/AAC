@@ -94,6 +94,30 @@ func (server *Server) setupRouter() {
 	tacPrelim.Get("soal", tacPrelimCtrl.GetSoal)
 	tacPrelim.Get("next", tacPrelimCtrl.NextPage)
 	tacPrelim.Post("submit-pg", tacPrelimCtrl.SubmitPg)
+
+	elim := v1.Group("/elim", middleware.PrelimMiddleware(server.tokenMaker))
+	unacElim := elim.Group("unac")
+
+	sandwich := unacElim.Group("sandwich")
+	unacSandwich := controller.NewElimSandwichController(server.query, server.tokenMaker, server.config)
+	sandwich.Post("start", unacSandwich.Start)
+	sandwich.Post("finish", unacSandwich.Finish)
+	sandwich.Get("soal", unacSandwich.GetSoal)
+	sandwich.Get("next", unacSandwich.NextPage)
+	sandwich.Post("submit", unacSandwich.Submit)
+
+	scratch := unacElim.Group("scratch")
+	unacScratch := controller.NewElimScratchController(server.query, server.tokenMaker, server.config)
+	scratch.Post("start", unacScratch.Start)
+	scratch.Post("submit", unacScratch.Submit)
+	scratch.Post("finish", unacScratch.Finish)
+
+	rescue := unacElim.Group("rescue")
+	unacRescue := controller.NewElimRescueController(server.query, server.tokenMaker, server.config)
+	rescue.Post("start", unacRescue.Start)
+	rescue.Post("submit", unacRescue.Submit)
+	rescue.Post("finish", unacRescue.Finish)
+
 	server.router = router
 }
 

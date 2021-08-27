@@ -8,7 +8,7 @@ import (
 )
 
 const getConfig = `-- name: GetConfig :one
-SELECT id, prelim_unac_start, prelim_unac_stop, prelim_tac_start, prelim_tac_stop from config
+SELECT id, prelim_unac_start, prelim_unac_stop, prelim_tac_start, prelim_tac_stop, battle_of_sandwich_start, battle_of_sandwich_stop, scratch_the_hidden_words_start, scratch_the_hidden_words_stop, rescue_the_number_start, rescue_the_number_stop from config
 WHERE id = 1
 `
 
@@ -21,6 +21,12 @@ func (q *Queries) GetConfig(ctx context.Context) (Config, error) {
 		&i.PrelimUnacStop,
 		&i.PrelimTacStart,
 		&i.PrelimTacStop,
+		&i.BattleOfSandwichStart,
+		&i.BattleOfSandwichStop,
+		&i.ScratchTheHiddenWordsStart,
+		&i.ScratchTheHiddenWordsStop,
+		&i.RescueTheNumberStart,
+		&i.RescueTheNumberStop,
 	)
 	return i, err
 }
