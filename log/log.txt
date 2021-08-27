@@ -2,3 +2,5 @@
 2021/08/25 16:46:57 compe.go:106: sql: no rows in result set
 2021/08/25 16:47:25 compe.go:106: sql: no rows in result set
 2021/08/25 16:48:45 compe.go:106: sql: no rows in result set
+2021/08/27 18:27:45 prelimunac.go:83: sql: Scan error on column index 8, name "benar": converting NULL to int32 is unsupported
+2021/08/27 18:27:46 prelimunac.go:83: pq: duplicate key value violates unique constraint "prelim_unac_master_team_id_key"
