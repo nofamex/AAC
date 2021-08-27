@@ -2,10 +2,8 @@
 import PatternBG from "@components/Context/PatternBG";
 import Button from "@components/Context/Button";
 import Slider from "@components/Context/Slider";
-import { isAuthenticated } from "@lib/auth";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 
 interface CompeDetailsProps {
   type: string;
