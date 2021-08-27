@@ -72,24 +72,24 @@ export default function Navigation({ endTime, page, cmpt }: NavigationProps) {
             ))}
           </div>
           <div className="flex justify-center mb-2">
-            {/* {row2.map((r, i) => (
+            {row2.map((r, i) => (
               <Number
                 key={`r2${i}`}
                 nums={r}
                 selected={r === page ? true : false}
                 page={page}
               />
-            ))} */}
+            ))}
           </div>
           <div className="flex justify-center">
-            {/* {row3.map((r, i) => (
+            {row3.map((r, i) => (
               <Number
                 key={`r3${i}`}
                 nums={r}
                 selected={r === page ? true : false}
                 page={page}
               />
-            ))} */}
+            ))}
           </div>
         </div>
       </div>
@@ -97,6 +97,6 @@ export default function Navigation({ endTime, page, cmpt }: NavigationProps) {
   );
 }
 
-const row1 = [1, 2];
-const row2 = [5, 6, 7, 8];
-const row3 = [9, 10, 11, 12];
+const row1 = [1, 2, 3, 4, 5];
+const row2 = [6, 7, 8, 9, 10];
+const row3 = [11, 12];

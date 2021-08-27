@@ -67,7 +67,7 @@ export default function QuestionBox({
       <div className="h-full w-10/12 p-4 text-white">
         <div
           dangerouslySetInnerHTML={{ __html: question }}
-          className="text-xl select-none"
+          className="text-xl select-none border-white"
         />
         <div className="w-full auto flex flex-col mt-4">
           {type === "pg" ? (
@@ -161,7 +161,7 @@ function Option({ name, value, text, id, paket, cmpt }: OptionProps) {
       />
       <label
         htmlFor={id}
-        className="text-red-default text-lg order-2 ml-3 select-none"
+        className="text-white text-lg order-2 ml-3 select-none"
         dangerouslySetInnerHTML={{ __html: text }}
       />
     </div>

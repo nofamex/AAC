@@ -3,16 +3,20 @@ import InputGroup from "@components/Form/InputGroup";
 import PostliminaryModal from "@components/Modal/PostliminaryModal";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 interface PostliminaryProps {
   status: string;
   paymentStatus: string;
+  type: string;
 }
 
 export default function Postliminary({
   status,
   paymentStatus,
+  type,
 }: PostliminaryProps) {
+  const router = useRouter();
   const [isShow, setIsShow] = useState(false);
   const {
     register,
@@ -37,7 +41,9 @@ export default function Postliminary({
 
   return (
     <div className="border-white border-2 rounded-lg w-full h-auto p-4 mt-4">
-      {isShow && <PostliminaryModal closeHandler={() => setIsShow(false)} />}
+      {isShow && (
+        <PostliminaryModal closeHandler={() => setIsShow(false)} type={type} />
+      )}
       <p className="font-bold text-lg">Babak Preliminary</p>
       {status === "lolos" && paymentStatus === "kosong" ? (
         <>
@@ -71,9 +77,19 @@ export default function Postliminary({
           </div>
         </>
       ) : status === "gagal" ? (
-        <p className="text-lg mt-4">
-          Maaf anda tidak beruntung silahkan coba tahun depan
-        </p>
+        <>
+          <p className="text-lg mt-4 mb-2">
+            Maaf, Anda belum lolos tahap preliminary, anda bisa mengikuti
+            webinar disini:
+          </p>
+          <Button
+            text="Ikuti Webinar"
+            handler={() => {
+              router.push("/webinar");
+            }}
+            filled={false}
+          />
+        </>
       ) : status === "lolos" && paymentStatus === "bayar" ? (
         <p className="text-lg mt-4">Pembyaran anda sedang di verifikasi</p>
       ) : null}

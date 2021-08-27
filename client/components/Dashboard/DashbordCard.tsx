@@ -70,10 +70,11 @@ export default function DashboardCard({
           <Postliminary
             status={prelimStatus}
             paymentStatus={statusPaymentPrelim}
+            type={type}
           />
         )}
       {statusPaymentPrelim === "verified" && prelimStatus === "lolos" && (
-        <Eliminary />
+        <Eliminary type={type} />
       )}
     </div>
   );

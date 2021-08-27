@@ -2,10 +2,8 @@
 import PatternBG from "@components/Context/PatternBG";
 import Button from "@components/Context/Button";
 import Slider from "@components/Context/Slider";
-import { isAuthenticated } from "@lib/auth";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 
 interface CompeDetailsProps {
   type: string;
@@ -33,12 +31,6 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
     "/picture/tac-slider-3.png",
     "/picture/tac-slider-4.png",
   ];
-
-  const registerHandler = () => {
-    isAuthenticated()
-      ? router.push(`/${type}/register`)
-      : toast.error("Silahkan Sign In terlebih dahulu");
-  };
 
   return (
     <div className="h-section w-full bg-black-80 flex flex-col justify-center items-center overflow-hidden relative">
@@ -93,13 +85,6 @@ export default function CompeDetails({ type }: CompeDetailsProps) {
                 filled={false}
               />
             </a>
-            <div>
-              <Button
-                text="Daftar Sekarang"
-                handler={registerHandler}
-                filled={true}
-              />
-            </div>
           </div>
         </div>
       </div>

@@ -20,10 +20,10 @@ export default function Preliminary({
   statusPrelim,
 }: PreliminaryProps) {
   const UNAC =
-    "https://drive.google.com/file/d/1Mb8gR9pg3-3oN-7oGUGD8YQMx9-bEbSK/view?usp=sharing";
+    "https://drive.google.com/file/d/1_1kHrxuGCz9ndjqEyNGvvPXYPAZSl9Cw/view?usp=sharing";
 
   const TAC =
-    "https://drive.google.com/file/d/1T-DG50hqL3YRBVvEXY5DwFQP7lYgxd7p/view?usp=sharing";
+    "https://drive.google.com/file/d/1vke1pcQgIii8HFVn4zvg3H98bBSkg8co/view?usp=sharing";
 
   const router = useRouter();
 
@@ -75,13 +75,7 @@ export default function Preliminary({
       <p className="font-bold text-lg">Babak {phase}</p>
       <p className="text-lg mt-4">
         Akan dimulai tanggal{" "}
-        <span className="font-bold text-orange">
-          {getDate(
-            type === "unac"
-              ? new Date(data.prelim_unac_start.Time)
-              : new Date(data.prelim_tac_start.Time)
-          )}
-        </span>
+        <span className="font-bold text-orange">28 Agustus 2021</span>
       </p>
       <Countdown
         date={toCurrentTimezone(
