@@ -20,7 +20,7 @@ export default function Preliminary({
   statusPrelim,
 }: PreliminaryProps) {
   const UNAC =
-    "https://drive.google.com/file/d/1eVhWNVS-_VmElFYmMHGhi-K3do8qLXdZ/view?usp=sharing";
+    "https://drive.google.com/file/d/1_1kHrxuGCz9ndjqEyNGvvPXYPAZSl9Cw/view?usp=sharing";
 
   const TAC =
     "https://drive.google.com/file/d/1vke1pcQgIii8HFVn4zvg3H98bBSkg8co/view?usp=sharing";
