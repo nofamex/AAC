@@ -5,11 +5,19 @@ import api from "@lib/axios";
 import { getDate, toCurrentTimezone } from "@lib/date";
 import Loader from "@components/Context/Loader";
 import { useRouter } from "next/router";
+import Button from "@components/Context/Button";
 
-export default function Eliminary() {
+interface EliminaryProps {
+  type: string;
+}
+
+export default function Eliminary({ type }: EliminaryProps) {
   const router = useRouter();
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<any>(true);
+
+  const UNACWA = "https://chat.whatsapp.com/Ktw7gXvaBQmEAXPv0UCOJU";
+  const TACWA = "https://chat.whatsapp.com/KdIWRYwqHXk3tg90gMc5nM";
 
   useEffect(() => {
     async function data() {
@@ -58,23 +66,33 @@ export default function Eliminary() {
           {getDate(new Date(data.battle_of_sandwich_start.Time))}
         </span>
       </p>
-      <div className="flex mt-4">
-        <CompsCard
-          name="Battle of Sandwich"
-          date={data.battle_of_sandwich_start.Time}
-          handler={sandwichStartHandler}
-        />
-        <CompsCard
-          name="Scratch D' Words"
-          date={data.scratch_the_hidden_words_start.Time}
-          handler={scratchStartHandler}
-        />
-        <CompsCard
-          name="Rescue the Numbers"
-          date={data.rescue_the_number_start.Time}
-          handler={rescueStartHandler}
-        />
-      </div>
+      <p className="mt-4">Silahkan Gabung Grup Whatsapp</p>
+      <a
+        href={type === "unac" ? UNACWA : TACWA}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <Button text="Gabung" handler={() => {}} filled={false} />
+      </a>
+      {type === "unac" && (
+        <div className="flex mt-4">
+          <CompsCard
+            name="Battle of Sandwich"
+            date={data.battle_of_sandwich_start.Time}
+            handler={sandwichStartHandler}
+          />
+          <CompsCard
+            name="Scratch D' Words"
+            date={data.scratch_the_hidden_words_start.Time}
+            handler={scratchStartHandler}
+          />
+          <CompsCard
+            name="Rescue the Numbers"
+            date={data.rescue_the_number_start.Time}
+            handler={rescueStartHandler}
+          />
+        </div>
+      )}
     </div>
   );
 }

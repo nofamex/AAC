@@ -89,7 +89,7 @@ export default function PremsCompsUNAC() {
           <div className="w-full flex h-auto">
             <div className="h-auto w-9/12 p-2">
               <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-persimmon to-orange h-10 mb-2 text-center">
-                PAGE {page} OF 3
+                PAGE {page} OF 12
               </p>
               {question.map((qs: any) => (
                 <QuestionBox
@@ -103,12 +103,12 @@ export default function PremsCompsUNAC() {
                   p2={qs.pilihan2}
                   p3={qs.pilihan3}
                   p4={qs.pilihan4}
-                  type={page === 3 ? "essay" : "pg"}
+                  type={page >= 11 ? "essay" : "pg"}
                   cmpt="unac"
                 />
               ))}
               <div className="w-full flex justify-end">
-                {page !== 3 ? (
+                {page !== 12 ? (
                   <Button
                     text="Lanjut >"
                     filled={true}
