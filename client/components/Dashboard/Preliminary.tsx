@@ -99,7 +99,7 @@ export default function Preliminary({
           Download
         </button>
       </a>
-      {isStarted && statusPrelim !== "selesai" && (
+      {/* {isStarted && statusPrelim !== "selesai" && (
         <div className="flex flex-col justify-center items-center w-full h-auto mt-4">
           <p className="font-bold text-white text-xl">
             Lomba sudah bisa dimulai
@@ -120,7 +120,7 @@ export default function Preliminary({
             Jawaban anda berhasil disubmit
           </p>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
