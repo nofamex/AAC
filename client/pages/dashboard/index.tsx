@@ -18,6 +18,7 @@ export default function Dashboard() {
     status: "",
     type: "",
     status_prelim: "",
+    status_payment_prelim: "",
   });
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -99,6 +100,7 @@ export default function Dashboard() {
                   handler={() => router.push("/dashboard/detail/")}
                   type={status.type}
                   prelimStatus={status.status_prelim}
+                  statusPaymentPrelim={status.status_payment_prelim}
                 />
               </div>
             )}

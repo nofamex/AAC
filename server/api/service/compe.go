@@ -105,6 +105,7 @@ func (u *CompeService) GetTeamById(id int32) (*model.TeamProfile, error) {
 		Type:         teamDb.Type,
 		Status:       teamDb.Verified,
 		StatusPrelim: teamDb.StatusPrelim,
+		StatusPaymentPrelim: teamDb.StatusPaymentPrelim,
 	}
 
 	return &team, nil

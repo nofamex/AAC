@@ -16,7 +16,7 @@ INSERT INTO  prelim_unac_master (
   score
 ) VALUES (
   $1, $2, $3, $4, $5
-) RETURNING id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong
+) RETURNING id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong, status_bayar, status_lolos
 `
 
 type CreatePrelimUnacParams struct {
@@ -48,6 +48,8 @@ func (q *Queries) CreatePrelimUnac(ctx context.Context, arg CreatePrelimUnacPara
 		&i.Benar,
 		&i.Salah,
 		&i.Kosong,
+		&i.StatusBayar,
+		&i.StatusLolos,
 	)
 	return i, err
 }
@@ -109,7 +111,7 @@ func (q *Queries) GetPagePrelimUnac(ctx context.Context, teamID int32) (int32, e
 }
 
 const getPrelimUnacByTeamId = `-- name: GetPrelimUnacByTeamId :one
-SELECT id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong from prelim_unac_master
+SELECT id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong, status_bayar, status_lolos from prelim_unac_master
 WHERE team_id = $1
 `
 
@@ -128,6 +130,8 @@ func (q *Queries) GetPrelimUnacByTeamId(ctx context.Context, teamID int32) (Prel
 		&i.Benar,
 		&i.Salah,
 		&i.Kosong,
+		&i.StatusBayar,
+		&i.StatusLolos,
 	)
 	return i, err
 }
@@ -170,6 +174,60 @@ func (q *Queries) GetPrelimUnacPgById(ctx context.Context, id int32) (PrelimUnac
 		&i.Paket,
 	)
 	return i, err
+}
+
+const getUnacIsianIdByPaket = `-- name: GetUnacIsianIdByPaket :many
+SELECT id from prelim_unac_isian where paket = $1
+`
+
+func (q *Queries) GetUnacIsianIdByPaket(ctx context.Context, paket int32) ([]int32, error) {
+	rows, err := q.db.QueryContext(ctx, getUnacIsianIdByPaket, paket)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []int32
+	for rows.Next() {
+		var id int32
+		if err := rows.Scan(&id); err != nil {
+			return nil, err
+		}
+		items = append(items, id)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getUnacPgIdByPaket = `-- name: GetUnacPgIdByPaket :many
+SELECT id from prelim_unac_pg where paket = $1
+`
+
+func (q *Queries) GetUnacPgIdByPaket(ctx context.Context, paket int32) ([]int32, error) {
+	rows, err := q.db.QueryContext(ctx, getUnacPgIdByPaket, paket)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []int32
+	for rows.Next() {
+		var id int32
+		if err := rows.Scan(&id); err != nil {
+			return nil, err
+		}
+		items = append(items, id)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const updatePagePrelimUnac = `-- name: UpdatePagePrelimUnac :exec

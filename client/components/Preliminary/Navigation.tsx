@@ -9,14 +9,15 @@ import { useRouter } from "next/router";
 interface NavigationProps {
   endTime: string;
   page: number;
+  cmpt: string;
 }
 
-export default function Navigation({ endTime, page }: NavigationProps) {
+export default function Navigation({ endTime, page, cmpt }: NavigationProps) {
   const [show, setShow] = useState(false);
   const router = useRouter();
 
   const acceptFinishHandler = () => {
-    api.post("/prelim/unac/finish").then(() => {
+    api.post(`/prelim/${cmpt}/finish`).then(() => {
       router.push("/dashboard");
       localStorage.removeItem("isPrelimStarted");
     });
@@ -50,7 +51,7 @@ export default function Navigation({ endTime, page }: NavigationProps) {
           innerButtonText="Selesai >"
         />
       )}
-      <div className="w-full h-10 mb-2"></div>
+      <div className="w-full h-10 mb-2" />
       <div className="w-full h-auto bg-compe rounded-xl flex flex-col justify-center items-center text-white p-4">
         <p className="font-bold text-lg mb-2">Time Left</p>
         <Countdown date={toCurrentTimezone(endTime)} renderer={renderer} />
@@ -70,22 +71,32 @@ export default function Navigation({ endTime, page }: NavigationProps) {
               />
             ))}
           </div>
-          {/* <div className="flex justify-center mb-2">
+          <div className="flex justify-center mb-2">
             {row2.map((r, i) => (
-              <Number key={`r2${i}`} nums={r} />
+              <Number
+                key={`r2${i}`}
+                nums={r}
+                selected={r === page ? true : false}
+                page={page}
+              />
             ))}
           </div>
           <div className="flex justify-center">
             {row3.map((r, i) => (
-              <Number key={`r3${i}`} nums={r} />
+              <Number
+                key={`r3${i}`}
+                nums={r}
+                selected={r === page ? true : false}
+                page={page}
+              />
             ))}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-const row1 = [1, 2, 3];
-const row2 = [5, 6, 7, 8];
-const row3 = [9, 10, 11, 12];
+const row1 = [1, 2, 3, 4, 5];
+const row2 = [6, 7, 8, 9, 10];
+const row3 = [11, 12];

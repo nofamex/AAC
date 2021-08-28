@@ -1,1 +1,20 @@
 2021/08/18 21:11:10 prelimunac.go:89: pq: value too long for type character varying(10)
+2021/08/25 16:46:57 compe.go:106: sql: no rows in result set
+2021/08/25 16:47:25 compe.go:106: sql: no rows in result set
+2021/08/25 16:48:45 compe.go:106: sql: no rows in result set
+2021/08/27 18:27:45 prelimunac.go:83: sql: Scan error on column index 8, name "benar": converting NULL to int32 is unsupported
+2021/08/27 18:27:46 prelimunac.go:83: pq: duplicate key value violates unique constraint "prelim_unac_master_team_id_key"
+2021/08/27 18:29:40 prelimunac.go:83: pq: duplicate key value violates unique constraint "prelim_unac_master_team_id_key"
+2021/08/27 18:30:51 prelimunac.go:83: sql: Scan error on column index 8, name "benar": converting NULL to int32 is unsupported
+2021/08/27 18:32:02 prelimunac.go:83: pq: duplicate key value violates unique constraint "prelim_unac_master_team_id_key"
+2021/08/27 18:32:53 prelimunac.go:83: sql: Scan error on column index 8, name "benar": converting NULL to int32 is unsupported
+2021/08/27 18:32:56 prelimunac.go:83: pq: duplicate key value violates unique constraint "prelim_unac_master_team_id_key"
+2021/08/27 18:33:04 prelimunac.go:83: pq: duplicate key value violates unique constraint "prelim_unac_master_team_id_key"
+2021/08/27 18:34:54 prelimunac.go:83: sql: Scan error on column index 8, name "benar": converting NULL to int32 is unsupported
+2021/08/27 18:36:53 prelimunac.go:83: sql: Scan error on column index 8, name "benar": converting NULL to int32 is unsupported
+2021/08/27 18:37:26 prelimunac.go:83: pq: duplicate key value violates unique constraint "prelim_unac_master_team_id_key"
+2021/08/27 21:22:38 compe.go:112: sql: no rows in result set
+2021/08/27 23:13:45 prelimtac.go:199: sql: no rows in result set
+2021/08/27 23:14:02 prelimtac.go:199: sql: no rows in result set
+2021/08/28 00:34:32 prelimtac.go:214: invalid character '2' after top-level value
+2021/08/28 00:34:52 prelimtac.go:214: invalid character '2' after top-level value

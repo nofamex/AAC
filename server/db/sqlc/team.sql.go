@@ -23,7 +23,7 @@ INSERT INTO team (
   type
 ) VALUES (
   $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
-) RETURNING id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_elim
+) RETURNING id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_payment_prelim, status_elim
 `
 
 type CreateTeamParams struct {
@@ -70,13 +70,14 @@ func (q *Queries) CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, e
 		&i.Type,
 		&i.Verified,
 		&i.StatusPrelim,
+		&i.StatusPaymentPrelim,
 		&i.StatusElim,
 	)
 	return i, err
 }
 
 const getTeamById = `-- name: GetTeamById :one
-SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_elim FROM team
+SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_payment_prelim, status_elim FROM team
 WHERE id = $1 LIMIT 1
 `
 
@@ -98,13 +99,14 @@ func (q *Queries) GetTeamById(ctx context.Context, id int32) (Team, error) {
 		&i.Type,
 		&i.Verified,
 		&i.StatusPrelim,
+		&i.StatusPaymentPrelim,
 		&i.StatusElim,
 	)
 	return i, err
 }
 
 const getTeamsPagination = `-- name: GetTeamsPagination :many
-SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_elim FROM team
+SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_payment_prelim, status_elim FROM team
 ORDER BY id
 OFFSET $1
 LIMIT $2
@@ -139,6 +141,7 @@ func (q *Queries) GetTeamsPagination(ctx context.Context, arg GetTeamsPagination
 			&i.Type,
 			&i.Verified,
 			&i.StatusPrelim,
+			&i.StatusPaymentPrelim,
 			&i.StatusElim,
 		); err != nil {
 			return nil, err

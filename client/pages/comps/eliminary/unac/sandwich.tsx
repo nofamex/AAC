@@ -9,7 +9,7 @@ import Loader from "@components/Context/Loader";
 import CompsModal from "@components/Modal/CompsModal";
 import { useRouter } from "next/router";
 
-export default function PremsCompsUNAC() {
+export default function Sandwich() {
   const router = useRouter();
   const [endTime, setEndTime] = useState("");
   const [loading, setLoading] = useState(true);
@@ -24,11 +24,11 @@ export default function PremsCompsUNAC() {
       api
         .get("/config/time")
         .then((res) => {
-          setEndTime(res.data.prelim_unac_stop.Time);
+          setEndTime(res.data.battle_of_sandwich_stop.Time);
         })
         .catch((err) => console.log(err));
       api
-        .get("/prelim/unac/soal")
+        .get("/prelim/sandwich/soal")
         .then((res) => {
           setQuestion(res.data.body);
           setPage(res.data.page);
@@ -41,13 +41,13 @@ export default function PremsCompsUNAC() {
   }, []);
 
   const acceptContinueHandler = () => {
-    api.get("/prelim/unac/next").then(() => router.reload());
+    api.get("/prelim/sandwich/next").then(() => router.reload());
   };
 
   const acceptFinishHandler = () => {
-    api.post("/prelim/unac/finish").then(() => {
+    api.post("/prelim/sandwich/finish").then(() => {
+      localStorage.removeItem("isSandwichStarted");
       router.push("/dashboard");
-      localStorage.removeItem("isPrelimStarted");
     });
   };
 
@@ -83,13 +83,13 @@ export default function PremsCompsUNAC() {
               className="font-bold italic text-5xl md:text-6xl"
               style={{ textShadow: "0 0 25px #7303C0" }}
             >
-              <span className="text-stroke">UNAC</span>
+              <span className="text-stroke">Battle of Sandwich</span>
             </p>
           </div>
           <div className="w-full flex h-auto">
             <div className="h-auto w-9/12 p-2">
               <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-persimmon to-orange h-10 mb-2 text-center">
-                PAGE {page} OF 12
+                PAGE {page} OF 3
               </p>
               {question.map((qs: any) => (
                 <QuestionBox
@@ -103,12 +103,12 @@ export default function PremsCompsUNAC() {
                   p2={qs.pilihan2}
                   p3={qs.pilihan3}
                   p4={qs.pilihan4}
-                  type={page >= 11 ? "essay" : "pg"}
-                  cmpt="unac"
+                  type={page === 2 ? "essay" : "pg"}
+                  cmpt="recue"
                 />
               ))}
               <div className="w-full flex justify-end">
-                {page !== 12 ? (
+                {page !== 2 ? (
                   <Button
                     text="Lanjut >"
                     filled={true}
@@ -123,7 +123,7 @@ export default function PremsCompsUNAC() {
                 )}
               </div>
             </div>
-            <Navigation endTime={endTime} page={page} cmpt="unac" />
+            <Navigation endTime={endTime} page={page} cmpt="sandwich" />
           </div>
         </div>
       </Layout>

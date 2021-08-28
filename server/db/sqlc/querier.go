@@ -8,6 +8,9 @@ import (
 
 type Querier interface {
 	AddTeamIdToUser(ctx context.Context, arg AddTeamIdToUserParams) error
+	CreateElimMaster(ctx context.Context, arg CreateElimMasterParams) (ElimUnacMaster, error)
+	CreateElimSandwich(ctx context.Context, arg CreateElimSandwichParams) (BattleOfSandwichMaster, error)
+	CreateElimSandwichJawaban(ctx context.Context, arg CreateElimSandwichJawabanParams) error
 	CreateMember(ctx context.Context, arg CreateMemberParams) (Member, error)
 	CreatePrelimTac(ctx context.Context, arg CreatePrelimTacParams) (PrelimTacMaster, error)
 	CreatePrelimTacPgJawaban(ctx context.Context, arg CreatePrelimTacPgJawabanParams) error
@@ -16,8 +19,12 @@ type Querier interface {
 	CreatePrelimUnacPgJawaban(ctx context.Context, arg CreatePrelimUnacPgJawabanParams) error
 	CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, error)
 	GetConfig(ctx context.Context) (Config, error)
+	GetElimMasterByTeamId(ctx context.Context, teamID int32) (ElimUnacMaster, error)
+	GetElimSandwichById(ctx context.Context, id int32) (ElimUnacBattleOfSandwich, error)
+	GetElimSandwichByTeamId(ctx context.Context, arg GetElimSandwichByTeamIdParams) (BattleOfSandwichMaster, error)
 	GetMemberById(ctx context.Context, id int32) (Member, error)
 	GetMemberByTeamId(ctx context.Context, teamID int32) ([]Member, error)
+	GetPageElimSandwich(ctx context.Context, teamID int32) (int32, error)
 	GetPagePrelimTac(ctx context.Context, teamID int32) (int32, error)
 	GetPagePrelimUnac(ctx context.Context, teamID int32) (int32, error)
 	GetPrelimTacByTeamId(ctx context.Context, teamID int32) (PrelimTacMaster, error)
@@ -25,15 +32,20 @@ type Querier interface {
 	GetPrelimUnacByTeamId(ctx context.Context, teamID int32) (PrelimUnacMaster, error)
 	GetPrelimUnacIsianById(ctx context.Context, id int32) (PrelimUnacIsian, error)
 	GetPrelimUnacPgById(ctx context.Context, id int32) (PrelimUnacPg, error)
+	GetTacPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
 	GetTeamById(ctx context.Context, id int32) (Team, error)
 	GetTeamsPagination(ctx context.Context, arg GetTeamsPaginationParams) ([]Team, error)
+	GetUnacIsianIdByPaket(ctx context.Context, paket int32) ([]int32, error)
+	GetUnacPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
 	GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error)
 	GetUserById(ctx context.Context, id int32) (User, error)
 	RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error)
 	SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error
+	UpdatePageElimSandwich(ctx context.Context, teamID int32) error
 	UpdatePagePrelimTac(ctx context.Context, teamID int32) error
 	UpdatePagePrelimUnac(ctx context.Context, teamID int32) error
 	UpdatePrelimStatus(ctx context.Context, arg UpdatePrelimStatusParams) error
+	UpdateSubmitedElimSandwich(ctx context.Context, teamID int32) error
 	UpdateSubmitedPrelimTac(ctx context.Context, teamID int32) error
 	UpdateSubmitedPrelimUnac(ctx context.Context, teamID int32) error
 	UpdateVerifiedStatus(ctx context.Context, arg UpdateVerifiedStatusParams) error
