@@ -62,9 +62,7 @@ export default function Eliminary({ type }: EliminaryProps) {
       <p className="font-bold text-lg">Babak Eliminary</p>
       <p className="text-lg mt-4">
         Akan dimulai tanggal{" "}
-        <span className="font-bold text-orange">
-          {getDate(new Date(data.battle_of_sandwich_start.Time))}
-        </span>
+        <span className="font-bold text-orange">9 September 2021</span>
       </p>
       <p className="mt-4">Silahkan Gabung Grup Whatsapp</p>
       <a

@@ -38,7 +38,7 @@ export default function DashboardCard({
           <p className="font-bold text-2xl mb-4">
             {type === "unac" ? "UNAC" : "TAC"}
           </p>
-          <p className="font-bold text-lg mb-4 flex flex-col sm:flex-row items-start sm:items-center">
+          {/* <p className="font-bold text-lg mb-4 flex flex-col sm:flex-row items-start sm:items-center">
             Status:
             <span className="ml-0 sm:ml-8">
               <StatusBar text={text} type={status} />
@@ -52,7 +52,7 @@ export default function DashboardCard({
                 ? "Acara selanjutnya:"
                 : "Cek email anda untuk keterangan tolakan"}
             </span>
-          </p>
+          </p> */}
         </div>
         <div className="flex justify-start sm:justify-center items-center w-full sm:w-1/3">
           <Button text="Detail>" filled={false} handler={() => handler()} />
