@@ -69,3 +69,8 @@ func (u *PrelimTacService) UpdateSubmitedTac(teamId int) error {
 	err := u.query.UpdateSubmitedPrelimTac(context.Background(), int32(teamId))
 	return err
 }
+
+func (u *PrelimTacService) GetTacPgIdByPaket(paket int) ([]int32, error) {
+	page, err := u.query.GetTacPgIdByPaket(context.Background(), int32(paket))
+	return page, err
+}

@@ -74,9 +74,15 @@ func (u *PrelimTacController) Start(c *fiber.Ctx) error {
 		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Belum di verifikasi"})
 	}
 	// random paket
-	paket := 4
+	paket := util.RandomPaket()
+	// paket := 3
 	// generate sequence
-	order := util.RandomOrderTacSimul()
+	pgIds, err := u.service.GetTacPgIdByPaket(paket)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	order := util.RandomOrderTac(pgIds)
 	// create prelim tac master
 	master, err := u.service.CreatePrelimTac(int(user.TeamID.Int32), paket, token, order)
 	if err != nil {
@@ -194,7 +200,7 @@ func (u *PrelimTacController) GetSoal(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
-	if page > 4 {
+	if page > 12 {
 		return c.Status(http.StatusBadRequest).JSON(Message{Message: "already submited last page"})
 	}
 	prelim, err := u.service.GetTeamById(int(user.TeamID.Int32))

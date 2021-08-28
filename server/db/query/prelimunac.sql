@@ -54,3 +54,9 @@ WHERE team_id = $1;
 UPDATE prelim_unac_master
 SET submited = now()
 WHERE team_id = $1;
+
+-- name: GetUnacPgIdByPaket :many
+SELECT id from prelim_unac_pg where paket = $1;
+
+-- name: GetUnacIsianIdByPaket :many
+SELECT id from prelim_unac_isian where paket = $1;

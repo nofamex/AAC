@@ -121,6 +121,8 @@ CREATE TABLE prelim_unac_master (
   benar int not null default 0,
   salah int not null default 0,
   kosong int default 15,
+  status_bayar varchar(10) default 'belum',
+  status_lolos varchar(10) default '-',
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 
@@ -136,6 +138,8 @@ CREATE TABLE prelim_tac_master (
   benar int not null default 0,
   salah int not null default 0,
   kosong int default 15,
+  status_bayar varchar(10) default 'belum',
+  status_lolos varchar(10) default '-',
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 

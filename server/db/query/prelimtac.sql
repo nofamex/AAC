@@ -17,7 +17,6 @@ INSERT INTO  prelim_tac_master (
 SELECT * from prelim_tac_pg
 WHERE id = $1;
 
-
 -- name: CreatePrelimTacPgJawaban :exec
 INSERT INTO prelim_tac_pg_jawaban (
   team_id,
@@ -41,3 +40,6 @@ WHERE team_id = $1;
 UPDATE prelim_tac_master
 SET submited = now()
 WHERE team_id = $1;
+
+-- name: GetTacPgIdByPaket :many
+SELECT id from prelim_tac_pg where paket = $1;
