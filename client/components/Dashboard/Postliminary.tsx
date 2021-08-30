@@ -16,6 +16,11 @@ export default function Postliminary({
   paymentStatus,
   type,
 }: PostliminaryProps) {
+  const UNACBOOKLET =
+    "https://drive.google.com/file/d/1RiSW9IENh7yYAKKeLGX-6np9aiXWFtwD/view?usp=sharing";
+  const TACBOOKLET =
+    "https://drive.google.com/file/d/1jg3D8CMVdW9f4rvPFApZgzgDPWkz8-p_/view?usp=sharing";
+
   const router = useRouter();
   const [isShow, setIsShow] = useState(false);
   const {
@@ -53,7 +58,15 @@ export default function Postliminary({
             Mohon melakukan pembayaran ulang di slot berikut ini untuk
             melanjutkan tahap selanjutnya.
           </p>
-          <p className="flex mt-4">
+          <p className="mt-4 mb-4 text-lg font-bold">Download Booklet</p>
+          <a
+            href={type === "unac" ? UNACBOOKLET : TACBOOKLET}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button text="Booklet" handler={() => {}} filled={false} />
+          </a>
+          <p className="flex mt-8">
             <span className="text-lg font-bold">Bukti Pembayaran</span>
             <span
               className="ml-auto text-orange underline cursor-pointer"

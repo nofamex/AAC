@@ -18,6 +18,10 @@ export default function Eliminary({ type }: EliminaryProps) {
 
   const UNACWA = "https://chat.whatsapp.com/Ktw7gXvaBQmEAXPv0UCOJU";
   const TACWA = "https://chat.whatsapp.com/KdIWRYwqHXk3tg90gMc5nM";
+  const UNACBOOKLET =
+    "https://drive.google.com/file/d/1RiSW9IENh7yYAKKeLGX-6np9aiXWFtwD/view?usp=sharing";
+  const TACBOOKLET =
+    "https://drive.google.com/file/d/1jg3D8CMVdW9f4rvPFApZgzgDPWkz8-p_/view?usp=sharing";
 
   useEffect(() => {
     async function data() {
@@ -64,14 +68,30 @@ export default function Eliminary({ type }: EliminaryProps) {
         Akan dimulai tanggal{" "}
         <span className="font-bold text-orange">9 September 2021</span>
       </p>
-      <p className="mt-4">Silahkan Gabung Grup Whatsapp</p>
-      <a
-        href={type === "unac" ? UNACWA : TACWA}
-        target="_blank"
-        rel="noreferrer"
-      >
-        <Button text="Gabung" handler={() => {}} filled={false} />
-      </a>
+
+      <div className="w-full flex">
+        <div>
+          <p className="mt-4 mb-4">Silahkan Gabung Grup Whatsapp</p>
+          <a
+            href={type === "unac" ? UNACWA : TACWA}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button text="Gabung" handler={() => {}} filled={false} />
+          </a>
+        </div>
+        <div className="ml-8">
+          <p className="mt-4 mb-4">Download Booklet</p>
+          <a
+            href={type === "unac" ? UNACBOOKLET : TACBOOKLET}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button text="Booklet" handler={() => {}} filled={false} />
+          </a>
+        </div>
+      </div>
+
       {type === "unac" && (
         <div className="flex mt-4">
           <CompsCard
