@@ -20,6 +20,8 @@ type Querier interface {
 	CreateRescueMaster(ctx context.Context, arg CreateRescueMasterParams) (RescueTheNumberMaster, error)
 	CreateSandwichJawaban(ctx context.Context, arg CreateSandwichJawabanParams) error
 	CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, error)
+	CreatescratchJawaban(ctx context.Context, arg CreatescratchJawabanParams) error
+	CreatescratchMaster(ctx context.Context, arg CreatescratchMasterParams) (ScratchTheHiddenWordsMaster, error)
 	GetConfig(ctx context.Context) (Config, error)
 	GetElimMasterByTeamId(ctx context.Context, teamID int32) (ElimUnacMaster, error)
 	GetElimSandwichById(ctx context.Context, id int32) (ElimUnacBattleOfSandwich, error)
@@ -46,6 +48,8 @@ type Querier interface {
 	GetUnacPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
 	GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error)
 	GetUserById(ctx context.Context, id int32) (User, error)
+	GetscratchByTeamId(ctx context.Context, teamID int32) (ScratchTheHiddenWordsMaster, error)
+	GetscratchSoal(ctx context.Context) ([]ElimUnacScratchTheHiddenWord, error)
 	RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error)
 	SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error
 	UpdateElimStatus(ctx context.Context, arg UpdateElimStatusParams) error
@@ -68,6 +72,7 @@ type Querier interface {
 	UpdateSubmitedPrelimUnac(ctx context.Context, teamID int32) error
 	UpdateSubmitedRescue(ctx context.Context, teamID int32) error
 	UpdateSubmitedSandwich(ctx context.Context, arg UpdateSubmitedSandwichParams) error
+	UpdateSubmitedscratch(ctx context.Context, teamID int32) error
 	UpdateVerifiedStatus(ctx context.Context, arg UpdateVerifiedStatusParams) error
 }
 

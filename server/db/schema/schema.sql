@@ -201,7 +201,7 @@ CREATE TABLE "battle_of_sandwich_master" (
   "paket" int NOT NULL,
   "last_page" int NOT NULL DEFAULT 1,
   "benar" int NOT NULL DEFAULT 0,
-  "salah" int NOT NULL DEFAULT 0,
+  "salah" int NOT NULL DEFAULT 10,
   "score" int NOT NULL DEFAULT 0,
   "submited" timestamp,
 
@@ -214,7 +214,7 @@ CREATE TABLE "scratch_the_hidden_words_master" (
   "team_id" int NOT NULL,
   "token" varchar NOT NULL,
   "benar" int NOT NULL DEFAULT 0,
-  "salah" int NOT NULL DEFAULT 0,
+  "salah" int NOT NULL DEFAULT 10,
   "score" int NOT NULL DEFAULT 0,
   "submited" timestamp,
   
@@ -226,7 +226,7 @@ CREATE TABLE "rescue_the_number_master" (
   "team_id" int UNIQUE NOT NULL,
   "token" varchar NOT NULL,
   "benar" int NOT NULL DEFAULT 0,
-  "salah" int NOT NULL DEFAULT 0,
+  "salah" int NOT NULL DEFAULT 20,
   "score" int NOT NULL DEFAULT 0,
   "submited" timestamp,
   
