@@ -6,6 +6,7 @@ import { toCurrentTimezone } from "@lib/date";
 import Loader from "@components/Context/Loader";
 import { useRouter } from "next/router";
 import Button from "@components/Context/Button";
+import { toast } from "react-toastify";
 
 interface EliminaryProps {
   type: string;
@@ -52,6 +53,10 @@ export default function Eliminary({
     return <Loader height="h-full bg-opacity-0" />;
   }
 
+  const alert = () => {
+    toast.error("User sudah terdaftar di soal lain.");
+  };
+
   const scratchStartHandler = () => {
     api.post("/elim/unac/scratch/start").then(() => {
       localStorage.setItem("isScratchStarted", "benar");
@@ -75,19 +80,25 @@ export default function Eliminary({
   };
 
   const sandwichStart2Handler = () => {
-    api.post("/elim/unac/sandwich/start/B").then(() => {
-      localStorage.setItem("isSandwichStarted", "benar");
-      localStorage.setItem("sandwichType", "B");
-      router.push("/comps/eliminary/unac/sandwich");
-    });
+    api
+      .post("/elim/unac/sandwich/start/B")
+      .then(() => {
+        localStorage.setItem("isSandwichStarted", "benar");
+        localStorage.setItem("sandwichType", "B");
+        router.push("/comps/eliminary/unac/sandwich");
+      })
+      .catch(() => alert());
   };
 
   const sandwichStart3Handler = () => {
-    api.post("/elim/unac/sandwich/start/C").then(() => {
-      localStorage.setItem("isSandwichStarted", "benar");
-      localStorage.setItem("sandwichType", "C");
-      router.push("/comps/eliminary/unac/sandwich");
-    });
+    api
+      .post("/elim/unac/sandwich/start/C")
+      .then(() => {
+        localStorage.setItem("isSandwichStarted", "benar");
+        localStorage.setItem("sandwichType", "C");
+        router.push("/comps/eliminary/unac/sandwich");
+      })
+      .catch(() => alert());
   };
 
   return (
@@ -99,7 +110,7 @@ export default function Eliminary({
       </p>
       <div className="w-full flex">
         <div>
-          <p className="mt-4 mb-4">Silahkan Gabung Grup Whatsapp</p>
+          <p className="mt-4 mb-4 font-bold">Silahkan Gabung Grup Whatsapp</p>
           <a
             href={type === "unac" ? UNACWA : TACWA}
             target="_blank"
@@ -109,7 +120,7 @@ export default function Eliminary({
           </a>
         </div>
         <div className="ml-8">
-          <p className="mt-4 mb-4">Download Booklet</p>
+          <p className="mt-4 mb-4 font-bold">Download Booklet</p>
           <a
             href={type === "unac" ? UNACBOOKLET : TACBOOKLET}
             target="_blank"
@@ -133,7 +144,7 @@ export default function Eliminary({
             statusC={statusSandwichC}
           />
           <CompsCard
-            name="Scratch D' Words"
+            name="Scratch The Hidden Words"
             date={data.scratch_the_hidden_words_start.Time}
             handler={scratchStartHandler}
             cache="isScratchStarted"
@@ -179,7 +190,7 @@ function CompsCard({ name, date, handler, cache, status }: CompsCardProps) {
 
   return (
     <div className="w-1/3 h-auto flex flex-col border-2 border-white p-2 rounded-lg mr-3">
-      <p className="text-lg font-bold mt-4">{name}</p>
+      <p className="text-lg font-bold mt-4 h-12 text-center">{name}</p>
       <Countdown date={toCurrentTimezone(date)} renderer={renderer} />
       <div className="flex flex-col w-full h-auto mt-2">
         {isStarted && status !== "selesai" && (
@@ -251,7 +262,11 @@ function CompsCardSandwich({
       <div className="flex flex-col w-full h-auto mt-2">
         {isStarted && (
           <>
-            <p className="font-bold text-lg">Lomba sudah bisa dimulai</p>
+            {statusA !== "selesai" &&
+              statusB !== "selesai" &&
+              statusC !== "selesai" && (
+                <p className="font-bold text-lg">Lomba sudah bisa dimulai</p>
+              )}
             {statusA !== "selesai" ? (
               <button
                 className="rounded-2xl text-white font-bold text-xl px-4 py-2 mt-2 flex justify-center items-center bg-gradient-to-r from-persimmon to-orange hover:scale-105 transition-all ease-in-out active:scale-100"
