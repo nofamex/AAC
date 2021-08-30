@@ -71,7 +71,7 @@ export default function Navigation({ endTime, page, cmpt }: NavigationProps) {
               />
             ))}
           </div>
-          <div className="flex justify-center mb-2">
+          {/* <div className="flex justify-center mb-2">
             {row2.map((r, i) => (
               <Number
                 key={`r2${i}`}
@@ -90,13 +90,13 @@ export default function Navigation({ endTime, page, cmpt }: NavigationProps) {
                 page={page}
               />
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
   );
 }
 
-const row1 = [1, 2, 3, 4, 5];
+const row1 = [1, 2];
 const row2 = [6, 7, 8, 9, 10];
 const row3 = [11, 12];

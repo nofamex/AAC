@@ -14,12 +14,7 @@ export default function Dashboard() {
   const userString = getUser();
   const user = JSON.parse(userString || "{}");
 
-  const [status, setStatus] = useState({
-    status: "",
-    type: "",
-    status_prelim: "",
-    status_payment_prelim: "",
-  });
+  const [status, setStatus] = useState<any>();
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -95,12 +90,16 @@ export default function Dashboard() {
             ) : (
               <div className="w-full flex-grow">
                 <DashboardCard
-                  text={statusTextChecker(status.status)}
                   status={status.status}
                   handler={() => router.push("/dashboard/detail/")}
                   type={status.type}
                   prelimStatus={status.status_prelim}
                   statusPaymentPrelim={status.status_payment_prelim}
+                  statusSandwichA={status.status_sandwich_a}
+                  statusSandwichB={status.status_sandwich_b}
+                  statusSandwichC={status.status_sandwich_c}
+                  statusRescue={status.status_rescue}
+                  statusScratch={status.status_scratch}
                 />
               </div>
             )}

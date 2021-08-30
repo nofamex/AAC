@@ -17,7 +17,6 @@ export default function ScratchWords() {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(true);
   const [endTime, setEndTime] = useState<any>();
-  const [cache, setCache] = useState<any>("");
   const generated = generateWord();
 
   useEffect(() => {
@@ -31,7 +30,10 @@ export default function ScratchWords() {
         .catch((err) => console.log(err));
     }
     data();
-  }, []);
+    if (localStorage.getItem("isScratchStarted") !== "benar") {
+      router.push("/dashboard");
+    }
+  }, [router]);
 
   const acceptFinishHandler = () => {
     api.post("/elim/unac/scratch/finish").then(() => {
@@ -64,7 +66,7 @@ export default function ScratchWords() {
               className="font-bold italic text-5xl md:text-6xl"
               style={{ textShadow: "0 0 25px #7303C0" }}
             >
-              <span className="text-stroke">{"SCRATCH D'NUMBERS"}</span>
+              <span className="text-stroke">{"SCRATCH THE HIDDEN WORDS"}</span>
             </p>
           </div>
           <div className="h-screen w-full flex">

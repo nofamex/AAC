@@ -27,7 +27,10 @@ export default function RescueNumbers() {
         .catch((err) => console.log(err));
     }
     data();
-  }, []);
+    if (localStorage.getItem("isRescueStarted") !== "benar") {
+      router.push("/dashboard");
+    }
+  }, [router]);
 
   const acceptFinishHandler = () => {
     api.post("/elim/unac/rescue/finish").then(() => {
