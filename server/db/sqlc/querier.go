@@ -16,6 +16,8 @@ type Querier interface {
 	CreatePrelimUnac(ctx context.Context, arg CreatePrelimUnacParams) (PrelimUnacMaster, error)
 	CreatePrelimUnacIsianJawaban(ctx context.Context, arg CreatePrelimUnacIsianJawabanParams) error
 	CreatePrelimUnacPgJawaban(ctx context.Context, arg CreatePrelimUnacPgJawabanParams) error
+	CreateRescueJawaban(ctx context.Context, arg CreateRescueJawabanParams) error
+	CreateRescueMaster(ctx context.Context, arg CreateRescueMasterParams) (RescueTheNumberMaster, error)
 	CreateSandwichJawaban(ctx context.Context, arg CreateSandwichJawabanParams) error
 	CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, error)
 	GetConfig(ctx context.Context) (Config, error)
@@ -33,6 +35,8 @@ type Querier interface {
 	GetPrelimUnacByTeamId(ctx context.Context, teamID int32) (PrelimUnacMaster, error)
 	GetPrelimUnacIsianById(ctx context.Context, id int32) (PrelimUnacIsian, error)
 	GetPrelimUnacPgById(ctx context.Context, id int32) (PrelimUnacPg, error)
+	GetRescueByTeamId(ctx context.Context, teamID int32) (RescueTheNumberMaster, error)
+	GetRescueSoal(ctx context.Context) ([]ElimUnacRescueTheNumber, error)
 	GetSandwichPg(ctx context.Context, id int32) (ElimUnacBattleOfSandwich, error)
 	GetSandwichPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
 	GetTacPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
@@ -58,6 +62,7 @@ type Querier interface {
 	UpdateSubmitedElimSandwich(ctx context.Context, teamID int32) error
 	UpdateSubmitedPrelimTac(ctx context.Context, teamID int32) error
 	UpdateSubmitedPrelimUnac(ctx context.Context, teamID int32) error
+	UpdateSubmitedRescue(ctx context.Context, teamID int32) error
 	UpdateSubmitedSandwich(ctx context.Context, arg UpdateSubmitedSandwichParams) error
 	UpdateVerifiedStatus(ctx context.Context, arg UpdateVerifiedStatusParams) error
 }
