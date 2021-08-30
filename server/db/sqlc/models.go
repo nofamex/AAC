@@ -99,6 +99,7 @@ type PrelimTacMaster struct {
 	Kosong      sql.NullInt32  `json:"kosong"`
 	StatusBayar sql.NullString `json:"status_bayar"`
 	StatusLolos sql.NullString `json:"status_lolos"`
+	PaymentLink sql.NullString `json:"payment_link"`
 }
 
 type PrelimTacPg struct {
@@ -149,6 +150,7 @@ type PrelimUnacMaster struct {
 	Kosong      sql.NullInt32  `json:"kosong"`
 	StatusBayar sql.NullString `json:"status_bayar"`
 	StatusLolos sql.NullString `json:"status_lolos"`
+	PaymentLink sql.NullString `json:"payment_link"`
 }
 
 type PrelimUnacPg struct {

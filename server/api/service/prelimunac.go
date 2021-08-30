@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"database/sql"
 
 	db "github.com/nofamex/AAC/server/db/sqlc"
 )
@@ -96,4 +97,22 @@ func (u *PrelimUnacService) GetUnacPgIdByPaket(paket int) ([]int32, error) {
 func (u *PrelimUnacService) GetUnacIsianIdByPaket(paket int) ([]int32, error) {
 	page, err := u.query.GetUnacIsianIdByPaket(context.Background(), int32(paket))
 	return page, err
+}
+
+func (u *PrelimUnacService) InsertPaymentUnac(teamId int, link string) error {
+	param := db.UpdatePaymentPrelimUnacParams{
+		TeamID:      int32(teamId),
+		PaymentLink: sql.NullString{String: link, Valid: true},
+	}
+	err := u.query.UpdatePaymentPrelimUnac(context.Background(), param)
+	return err
+}
+
+func (u *PrelimUnacService) UpdatePaymentStatusPrelimUnac(teamId int, status string) error {
+	param := db.UpdatePaymentStatusPrelimUnacParams{
+		TeamID:      int32(teamId),
+		StatusBayar: sql.NullString{String: status, Valid: true},
+	}
+	err := u.query.UpdatePaymentStatusPrelimUnac(context.Background(), param)
+	return err
 }

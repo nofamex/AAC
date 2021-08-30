@@ -27,3 +27,12 @@
 2021/08/30 22:45:12 elimsanwich.go:100: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
 2021/08/30 22:45:21 elimsanwich.go:100: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
 2021/08/30 22:46:26 elimsanwich.go:104: pq: column "submited" does not exist
+2021/08/30 23:56:39 elimrescue.go:126: pq: insert or update on table "rescue_the_number_jawaban" violates foreign key constraint "rescue_the_number_jawaban_team_id_fkey"
+2021/08/31 00:12:08 elimsanwich.go:100: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/31 00:12:24 elimsanwich.go:100: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/31 00:17:57 elimsanwich.go:100: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/31 00:18:15 elimsanwich.go:100: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/31 00:19:36 elimsanwich.go:101: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/31 00:19:41 elimsanwich.go:101: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/31 00:21:39 elimsanwich.go:101: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/31 00:22:12 elimsanwich.go:109: pq: duplicate key value violates unique constraint "battle_of_sandwich_master_team_id_key"

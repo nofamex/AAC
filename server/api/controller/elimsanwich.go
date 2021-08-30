@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
@@ -63,10 +64,10 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	// cek belom ada team
+	// cek belom ada team 
 	elim, err := u.service.GetElimSandwichByTeamId(int(user.TeamID.Int32), token)
 	if elim != nil {
-		return c.Status(http.StatusOK).JSON(Message{Message: "User sudah terdaftar"})
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "User sudah terdaftar pada paket lain"})
 	}
 
 	// cek udah bayar
@@ -96,7 +97,7 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 	}
 	// create pr elim tac master
 	_, err = u.service.CreateElimMaster(int(user.TeamID.Int32))
-	if err != nil {
+	if err != nil && !strings.Contains(err.Error(), "duplicate key") {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}

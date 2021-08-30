@@ -128,6 +128,7 @@ CREATE TABLE prelim_unac_master (
   kosong int default 15,
   status_bayar varchar(10) default 'belum',
   status_lolos varchar(10) default '-',
+  payment_link varchar(255),
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 
@@ -145,6 +146,7 @@ CREATE TABLE prelim_tac_master (
   kosong int default 15,
   status_bayar varchar(10) default 'belum',
   status_lolos varchar(10) default '-',
+  payment_link varchar(255),
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 
@@ -193,7 +195,7 @@ CREATE TABLE "elim_unac_master" (
 
 CREATE TABLE "battle_of_sandwich_master" (
   "id" SERIAL PRIMARY KEY,
-  "team_id" int UNIQUE NOT NULL,
+  "team_id" int NOT NULL,
   "token" varchar NOT NULL,
   "orders" varchar NOT NULL,
   "paket" int NOT NULL,
@@ -203,6 +205,7 @@ CREATE TABLE "battle_of_sandwich_master" (
   "score" int NOT NULL DEFAULT 0,
   "submited" timestamp,
 
+  UNIQUE(team_id, token),
   FOREIGN KEY ("team_id") REFERENCES "elim_unac_master" ("team_id")
 );
 
@@ -237,7 +240,7 @@ CREATE TABLE "battle_of_sandwich_jawaban" (
   "token" varchar NOT NULL,
   "jawaban" int NOT NULL,
 
-  FOREIGN KEY ("team_id") REFERENCES "elim_unac_master" ("team_id"),
+  FOREIGN KEY ("team_id", "token") REFERENCES "battle_of_sandwich_master" ("team_id", "token"),
   FOREIGN KEY ("soal_id") REFERENCES "elim_unac_battle_of_sandwich" ("id"),
   UNIQUE (team_id, token, soal_id)
 );
