@@ -117,6 +117,7 @@ func (server *Server) setupRouter() {
 	rescue.Post("start", unacRescue.Start)
 	rescue.Post("submit", unacRescue.Submit)
 	rescue.Post("finish", unacRescue.Finish)
+	rescue.Get("soal", unacRescue.GetSoal)
 
 	server.router = router
 }

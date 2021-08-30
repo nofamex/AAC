@@ -225,20 +225,20 @@ func (u *PrelimUnacController) SubmitIsian(c *fiber.Ctx) error {
 }
 
 type PageResponse struct {
-	Page  int    `json:"page"`
-	Paket int    `json:"paket"`
+	Page  int    `json:"page,omitempty"`
+	Paket int    `json:"paket,omitempty"`
 	Body  []Soal `json:"body"`
 }
 
 type Soal struct {
 	Id       int    `json:"id"`
-	No       int    `json:"no"`
+	No       int    `json:"no,omitempty"`
 	Soal     string `json:"soal"`
 	Pilihan1 string `json:"pilihan1,omitempty"`
 	Pilihan2 string `json:"pilihan2,omitempty"`
 	Pilihan3 string `json:"pilihan3,omitempty"`
 	Pilihan4 string `json:"pilihan4,omitempty"`
-	Bobot    int    `json:"bobot"`
+	Bobot    int    `json:"bobot,omitempty"`
 }
 
 // get soal

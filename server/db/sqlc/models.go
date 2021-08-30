@@ -171,10 +171,10 @@ type PrelimUnacPgJawaban struct {
 }
 
 type RescueTheNumberJawaban struct {
-	ID      int32 `json:"id"`
-	TeamID  int32 `json:"team_id"`
-	SoalID  int32 `json:"soal_id"`
-	Jawaban int32 `json:"jawaban"`
+	ID      int32  `json:"id"`
+	TeamID  int32  `json:"team_id"`
+	SoalID  int32  `json:"soal_id"`
+	Jawaban string `json:"jawaban"`
 }
 
 type RescueTheNumberMaster struct {

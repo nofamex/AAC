@@ -19,9 +19,9 @@ ON CONFLICT (team_id, soal_id)  DO UPDATE SET jawaban = EXCLUDED.jawaban
 `
 
 type CreateRescueJawabanParams struct {
-	TeamID  int32 `json:"team_id"`
-	SoalID  int32 `json:"soal_id"`
-	Jawaban int32 `json:"jawaban"`
+	TeamID  int32  `json:"team_id"`
+	SoalID  int32  `json:"soal_id"`
+	Jawaban string `json:"jawaban"`
 }
 
 func (q *Queries) CreateRescueJawaban(ctx context.Context, arg CreateRescueJawabanParams) error {
@@ -80,6 +80,7 @@ func (q *Queries) GetRescueByTeamId(ctx context.Context, teamID int32) (RescueTh
 
 const getRescueSoal = `-- name: GetRescueSoal :many
 select id, soal, jawaban, bobot from elim_unac_rescue_the_number
+order by id
 `
 
 func (q *Queries) GetRescueSoal(ctx context.Context) ([]ElimUnacRescueTheNumber, error) {

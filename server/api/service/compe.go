@@ -188,3 +188,19 @@ func (u *CompeService) UpdateSandwichStatus(id int, status, paket string) error 
 	}
 	return errors.New("no paket found")
 }
+
+func (u *CompeService) UpdateScratchStatus(id int, status string) error {
+	param := db.UpdateScratchStatusParams{
+		ID:            int32(id),
+		StatusScratch: status,
+	}
+	return u.query.UpdateScratchStatus(context.Background(), param)
+}
+
+func (u *CompeService) UpdateRescueStatus(id int, status string) error {
+	param := db.UpdateRescueStatusParams{
+		ID:           int32(id),
+		StatusRescue: status,
+	}
+	return u.query.UpdateRescueStatus(context.Background(), param)
+}

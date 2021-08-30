@@ -249,17 +249,19 @@ CREATE TABLE "scratch_the_hidden_words_jawaban" (
   "jawaban" text NOT NULL,
 
   FOREIGN KEY ("team_id") REFERENCES "scratch_the_hidden_words_master" ("team_id"),
-  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_scratch_the_hidden_words" ("id")
+  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_scratch_the_hidden_words" ("id"),
+  UNIQUE (team_id, soal_id)
 );
 
 CREATE TABLE "rescue_the_number_jawaban" (
   "id" SERIAL PRIMARY KEY,
   "team_id" int NOT NULL,
   "soal_id" int UNIQUE NOT NULL,
-  "jawaban" int NOT NULL,
+  "jawaban" text NOT NULL,
 
   FOREIGN KEY ("team_id") REFERENCES "rescue_the_number_master" ("team_id"),
-  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_rescue_the_number" ("id")
+  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_rescue_the_number" ("id"),
+  UNIQUE (team_id, soal_id)
 );
 
 create table statistics (

@@ -95,7 +95,11 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 	// create pr elim tac master
-	u.service.CreateElimMaster(int(user.TeamID.Int32))
+	_, err = u.service.CreateElimMaster(int(user.TeamID.Int32))
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 
 	order := util.RandomOrderSandwich(pgIds)
 

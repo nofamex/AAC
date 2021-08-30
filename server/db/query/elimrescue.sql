@@ -26,4 +26,5 @@ SET submited = now()
 WHERE team_id = $1;
 
 -- name: GetRescueSoal :many
-select * from elim_unac_rescue_the_number;
+select * from elim_unac_rescue_the_number
+order by id;
