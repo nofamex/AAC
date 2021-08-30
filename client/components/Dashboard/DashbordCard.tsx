@@ -1,25 +1,32 @@
 import Button from "@components/Context/Button";
-import StatusBar from "@components/Dashboard/StatusBar";
 import Preliminary from "@components/Dashboard/Preliminary";
 import Eliminary from "./Eliminary";
 import Postliminary from "./Postliminary";
 
 interface DashboardCardProps {
   status: string;
-  text: string;
   handler: Function;
   type: string;
   prelimStatus: string;
   statusPaymentPrelim: string;
+  statusSandwichA: string;
+  statusSandwichB: string;
+  statusSandwichC: string;
+  statusRescue: string;
+  statusScratch: string;
 }
 
 export default function DashboardCard({
   status,
-  text,
   handler,
   type,
   prelimStatus,
   statusPaymentPrelim,
+  statusSandwichA,
+  statusSandwichB,
+  statusSandwichC,
+  statusRescue,
+  statusScratch,
 }: DashboardCardProps) {
   const prelimStatusChecker = (status: string) => {
     switch (status) {
@@ -37,21 +44,6 @@ export default function DashboardCard({
         <div className="h-full w-2/3">
           <p className="font-bold text-2xl mb-4">
             {type === "unac" ? "UNAC" : "TAC"}
-          </p>
-          <p className="font-bold text-lg mb-4 flex flex-col sm:flex-row items-start sm:items-center">
-            Status:
-            <span className="ml-0 sm:ml-8">
-              <StatusBar text={text} type={status} />
-            </span>
-          </p>
-          <p className="font-bold text-lg flex flex-col sm:flex-row items-start sm:items-center mb-4 sm:mb-0">
-            <span className="font-bold text-sm sm:text-base">
-              {status === "menunggu"
-                ? "Terima kasih telah mendaftar! Data anda sedang diverifikasi oleh panitia. Silahkan cek email secara berkala untuk informasi lebih lanjut!"
-                : status === "berhasil"
-                ? "Acara selanjutnya:"
-                : "Cek email anda untuk keterangan tolakan"}
-            </span>
           </p>
         </div>
         <div className="flex justify-start sm:justify-center items-center w-full sm:w-1/3">
@@ -74,7 +66,14 @@ export default function DashboardCard({
           />
         )}
       {statusPaymentPrelim === "verified" && prelimStatus === "lolos" && (
-        <Eliminary type={type} />
+        <Eliminary
+          type={type}
+          statusSandwichA={statusSandwichA}
+          statusSandwichB={statusSandwichB}
+          statusSandwichC={statusSandwichC}
+          statusRescue={statusRescue}
+          statusScratch={statusScratch}
+        />
       )}
     </div>
   );

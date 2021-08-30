@@ -144,7 +144,7 @@ interface OptionProps {
 
 function Option({ name, value, text, id, paket, cmpt }: OptionProps) {
   const clickHandler = () => {
-    api.post(`/prelim/${cmpt}/submit-pg`, {
+    api.post(`/elim/unac/sandwich/submit`, {
       id: Number(name),
       paket: paket,
       jawaban: Number(value),
