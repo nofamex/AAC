@@ -18,3 +18,12 @@
 2021/08/27 23:14:02 prelimtac.go:199: sql: no rows in result set
 2021/08/28 00:34:32 prelimtac.go:214: invalid character '2' after top-level value
 2021/08/28 00:34:52 prelimtac.go:214: invalid character '2' after top-level value
+2021/08/30 21:36:37 elimsanwich.go:101: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/30 21:37:00 elimsanwich.go:99: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/30 22:19:40 elimsanwich.go:189: pq: there is no unique or exclusion constraint matching the ON CONFLICT specification
+2021/08/30 22:21:38 elimsanwich.go:189: pq: there is no unique or exclusion constraint matching the ON CONFLICT specification
+2021/08/30 22:21:43 elimsanwich.go:189: pq: there is no unique or exclusion constraint matching the ON CONFLICT specification
+2021/08/30 22:45:03 elimsanwich.go:231: pq: column "submited" does not exist
+2021/08/30 22:45:12 elimsanwich.go:100: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/30 22:45:21 elimsanwich.go:100: pq: duplicate key value violates unique constraint "elim_unac_master_team_id_key"
+2021/08/30 22:46:26 elimsanwich.go:104: pq: column "submited" does not exist

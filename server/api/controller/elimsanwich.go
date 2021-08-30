@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -56,7 +57,7 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	_, err = u.compeService.GetTeamById(user.TeamID.Int32)
+	team, err := u.compeService.GetTeamById(user.TeamID.Int32)
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
@@ -68,31 +69,46 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		return c.Status(http.StatusOK).JSON(Message{Message: "User sudah terdaftar"})
 	}
 
-	// // cek udah bayar
-	// if team.Status != "berhasil" {
-	// 	return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Belum di verifikasi"})
-	// }
-	// // random paket
-	paket, arr := util.RandomPaketSandwich()
-	// // generate sequence
-	order := util.RandomOrderSandwich(arr[0])
-	// // create prelim tac master
-	_, err = u.service.CreateElimMaster(int(user.TeamID.Int32), paket)
-	if err != nil {
-		log.Println(err)
-		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	// cek udah bayar
+	if team.StatusPaymentPrelim != "verified" {
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Belum di verifikasi"})
 	}
 
-	sandwich, err := u.service.CreateElimSandwitch(int(user.TeamID.Int32), arr[0], token, order)
+	// paket
+	paketStr := c.Params("paket")
+	var paket int
+	switch paketStr {
+	case "A":
+		paket = 4
+	case "B":
+		paket = 5
+	case "C":
+		paket = 6
+	default:
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Paket tidak ada"})
+	}
+
+	// generate sequence
+	pgIds, err := u.service.GetSandwichPgIdByPaket(paket)
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
-	// err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "ongoing")
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	// create pr elim tac master
+	u.service.CreateElimMaster(int(user.TeamID.Int32))
+
+	order := util.RandomOrderSandwich(pgIds)
+
+	sandwich, err := u.service.CreateElimSandwitch(int(user.TeamID.Int32), paket, token, order)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	err = u.compeService.UpdateElimStatus(int(user.TeamID.Int32), "ongoing")
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 	return c.Status(http.StatusOK).JSON(sandwich)
 }
 
@@ -110,27 +126,39 @@ func (u *ElimSandwichController) Finish(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	_, err = u.userService.GetUserById(int(payload.UserId))
+	user, err := u.userService.GetUserById(int(payload.UserId))
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	sandwich, err := u.service.GetElimSandwichByTeamId(int(user.TeamID.Int32), token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
+	}
+	var paket string
+	switch (sandwich.Paket){
+	case 4:
+		paket = "A"
+	case 5:
+		paket = "B"
+	case 6:
+		paket = "C"
+	}
+	err = u.compeService.UpdateSandwichStatus(int(user.TeamID.Int32), "selesai", paket)
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	// err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "selesai")
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
-
-	// err = u.service.UpdateSubmitedTac(int(user.TeamID.Int32))
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	err = u.service.UpdateSubmitedSandwich(int(user.TeamID.Int32), token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 
 	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
 }
-
 
 // submit
 func (u *ElimSandwichController) Submit(c *fiber.Ctx) error {
@@ -147,7 +175,7 @@ func (u *ElimSandwichController) Submit(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	_, err = u.userService.GetUserById(int(payload.UserId))
+	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
@@ -165,11 +193,11 @@ func (u *ElimSandwichController) Submit(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
-	// err = u.service.CreatePrelimTacPg(int(user.TeamID.Int32), requestBody.SoalId, requestBody.Jawaban)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	err = u.service.CreateSandwichJawaban(int(user.TeamID.Int32), requestBody.SoalId, requestBody.Jawaban, token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
 }
 
@@ -188,57 +216,52 @@ func (u *ElimSandwichController) GetSoal(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	_, err = u.userService.GetUserById(int(payload.UserId))
+	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
-	// page, err := u.service.GetPagePrelimTac(int(user.TeamID.Int32))
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
-	// }
+	sandwich, err := u.service.GetElimSandwichByTeamId(int(user.TeamID.Int32), token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
+	}
+	page := sandwich.LastPage
+	if page > 2 {
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: "already submited last page"})
+	}
 
-	// if page > 4 {
-	// 	return c.Status(http.StatusBadRequest).JSON(Message{Message: "already submited last page"})
-	// }
-	// prelim, err := u.service.GetTeamById(int(user.TeamID.Int32))
-	// if prelim.Token != token {
-	// 	return c.Status(http.StatusBadRequest).JSON(Message{Message: "token doesn't match"})
-	// }
+	var order []int
+	err = json.Unmarshal([]byte(sandwich.Orders), &order)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: "order failed"})
+	}
 
-	// var order []int
-	// err = json.Unmarshal([]byte(prelim.Orders), &order)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: "order failed"})
-	// }
+	// tolong ganti kalo udah ga simul
 
-	// // tolong ganti kalo udah ga simul
-
-	// resPage := PageResponse{
-	// 	Page: int(page),
-	// }
-	// order = order[5*(page-1) : 5*(page)]
-	// res := []Soal{}
-	// for i, id := range order {
-	// 	soal, _ := u.service.GetPrelimTacPg(id)
-	// 	res = append(res, Soal{
-	// 		Id:       int(soal.ID),
-	// 		No:       int(page-1)*5 + i + 1,
-	// 		Soal:     soal.Soal,
-	// 		Pilihan1: soal.Pilihan1,
-	// 		Pilihan2: soal.Pilihan2,
-	// 		Pilihan3: soal.Pilihan3,
-	// 		Pilihan4: soal.Pilihan4,
-	// 		Bobot:    int(soal.Bobot),
-	// 	})
-	// 	resPage.Paket = int(soal.Paket)
-	// }
-	// resPage.Body = res
-	// return c.Status(http.StatusOK).JSON(resPage)
+	resPage := PageResponse{
+		Page: int(page),
+	}
+	order = order[5*(page-1) : 5*(page)]
+	res := []Soal{}
+	for i, id := range order {
+		soal, _ := u.service.GetSandwichPg(id)
+		res = append(res, Soal{
+			Id:       int(soal.ID),
+			No:       int(page-1)*5 + i + 1,
+			Soal:     soal.Soal,
+			Pilihan1: soal.Pilihan1,
+			Pilihan2: soal.Pilihan2,
+			Pilihan3: soal.Pilihan3,
+			Pilihan4: soal.Pilihan4,
+			Bobot:    int(soal.Bobot),
+		})
+		resPage.Paket = int(soal.Paket)
+	}
+	resPage.Body = res
+	return c.Status(http.StatusOK).JSON(resPage)
 }
 
 // NextPage
@@ -256,23 +279,23 @@ func (u *ElimSandwichController) NextPage(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	_, err = u.userService.GetUserById(int(payload.UserId))
+	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	// prelim, err := u.service.GetTeamById(int(user.TeamID.Int32))
-	// if prelim.Token != token {
-	// 	return c.Status(http.StatusBadRequest).JSON(Message{Message: "token doesn't match"})
-	// }
+	_, err = u.service.GetElimSandwichByTeamId(int(user.TeamID.Int32), token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
+	}
 
-	// // tolong ganti kalo udah ga simul
-	// err = u.service.NextPagePrelimTac(int(user.TeamID.Int32))
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	err = u.service.UpdatePageSandwich(int(user.TeamID.Int32), token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 
 	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
 }

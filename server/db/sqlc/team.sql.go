@@ -23,7 +23,7 @@ INSERT INTO team (
   type
 ) VALUES (
   $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
-) RETURNING id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_payment_prelim, status_elim
+) RETURNING id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_payment_prelim, status_elim, status_sandwich_a, status_sandwich_b, status_sandwich_c, status_scratch, status_rescue
 `
 
 type CreateTeamParams struct {
@@ -72,12 +72,17 @@ func (q *Queries) CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, e
 		&i.StatusPrelim,
 		&i.StatusPaymentPrelim,
 		&i.StatusElim,
+		&i.StatusSandwichA,
+		&i.StatusSandwichB,
+		&i.StatusSandwichC,
+		&i.StatusScratch,
+		&i.StatusRescue,
 	)
 	return i, err
 }
 
 const getTeamById = `-- name: GetTeamById :one
-SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_payment_prelim, status_elim FROM team
+SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_payment_prelim, status_elim, status_sandwich_a, status_sandwich_b, status_sandwich_c, status_scratch, status_rescue FROM team
 WHERE id = $1 LIMIT 1
 `
 
@@ -101,12 +106,17 @@ func (q *Queries) GetTeamById(ctx context.Context, id int32) (Team, error) {
 		&i.StatusPrelim,
 		&i.StatusPaymentPrelim,
 		&i.StatusElim,
+		&i.StatusSandwichA,
+		&i.StatusSandwichB,
+		&i.StatusSandwichC,
+		&i.StatusScratch,
+		&i.StatusRescue,
 	)
 	return i, err
 }
 
 const getTeamsPagination = `-- name: GetTeamsPagination :many
-SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_payment_prelim, status_elim FROM team
+SELECT id, team_name, university, full_name, phone, id_line, email, photo_link, payment_link, card_link, sk_link, type, verified, status_prelim, status_payment_prelim, status_elim, status_sandwich_a, status_sandwich_b, status_sandwich_c, status_scratch, status_rescue FROM team
 ORDER BY id
 OFFSET $1
 LIMIT $2
@@ -143,6 +153,11 @@ func (q *Queries) GetTeamsPagination(ctx context.Context, arg GetTeamsPagination
 			&i.StatusPrelim,
 			&i.StatusPaymentPrelim,
 			&i.StatusElim,
+			&i.StatusSandwichA,
+			&i.StatusSandwichB,
+			&i.StatusSandwichC,
+			&i.StatusScratch,
+			&i.StatusRescue,
 		); err != nil {
 			return nil, err
 		}
@@ -155,6 +170,22 @@ func (q *Queries) GetTeamsPagination(ctx context.Context, arg GetTeamsPagination
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateElimStatus = `-- name: UpdateElimStatus :exec
+UPDATE team
+set status_elim = $2
+where id = $1
+`
+
+type UpdateElimStatusParams struct {
+	ID         int32  `json:"id"`
+	StatusElim string `json:"status_elim"`
+}
+
+func (q *Queries) UpdateElimStatus(ctx context.Context, arg UpdateElimStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updateElimStatus, arg.ID, arg.StatusElim)
+	return err
 }
 
 const updatePrelimStatus = `-- name: UpdatePrelimStatus :exec
@@ -170,6 +201,86 @@ type UpdatePrelimStatusParams struct {
 
 func (q *Queries) UpdatePrelimStatus(ctx context.Context, arg UpdatePrelimStatusParams) error {
 	_, err := q.db.ExecContext(ctx, updatePrelimStatus, arg.ID, arg.StatusPrelim)
+	return err
+}
+
+const updateRescueStatus = `-- name: UpdateRescueStatus :exec
+UPDATE team
+set status_rescue = $2
+where id = $1
+`
+
+type UpdateRescueStatusParams struct {
+	ID           int32  `json:"id"`
+	StatusRescue string `json:"status_rescue"`
+}
+
+func (q *Queries) UpdateRescueStatus(ctx context.Context, arg UpdateRescueStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updateRescueStatus, arg.ID, arg.StatusRescue)
+	return err
+}
+
+const updateSandwichAStatus = `-- name: UpdateSandwichAStatus :exec
+UPDATE team
+set status_sandwich_a = $2
+where id = $1
+`
+
+type UpdateSandwichAStatusParams struct {
+	ID              int32  `json:"id"`
+	StatusSandwichA string `json:"status_sandwich_a"`
+}
+
+func (q *Queries) UpdateSandwichAStatus(ctx context.Context, arg UpdateSandwichAStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updateSandwichAStatus, arg.ID, arg.StatusSandwichA)
+	return err
+}
+
+const updateSandwichBStatus = `-- name: UpdateSandwichBStatus :exec
+UPDATE team
+set status_sandwich_b = $2
+where id = $1
+`
+
+type UpdateSandwichBStatusParams struct {
+	ID              int32  `json:"id"`
+	StatusSandwichB string `json:"status_sandwich_b"`
+}
+
+func (q *Queries) UpdateSandwichBStatus(ctx context.Context, arg UpdateSandwichBStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updateSandwichBStatus, arg.ID, arg.StatusSandwichB)
+	return err
+}
+
+const updateSandwichCStatus = `-- name: UpdateSandwichCStatus :exec
+UPDATE team
+set status_sandwich_c = $2
+where id = $1
+`
+
+type UpdateSandwichCStatusParams struct {
+	ID              int32  `json:"id"`
+	StatusSandwichC string `json:"status_sandwich_c"`
+}
+
+func (q *Queries) UpdateSandwichCStatus(ctx context.Context, arg UpdateSandwichCStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updateSandwichCStatus, arg.ID, arg.StatusSandwichC)
+	return err
+}
+
+const updateScratchStatus = `-- name: UpdateScratchStatus :exec
+UPDATE team
+set status_scratch = $2
+where id = $1
+`
+
+type UpdateScratchStatusParams struct {
+	ID            int32  `json:"id"`
+	StatusScratch string `json:"status_scratch"`
+}
+
+func (q *Queries) UpdateScratchStatus(ctx context.Context, arg UpdateScratchStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updateScratchStatus, arg.ID, arg.StatusScratch)
 	return err
 }
 

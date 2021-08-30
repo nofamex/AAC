@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"errors"
 
 	"github.com/nofamex/AAC/server/api/model"
 	db "github.com/nofamex/AAC/server/db/sqlc"
@@ -92,20 +93,26 @@ func (u *CompeService) GetTeamById(id int32) (*model.TeamProfile, error) {
 		return nil, err
 	}
 	team := model.TeamProfile{
-		TeamName:     teamDb.TeamName,
-		University:   teamDb.University,
-		FullName:     teamDb.FullName,
-		Phone:        teamDb.Phone,
-		IDLine:       teamDb.IDLine,
-		Email:        teamDb.Email,
-		PhotoLink:    teamDb.PhotoLink,
-		PaymentLink:  teamDb.PaymentLink,
-		CardLink:     teamDb.CardLink,
-		SkLink:       teamDb.SkLink.String,
-		Type:         teamDb.Type,
-		Status:       teamDb.Verified,
-		StatusPrelim: teamDb.StatusPrelim,
+		TeamName:            teamDb.TeamName,
+		University:          teamDb.University,
+		FullName:            teamDb.FullName,
+		Phone:               teamDb.Phone,
+		IDLine:              teamDb.IDLine,
+		Email:               teamDb.Email,
+		PhotoLink:           teamDb.PhotoLink,
+		PaymentLink:         teamDb.PaymentLink,
+		CardLink:            teamDb.CardLink,
+		SkLink:              teamDb.SkLink.String,
+		Type:                teamDb.Type,
+		Status:              teamDb.Verified,
+		StatusPrelim:        teamDb.StatusPrelim,
 		StatusPaymentPrelim: teamDb.StatusPaymentPrelim,
+		StatusElim:          teamDb.StatusElim,
+		StatusSandwichA:     teamDb.StatusSandwichA,
+		StatusSandwichB:     teamDb.StatusSandwichB,
+		StatusSandwichC:     teamDb.StatusSandwichC,
+		StatusScratch:       teamDb.StatusScratch,
+		StatusRescue:        teamDb.StatusRescue,
 	}
 
 	return &team, nil
@@ -147,4 +154,37 @@ func (u *CompeService) UpdatePrelimStatus(id int, status string) error {
 		StatusPrelim: status,
 	}
 	return u.query.UpdatePrelimStatus(context.Background(), param)
+}
+
+func (u *CompeService) UpdateElimStatus(id int, status string) error {
+	param := db.UpdateElimStatusParams{
+		ID:         int32(id),
+		StatusElim: status,
+	}
+	return u.query.UpdateElimStatus(context.Background(), param)
+}
+
+func (u *CompeService) UpdateSandwichStatus(id int, status, paket string) error {
+	switch paket {
+	case "A":
+		param := db.UpdateSandwichAStatusParams{
+			ID:              int32(id),
+			StatusSandwichA: status,
+		}
+		return u.query.UpdateSandwichAStatus(context.Background(), param)
+	case "B":
+		param := db.UpdateSandwichBStatusParams{
+			ID:              int32(id),
+			StatusSandwichB: status,
+		}
+		return u.query.UpdateSandwichBStatus(context.Background(), param)
+
+	case "C":
+		param := db.UpdateSandwichCStatusParams{
+			ID:              int32(id),
+			StatusSandwichC: status,
+		}
+		return u.query.UpdateSandwichCStatus(context.Background(), param)
+	}
+	return errors.New("no paket found")
 }

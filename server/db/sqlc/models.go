@@ -11,19 +11,21 @@ type BattleOfSandwichJawaban struct {
 	ID      int32  `json:"id"`
 	TeamID  int32  `json:"team_id"`
 	SoalID  int32  `json:"soal_id"`
-	Jawaban string `json:"jawaban"`
+	Token   string `json:"token"`
+	Jawaban int32  `json:"jawaban"`
 }
 
 type BattleOfSandwichMaster struct {
-	ID       int32  `json:"id"`
-	TeamID   int32  `json:"team_id"`
-	Token    string `json:"token"`
-	Orders   string `json:"orders"`
-	Paket    int32  `json:"paket"`
-	LastPage int32  `json:"last_page"`
-	Benar    int32  `json:"benar"`
-	Salah    int32  `json:"salah"`
-	Score    int32  `json:"score"`
+	ID       int32        `json:"id"`
+	TeamID   int32        `json:"team_id"`
+	Token    string       `json:"token"`
+	Orders   string       `json:"orders"`
+	Paket    int32        `json:"paket"`
+	LastPage int32        `json:"last_page"`
+	Benar    int32        `json:"benar"`
+	Salah    int32        `json:"salah"`
+	Score    int32        `json:"score"`
+	Submited sql.NullTime `json:"submited"`
 }
 
 type Config struct {
@@ -53,28 +55,11 @@ type ElimUnacBattleOfSandwich struct {
 }
 
 type ElimUnacMaster struct {
-	ID         int32  `json:"id"`
-	TeamID     int32  `json:"team_id"`
-	Orders     string `json:"orders"`
-	LastOrder  int32  `json:"last_order"`
-	TotalScore int32  `json:"total_score"`
-	TotalBenar int32  `json:"total_benar"`
-	TotalSalah int32  `json:"total_salah"`
-	Bos1Score  int32  `json:"bos1_score"`
-	Bos1Benar  int32  `json:"bos1_benar"`
-	Bos1Salah  int32  `json:"bos1_salah"`
-	Bos2Score  int32  `json:"bos2_score"`
-	Bos2Benar  int32  `json:"bos2_benar"`
-	Bos2Salah  int32  `json:"bos2_salah"`
-	Bos3Score  int32  `json:"bos3_score"`
-	Bos3Benar  int32  `json:"bos3_benar"`
-	Bos3Salah  int32  `json:"bos3_salah"`
-	SthwScore  int32  `json:"sthw_score"`
-	SthwBenar  int32  `json:"sthw_benar"`
-	SthwSalah  int32  `json:"sthw_salah"`
-	RtnScore   int32  `json:"rtn_score"`
-	RtnBenar   int32  `json:"rtn_benar"`
-	RtnSalah   int32  `json:"rtn_salah"`
+	ID         int32 `json:"id"`
+	TeamID     int32 `json:"team_id"`
+	TotalScore int32 `json:"total_score"`
+	TotalBenar int32 `json:"total_benar"`
+	TotalSalah int32 `json:"total_salah"`
 }
 
 type ElimUnacRescueTheNumber struct {
@@ -193,12 +178,13 @@ type RescueTheNumberJawaban struct {
 }
 
 type RescueTheNumberMaster struct {
-	ID     int32  `json:"id"`
-	TeamID int32  `json:"team_id"`
-	Token  string `json:"token"`
-	Benar  int32  `json:"benar"`
-	Salah  int32  `json:"salah"`
-	Score  int32  `json:"score"`
+	ID       int32        `json:"id"`
+	TeamID   int32        `json:"team_id"`
+	Token    string       `json:"token"`
+	Benar    int32        `json:"benar"`
+	Salah    int32        `json:"salah"`
+	Score    int32        `json:"score"`
+	Submited sql.NullTime `json:"submited"`
 }
 
 type ScratchTheHiddenWordsJawaban struct {
@@ -209,12 +195,13 @@ type ScratchTheHiddenWordsJawaban struct {
 }
 
 type ScratchTheHiddenWordsMaster struct {
-	ID     int32  `json:"id"`
-	TeamID int32  `json:"team_id"`
-	Token  string `json:"token"`
-	Benar  int32  `json:"benar"`
-	Salah  int32  `json:"salah"`
-	Score  int32  `json:"score"`
+	ID       int32        `json:"id"`
+	TeamID   int32        `json:"team_id"`
+	Token    string       `json:"token"`
+	Benar    int32        `json:"benar"`
+	Salah    int32        `json:"salah"`
+	Score    int32        `json:"score"`
+	Submited sql.NullTime `json:"submited"`
 }
 
 type Statistic struct {
@@ -242,6 +229,11 @@ type Team struct {
 	StatusPrelim        string         `json:"status_prelim"`
 	StatusPaymentPrelim string         `json:"status_payment_prelim"`
 	StatusElim          string         `json:"status_elim"`
+	StatusSandwichA     string         `json:"status_sandwich_a"`
+	StatusSandwichB     string         `json:"status_sandwich_b"`
+	StatusSandwichC     string         `json:"status_sandwich_c"`
+	StatusScratch       string         `json:"status_scratch"`
+	StatusRescue        string         `json:"status_rescue"`
 }
 
 type User struct {

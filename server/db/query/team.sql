@@ -34,3 +34,33 @@ where id = $1;
 UPDATE team
 set status_prelim = $2
 where id = $1;
+
+-- name: UpdateElimStatus :exec
+UPDATE team
+set status_elim = $2
+where id = $1;
+
+-- name: UpdateSandwichAStatus :exec
+UPDATE team
+set status_sandwich_a = $2
+where id = $1;
+
+-- name: UpdateSandwichBStatus :exec
+UPDATE team
+set status_sandwich_b = $2
+where id = $1;
+
+-- name: UpdateSandwichCStatus :exec
+UPDATE team
+set status_sandwich_c = $2
+where id = $1;
+
+-- name: UpdateScratchStatus :exec
+UPDATE team
+set status_scratch = $2
+where id = $1;
+
+-- name: UpdateRescueStatus :exec
+UPDATE team
+set status_rescue = $2
+where id = $1;

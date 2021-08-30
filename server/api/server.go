@@ -100,7 +100,7 @@ func (server *Server) setupRouter() {
 
 	sandwich := unacElim.Group("sandwich")
 	unacSandwich := controller.NewElimSandwichController(server.query, server.tokenMaker, server.config)
-	sandwich.Post("start", unacSandwich.Start)
+	sandwich.Post("start/:paket", unacSandwich.Start)
 	sandwich.Post("finish", unacSandwich.Finish)
 	sandwich.Get("soal", unacSandwich.GetSoal)
 	sandwich.Get("next", unacSandwich.NextPage)
