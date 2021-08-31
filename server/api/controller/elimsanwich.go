@@ -64,19 +64,6 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	// cek belom ada team
-	elim, err := u.service.GetElimSandwichByTeamId(int(user.TeamID.Int32), token)
-	if elim != nil && elim.Token == token {
-		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "ok"})
-	} else if elim != nil {
-		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "User sudah terdaftar pada paket lain"})
-	}
-
-	// cek udah bayar
-	if team.StatusPaymentPrelim != "verified" {
-		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Belum di verifikasi"})
-	}
-
 	// paket
 	paketStr := c.Params("paket")
 	var paket int
@@ -89,6 +76,27 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		paket = 6
 	default:
 		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Paket tidak ada"})
+	}
+
+	// cek belom ada team
+	elim, err := u.service.GetElimSandwichByTeamId(int(user.TeamID.Int32), token)
+	if elim.Paket != int32(paket) {
+		switch elim.Paket {
+		case 4:
+			paketStr = "A"
+		case 5:
+			paketStr = "B"
+		case 6:
+			paketStr = "C"
+		}
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "User sudah mengerjakan paket " + paketStr})
+	} else if elim != nil {
+		return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
+	}
+
+	// cek udah bayar
+	if team.StatusPaymentPrelim != "verified" {
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Belum di verifikasi"})
 	}
 
 	// generate sequence
@@ -104,6 +112,7 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
+	// check if paket is allready used
 	sandwich, err := u.service.GetElimSandwichByPaket(int(user.TeamID.Int32), paket)
 	if sandwich != nil {
 		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "paket sudah di kerjakan"})
