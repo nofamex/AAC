@@ -58,17 +58,23 @@ export default function Eliminary({
   };
 
   const scratchStartHandler = () => {
-    api.post("/elim/unac/scratch/start").then(() => {
-      localStorage.setItem("isScratchStarted", "benar");
-      router.push("/comps/eliminary/unac/scratch");
-    });
+    api
+      .post("/elim/unac/scratch/start")
+      .then(() => {
+        localStorage.setItem("isScratchStarted", "benar");
+        router.push("/comps/eliminary/unac/scratch");
+      })
+      .catch(() => alert());
   };
 
   const rescueStartHandler = () => {
-    api.post("/elim/unac/rescue/start").then(() => {
-      localStorage.setItem("isRescueStarted", "benar");
-      router.push("/comps/eliminary/unac/rescue");
-    });
+    api
+      .post("/elim/unac/rescue/start")
+      .then(() => {
+        localStorage.setItem("isRescueStarted", "benar");
+        router.push("/comps/eliminary/unac/rescue");
+      })
+      .catch(() => alert());
   };
 
   const sandwichStart1Handler = () => {
@@ -147,7 +153,7 @@ export default function Eliminary({
             statusC={statusSandwichC}
           />
           <CompsCard
-            name="Scratch The Hidden Words"
+            name="Scratch the Hidden Words"
             date={data.scratch_the_hidden_words_start.Time}
             handler={scratchStartHandler}
             cache="isScratchStarted"
