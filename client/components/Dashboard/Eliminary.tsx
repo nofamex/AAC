@@ -130,7 +130,7 @@ export default function Eliminary({
           </a>
         </div>
       </div>
-      {type === "unac" && (
+      {/* {type === "unac" && (
         <div className="flex mt-4">
           <CompsCardSandwich
             name="Battle of Sandwich"
@@ -158,7 +158,7 @@ export default function Eliminary({
             status={statusRescue}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 }
