@@ -13,12 +13,11 @@ INSERT INTO  scratch_the_hidden_words_master (
 -- name: CreateScratchJawaban :exec
 INSERT INTO scratch_the_hidden_words_jawaban (
   team_id,
-  soal_id,
   jawaban
 ) VALUES (
-  $1, $2, $3
+  $1, $2
 )
-ON CONFLICT (team_id, soal_id)  DO UPDATE SET jawaban = EXCLUDED.jawaban;
+ON CONFLICT (team_id, jawaban)  DO UPDATE SET jawaban = EXCLUDED.jawaban;
 
 -- name: UpdateSubmitedScratch :exec
 UPDATE scratch_the_hidden_words_master

@@ -211,10 +211,10 @@ CREATE TABLE "battle_of_sandwich_master" (
 
 CREATE TABLE "scratch_the_hidden_words_master" (
   "id" SERIAL PRIMARY KEY,
-  "team_id" int NOT NULL,
+  "team_id" int NOT NULL UNIQUE,
   "token" varchar NOT NULL,
   "benar" int NOT NULL DEFAULT 0,
-  "salah" int NOT NULL DEFAULT 10,
+  "salah" int NOT NULL DEFAULT 20,
   "score" int NOT NULL DEFAULT 0,
   "submited" timestamp,
   
@@ -248,12 +248,10 @@ CREATE TABLE "battle_of_sandwich_jawaban" (
 CREATE TABLE "scratch_the_hidden_words_jawaban" (
   "id" SERIAL PRIMARY KEY,
   "team_id" int NOT NULL,
-  "soal_id" int UNIQUE NOT NULL,
   "jawaban" text NOT NULL,
 
   FOREIGN KEY ("team_id") REFERENCES "scratch_the_hidden_words_master" ("team_id"),
-  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_scratch_the_hidden_words" ("id"),
-  UNIQUE (team_id, soal_id)
+  UNIQUE (team_id, jawaban)
 );
 
 CREATE TABLE "rescue_the_number_jawaban" (

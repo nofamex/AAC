@@ -58,7 +58,7 @@ func (maker *PasetoMaker) VerifyToken(token string) (*Payload, error) {
 
 func (maker *PasetoMaker) GetToken(header string) (token string, err error) {
 	fields := strings.Fields(header)
-	if (len(fields) < 1 ){
+	if len(fields) < 1 {
 		err = errors.New("invalid authorization header format")
 		return
 	}

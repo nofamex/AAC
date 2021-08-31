@@ -10,22 +10,20 @@ import (
 const createScratchJawaban = `-- name: CreateScratchJawaban :exec
 INSERT INTO scratch_the_hidden_words_jawaban (
   team_id,
-  soal_id,
   jawaban
 ) VALUES (
-  $1, $2, $3
+  $1, $2
 )
-ON CONFLICT (team_id, soal_id)  DO UPDATE SET jawaban = EXCLUDED.jawaban
+ON CONFLICT (team_id, jawaban)  DO UPDATE SET jawaban = EXCLUDED.jawaban
 `
 
 type CreateScratchJawabanParams struct {
 	TeamID  int32  `json:"team_id"`
-	SoalID  int32  `json:"soal_id"`
 	Jawaban string `json:"jawaban"`
 }
 
 func (q *Queries) CreateScratchJawaban(ctx context.Context, arg CreateScratchJawabanParams) error {
-	_, err := q.db.ExecContext(ctx, createScratchJawaban, arg.TeamID, arg.SoalID, arg.Jawaban)
+	_, err := q.db.ExecContext(ctx, createScratchJawaban, arg.TeamID, arg.Jawaban)
 	return err
 }
 

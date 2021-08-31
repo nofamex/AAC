@@ -9,7 +9,7 @@ import (
 
 func RandomPaket() int {
 	rand.Seed(time.Now().UnixNano())
-	pg := []int{1,2,3}
+	pg := []int{1, 2, 3}
 	rand.Shuffle(len(pg), func(i, j int) { pg[i], pg[j] = pg[j], pg[i] })
 	return pg[0]
 }
@@ -55,7 +55,6 @@ func RandomOrderTac(pg []int32) string {
 	b, _ := json.Marshal(a)
 	return fmt.Sprintf("%s", b)
 }
-
 
 func RandomOrderSandwich(pg []int32) string {
 	rand.Seed(time.Now().UnixNano())

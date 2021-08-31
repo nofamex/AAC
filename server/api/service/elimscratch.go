@@ -35,10 +35,9 @@ func (u *ElimScratchService) CreateScratchMaster(teamId int, token string) (*db.
 	return &result, err
 }
 
-func (u *ElimScratchService) CreateScratchJawaban(teamId, soalId int, jawaban string) error {
+func (u *ElimScratchService) CreateScratchJawaban(teamId int, jawaban string) error {
 	param := db.CreateScratchJawabanParams{
 		TeamID:  int32(teamId),
-		SoalID:  int32(soalId),
 		Jawaban: jawaban,
 	}
 	err := u.query.CreateScratchJawaban(context.Background(), param)

@@ -18,7 +18,7 @@ type Payload struct {
 	ExpiredAt time.Time `json:"expired_at"`
 }
 
-func NewPayload( userId int32, email, role string, duration time.Duration) *Payload {
+func NewPayload(userId int32, email, role string, duration time.Duration) *Payload {
 
 	payload := &Payload{
 		UserId:    userId,

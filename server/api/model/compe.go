@@ -44,8 +44,8 @@ type TeamProfile struct {
 	StatusPaymentPrelim string   `json:"status_payment_prelim"`
 	StatusElim          string   `json:"status_elim"`
 	StatusSandwichA     string   `json:"status_sandwich_a"`
-	StatusSandwichB      string   `json:"status_sandwich_b"`
-	StatusSandwichC      string   `json:"status_sandwich_c"`
+	StatusSandwichB     string   `json:"status_sandwich_b"`
+	StatusSandwichC     string   `json:"status_sandwich_c"`
 	StatusScratch       string   `json:"status_scratch"`
 	StatusRescue        string   `json:"status_rescue"`
 	Members             []Member `json:"members" validate:"gt=0,lt=4,required,dive,required"`

@@ -9,7 +9,7 @@ type SQLStore struct {
 
 func NewStore(db *sql.DB) Querier {
 	return &SQLStore{
-		db: db,
+		db:      db,
 		Queries: New(db),
 	}
 }

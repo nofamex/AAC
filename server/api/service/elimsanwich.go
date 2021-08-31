@@ -26,7 +26,7 @@ func (u *ElimSandwichService) GetElimMasterByTeamId(teamID int) (*db.ElimUnacMas
 func (u *ElimSandwichService) GetElimSandwichByPaket(teamID, paket int) (*db.BattleOfSandwichMaster, error) {
 	param := db.GetElimSandwichByPaketParams{
 		TeamID: int32(teamID),
-		Paket: int32(paket),
+		Paket:  int32(paket),
 	}
 	result, err := u.query.GetElimSandwichByPaket(context.Background(), param)
 	if err != nil {
