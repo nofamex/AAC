@@ -68,7 +68,7 @@ export default function Postliminary({
             Mohon melakukan pembayaran ulang di slot berikut ini untuk
             melanjutkan tahap selanjutnya.
           </p>
-          <p className="mt-4 mb-4 font-bold">Download Booklet</p>
+          <p className="mt-4 mb-4 text-lg font-bold">Download Booklet</p>
           <a
             href={type === "unac" ? UNACBOOKLET : TACBOOKLET}
             target="_blank"
@@ -76,7 +76,7 @@ export default function Postliminary({
           >
             <Button text="Booklet" handler={() => {}} filled={false} />
           </a>
-          <p className="flex mt-4">
+          <p className="flex mt-8">
             <span className="text-lg font-bold">Bukti Pembayaran</span>
             <span
               className="ml-auto text-orange underline cursor-pointer"
