@@ -72,11 +72,14 @@ export default function Eliminary({
   };
 
   const sandwichStart1Handler = () => {
-    api.post("/elim/unac/sandwich/start/A").then(() => {
-      localStorage.setItem("isSandwichStarted", "benar");
-      localStorage.setItem("sandwichType", "A");
-      router.push("/comps/eliminary/unac/sandwich");
-    });
+    api
+      .post("/elim/unac/sandwich/start/A")
+      .then(() => {
+        localStorage.setItem("isSandwichStarted", "benar");
+        localStorage.setItem("sandwichType", "A");
+        router.push("/comps/eliminary/unac/sandwich");
+      })
+      .catch(() => alert());
   };
 
   const sandwichStart2Handler = () => {
