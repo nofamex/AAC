@@ -115,7 +115,7 @@ export default function Postliminary({
         </>
       ) : status === "lolos" && paymentStatus === "bayar" ? (
         <>
-          <p className="text-lg mt-4">Pembyaran anda sedang di verifikasi</p>
+          <p className="text-lg mt-4">Pembayaran anda sedang di verifikasi</p>
           <p className="mt-4 mb-4 font-bold">Download Booklet</p>
           <a
             href={type === "unac" ? UNACBOOKLET : TACBOOKLET}
