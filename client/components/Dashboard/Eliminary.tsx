@@ -191,7 +191,9 @@ function CompsCard({ name, date, handler, cache, status }: CompsCardProps) {
   return (
     <div className="w-1/3 h-auto flex flex-col border-2 border-white p-2 rounded-lg mr-3">
       <p className="text-lg font-bold mt-4 h-12 text-center">{name}</p>
-      <Countdown date={toCurrentTimezone(date)} renderer={renderer} />
+      <div className="w-full flex justify-center">
+        <Countdown date={toCurrentTimezone(date)} renderer={renderer} />
+      </div>
       <div className="flex flex-col w-full h-auto mt-2">
         {isStarted && status !== "selesai" && (
           <>
@@ -258,7 +260,9 @@ function CompsCardSandwich({
   return (
     <div className="w-1/3 h-auto flex flex-col border-2 border-white p-2 rounded-lg mr-3">
       <p className="text-lg font-bold mt-4 h-12 text-center">{name}</p>
-      <Countdown date={toCurrentTimezone(date)} renderer={renderer} />
+      <div className="w-full flex justify-center">
+        <Countdown date={toCurrentTimezone(date)} renderer={renderer} />
+      </div>
       <div className="flex flex-col w-full h-auto mt-2">
         {isStarted && (
           <>
