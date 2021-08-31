@@ -28,7 +28,7 @@ export default function Sandwich() {
         })
         .catch((err) => console.log(err));
       api
-        .get("/prelim/sandwich/soal")
+        .get("/elim/unac/sandwich/soal")
         .then((res) => {
           setQuestion(res.data.body);
           setPage(res.data.page);
@@ -41,12 +41,13 @@ export default function Sandwich() {
   }, []);
 
   const acceptContinueHandler = () => {
-    api.get("/prelim/sandwich/next").then(() => router.reload());
+    api.get("/elim/unac/sandwich/next").then(() => router.reload());
   };
 
   const acceptFinishHandler = () => {
-    api.post("/prelim/sandwich/finish").then(() => {
+    api.post("/elim/unac/sandwich/finish").then(() => {
       localStorage.removeItem("isSandwichStarted");
+      localStorage.removeItem("sandwichType");
       router.push("/dashboard");
     });
   };
@@ -89,7 +90,7 @@ export default function Sandwich() {
           <div className="w-full flex h-auto">
             <div className="h-auto w-9/12 p-2">
               <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-persimmon to-orange h-10 mb-2 text-center">
-                PAGE {page} OF 3
+                PAGE {page} OF 2
               </p>
               {question.map((qs: any) => (
                 <QuestionBox
@@ -103,7 +104,7 @@ export default function Sandwich() {
                   p2={qs.pilihan2}
                   p3={qs.pilihan3}
                   p4={qs.pilihan4}
-                  type={page === 2 ? "essay" : "pg"}
+                  type={"pg"}
                   cmpt="recue"
                 />
               ))}

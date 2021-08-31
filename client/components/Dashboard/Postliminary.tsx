@@ -4,6 +4,8 @@ import PostliminaryModal from "@components/Modal/PostliminaryModal";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import api from "@lib/axios";
+import { toast } from "react-toastify";
 
 interface PostliminaryProps {
   status: string;
@@ -33,7 +35,15 @@ export default function Postliminary({
 
   const handleSubmit = async () => {
     const onSubmit = async (data: any) => {
-      console.log(data);
+      await api
+        .post(`/prelim/${type}/payment`, data)
+        .then(() => {
+          toast.success("Berhasil melakukan pembayaran");
+          setTimeout(() => {
+            router.reload();
+          }, 1500);
+        })
+        .catch(() => toast.error("Pastikan format pengiriman sudah benar"));
     };
 
     const onError = (data: any, e: any) => {
@@ -76,12 +86,12 @@ export default function Postliminary({
             </span>
           </p>
           <InputGroup
-            placeholder="Masukkan link file bukti pembayaran"
+            placeholder="Masukkan link file foto pembayaran, Format: https://linkanda.com"
             type="text"
             validation={{
               required: true,
             }}
-            name="postliminaryPayment"
+            name="link"
             fUtils={fUtils}
             className="mb-4"
           />
@@ -104,7 +114,17 @@ export default function Postliminary({
           />
         </>
       ) : status === "lolos" && paymentStatus === "bayar" ? (
-        <p className="text-lg mt-4">Pembyaran anda sedang di verifikasi</p>
+        <>
+          <p className="text-lg mt-4">Pembyaran anda sedang di verifikasi</p>
+          <p className="mt-4 mb-4 font-bold">Download Booklet</p>
+          <a
+            href={type === "unac" ? UNACBOOKLET : TACBOOKLET}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button text="Booklet" handler={() => {}} filled={false} />
+          </a>
+        </>
       ) : null}
     </div>
   );

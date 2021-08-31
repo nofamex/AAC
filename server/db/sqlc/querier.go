@@ -8,16 +8,20 @@ import (
 
 type Querier interface {
 	AddTeamIdToUser(ctx context.Context, arg AddTeamIdToUserParams) error
-	CreateElimMaster(ctx context.Context, arg CreateElimMasterParams) (ElimUnacMaster, error)
+	CreateElimMaster(ctx context.Context, teamID int32) (ElimUnacMaster, error)
 	CreateElimSandwich(ctx context.Context, arg CreateElimSandwichParams) (BattleOfSandwichMaster, error)
-	CreateElimSandwichJawaban(ctx context.Context, arg CreateElimSandwichJawabanParams) error
 	CreateMember(ctx context.Context, arg CreateMemberParams) (Member, error)
 	CreatePrelimTac(ctx context.Context, arg CreatePrelimTacParams) (PrelimTacMaster, error)
 	CreatePrelimTacPgJawaban(ctx context.Context, arg CreatePrelimTacPgJawabanParams) error
 	CreatePrelimUnac(ctx context.Context, arg CreatePrelimUnacParams) (PrelimUnacMaster, error)
 	CreatePrelimUnacIsianJawaban(ctx context.Context, arg CreatePrelimUnacIsianJawabanParams) error
 	CreatePrelimUnacPgJawaban(ctx context.Context, arg CreatePrelimUnacPgJawabanParams) error
+	CreateRescueJawaban(ctx context.Context, arg CreateRescueJawabanParams) error
+	CreateRescueMaster(ctx context.Context, arg CreateRescueMasterParams) (RescueTheNumberMaster, error)
+	CreateSandwichJawaban(ctx context.Context, arg CreateSandwichJawabanParams) error
 	CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, error)
+	CreatescratchJawaban(ctx context.Context, arg CreatescratchJawabanParams) error
+	CreatescratchMaster(ctx context.Context, arg CreatescratchMasterParams) (ScratchTheHiddenWordsMaster, error)
 	GetConfig(ctx context.Context) (Config, error)
 	GetElimMasterByTeamId(ctx context.Context, teamID int32) (ElimUnacMaster, error)
 	GetElimSandwichById(ctx context.Context, id int32) (ElimUnacBattleOfSandwich, error)
@@ -27,11 +31,16 @@ type Querier interface {
 	GetPageElimSandwich(ctx context.Context, teamID int32) (int32, error)
 	GetPagePrelimTac(ctx context.Context, teamID int32) (int32, error)
 	GetPagePrelimUnac(ctx context.Context, teamID int32) (int32, error)
+	GetPageSandwich(ctx context.Context, arg GetPageSandwichParams) (int32, error)
 	GetPrelimTacByTeamId(ctx context.Context, teamID int32) (PrelimTacMaster, error)
 	GetPrelimTacPgById(ctx context.Context, id int32) (PrelimTacPg, error)
 	GetPrelimUnacByTeamId(ctx context.Context, teamID int32) (PrelimUnacMaster, error)
 	GetPrelimUnacIsianById(ctx context.Context, id int32) (PrelimUnacIsian, error)
 	GetPrelimUnacPgById(ctx context.Context, id int32) (PrelimUnacPg, error)
+	GetRescueByTeamId(ctx context.Context, teamID int32) (RescueTheNumberMaster, error)
+	GetRescueSoal(ctx context.Context) ([]ElimUnacRescueTheNumber, error)
+	GetSandwichPg(ctx context.Context, id int32) (ElimUnacBattleOfSandwich, error)
+	GetSandwichPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
 	GetTacPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
 	GetTeamById(ctx context.Context, id int32) (Team, error)
 	GetTeamsPagination(ctx context.Context, arg GetTeamsPaginationParams) ([]Team, error)
@@ -39,15 +48,31 @@ type Querier interface {
 	GetUnacPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
 	GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error)
 	GetUserById(ctx context.Context, id int32) (User, error)
+	GetscratchByTeamId(ctx context.Context, teamID int32) (ScratchTheHiddenWordsMaster, error)
+	GetscratchSoal(ctx context.Context) ([]ElimUnacScratchTheHiddenWord, error)
 	RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error)
 	SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error
+	UpdateElimStatus(ctx context.Context, arg UpdateElimStatusParams) error
 	UpdatePageElimSandwich(ctx context.Context, teamID int32) error
 	UpdatePagePrelimTac(ctx context.Context, teamID int32) error
 	UpdatePagePrelimUnac(ctx context.Context, teamID int32) error
+	UpdatePageSandwich(ctx context.Context, arg UpdatePageSandwichParams) error
+	UpdatePaymentPrelimTac(ctx context.Context, arg UpdatePaymentPrelimTacParams) error
+	UpdatePaymentPrelimUnac(ctx context.Context, arg UpdatePaymentPrelimUnacParams) error
+	UpdatePaymentStatusPrelimTac(ctx context.Context, arg UpdatePaymentStatusPrelimTacParams) error
+	UpdatePaymentStatusPrelimUnac(ctx context.Context, arg UpdatePaymentStatusPrelimUnacParams) error
 	UpdatePrelimStatus(ctx context.Context, arg UpdatePrelimStatusParams) error
+	UpdateRescueStatus(ctx context.Context, arg UpdateRescueStatusParams) error
+	UpdateSandwichAStatus(ctx context.Context, arg UpdateSandwichAStatusParams) error
+	UpdateSandwichBStatus(ctx context.Context, arg UpdateSandwichBStatusParams) error
+	UpdateSandwichCStatus(ctx context.Context, arg UpdateSandwichCStatusParams) error
+	UpdateScratchStatus(ctx context.Context, arg UpdateScratchStatusParams) error
 	UpdateSubmitedElimSandwich(ctx context.Context, teamID int32) error
 	UpdateSubmitedPrelimTac(ctx context.Context, teamID int32) error
 	UpdateSubmitedPrelimUnac(ctx context.Context, teamID int32) error
+	UpdateSubmitedRescue(ctx context.Context, teamID int32) error
+	UpdateSubmitedSandwich(ctx context.Context, arg UpdateSubmitedSandwichParams) error
+	UpdateSubmitedscratch(ctx context.Context, teamID int32) error
 	UpdateVerifiedStatus(ctx context.Context, arg UpdateVerifiedStatusParams) error
 }
 

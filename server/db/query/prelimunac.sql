@@ -60,3 +60,13 @@ SELECT id from prelim_unac_pg where paket = $1;
 
 -- name: GetUnacIsianIdByPaket :many
 SELECT id from prelim_unac_isian where paket = $1;
+
+-- name: UpdatePaymentPrelimUnac :exec
+UPDATE prelim_unac_master
+SET payment_link = $2
+WHERE team_id = $1;
+
+-- name: UpdatePaymentStatusPrelimUnac :exec
+UPDATE prelim_unac_master
+SET status_bayar = $2
+WHERE team_id = $1;

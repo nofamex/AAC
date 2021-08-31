@@ -9,44 +9,21 @@ import (
 
 const createElimMaster = `-- name: CreateElimMaster :one
 INSERT INTO  elim_unac_master (
-  team_id,
-  orders
+  team_id
 ) VALUES (
-  $1, $2
-) RETURNING id, team_id, orders, last_order, total_score, total_benar, total_salah, bos1_score, bos1_benar, bos1_salah, bos2_score, bos2_benar, bos2_salah, bos3_score, bos3_benar, bos3_salah, sthw_score, sthw_benar, sthw_salah, rtn_score, rtn_benar, rtn_salah
+  $1
+) RETURNING id, team_id, total_score, total_benar, total_salah
 `
 
-type CreateElimMasterParams struct {
-	TeamID int32  `json:"team_id"`
-	Orders string `json:"orders"`
-}
-
-func (q *Queries) CreateElimMaster(ctx context.Context, arg CreateElimMasterParams) (ElimUnacMaster, error) {
-	row := q.db.QueryRowContext(ctx, createElimMaster, arg.TeamID, arg.Orders)
+func (q *Queries) CreateElimMaster(ctx context.Context, teamID int32) (ElimUnacMaster, error) {
+	row := q.db.QueryRowContext(ctx, createElimMaster, teamID)
 	var i ElimUnacMaster
 	err := row.Scan(
 		&i.ID,
 		&i.TeamID,
-		&i.Orders,
-		&i.LastOrder,
 		&i.TotalScore,
 		&i.TotalBenar,
 		&i.TotalSalah,
-		&i.Bos1Score,
-		&i.Bos1Benar,
-		&i.Bos1Salah,
-		&i.Bos2Score,
-		&i.Bos2Benar,
-		&i.Bos2Salah,
-		&i.Bos3Score,
-		&i.Bos3Benar,
-		&i.Bos3Salah,
-		&i.SthwScore,
-		&i.SthwBenar,
-		&i.SthwSalah,
-		&i.RtnScore,
-		&i.RtnBenar,
-		&i.RtnSalah,
 	)
 	return i, err
 }
@@ -59,7 +36,7 @@ INSERT INTO  battle_of_sandwich_master (
   paket
 ) VALUES (
   $1, $2, $3, $4
-) RETURNING id, team_id, token, orders, paket, last_page, benar, salah, score
+) RETURNING id, team_id, token, orders, paket, last_page, benar, salah, score, submited
 `
 
 type CreateElimSandwichParams struct {
@@ -87,34 +64,42 @@ func (q *Queries) CreateElimSandwich(ctx context.Context, arg CreateElimSandwich
 		&i.Benar,
 		&i.Salah,
 		&i.Score,
+		&i.Submited,
 	)
 	return i, err
 }
 
-const createElimSandwichJawaban = `-- name: CreateElimSandwichJawaban :exec
+const createSandwichJawaban = `-- name: CreateSandwichJawaban :exec
 INSERT INTO battle_of_sandwich_jawaban (
   team_id,
   soal_id,
+  token,
   jawaban
 ) VALUES (
-  $1, $2, $3
+  $1, $2, $3, $4
 )
-ON CONFLICT (team_id, soal_id)  DO UPDATE SET jawaban = EXCLUDED.jawaban
+ON CONFLICT (team_id, soal_id, token)  DO UPDATE SET jawaban = EXCLUDED.jawaban
 `
 
-type CreateElimSandwichJawabanParams struct {
+type CreateSandwichJawabanParams struct {
 	TeamID  int32  `json:"team_id"`
 	SoalID  int32  `json:"soal_id"`
-	Jawaban string `json:"jawaban"`
+	Token   string `json:"token"`
+	Jawaban int32  `json:"jawaban"`
 }
 
-func (q *Queries) CreateElimSandwichJawaban(ctx context.Context, arg CreateElimSandwichJawabanParams) error {
-	_, err := q.db.ExecContext(ctx, createElimSandwichJawaban, arg.TeamID, arg.SoalID, arg.Jawaban)
+func (q *Queries) CreateSandwichJawaban(ctx context.Context, arg CreateSandwichJawabanParams) error {
+	_, err := q.db.ExecContext(ctx, createSandwichJawaban,
+		arg.TeamID,
+		arg.SoalID,
+		arg.Token,
+		arg.Jawaban,
+	)
 	return err
 }
 
 const getElimMasterByTeamId = `-- name: GetElimMasterByTeamId :one
-SELECT id, team_id, orders, last_order, total_score, total_benar, total_salah, bos1_score, bos1_benar, bos1_salah, bos2_score, bos2_benar, bos2_salah, bos3_score, bos3_benar, bos3_salah, sthw_score, sthw_benar, sthw_salah, rtn_score, rtn_benar, rtn_salah from elim_unac_master
+SELECT id, team_id, total_score, total_benar, total_salah from elim_unac_master
 WHERE team_id = $1
 `
 
@@ -124,26 +109,9 @@ func (q *Queries) GetElimMasterByTeamId(ctx context.Context, teamID int32) (Elim
 	err := row.Scan(
 		&i.ID,
 		&i.TeamID,
-		&i.Orders,
-		&i.LastOrder,
 		&i.TotalScore,
 		&i.TotalBenar,
 		&i.TotalSalah,
-		&i.Bos1Score,
-		&i.Bos1Benar,
-		&i.Bos1Salah,
-		&i.Bos2Score,
-		&i.Bos2Benar,
-		&i.Bos2Salah,
-		&i.Bos3Score,
-		&i.Bos3Benar,
-		&i.Bos3Salah,
-		&i.SthwScore,
-		&i.SthwBenar,
-		&i.SthwSalah,
-		&i.RtnScore,
-		&i.RtnBenar,
-		&i.RtnSalah,
 	)
 	return i, err
 }
@@ -171,7 +139,7 @@ func (q *Queries) GetElimSandwichById(ctx context.Context, id int32) (ElimUnacBa
 }
 
 const getElimSandwichByTeamId = `-- name: GetElimSandwichByTeamId :one
-SELECT id, team_id, token, orders, paket, last_page, benar, salah, score from battle_of_sandwich_master
+SELECT id, team_id, token, orders, paket, last_page, benar, salah, score, submited from battle_of_sandwich_master
 WHERE team_id = $1
 AND token = $2
 `
@@ -194,6 +162,7 @@ func (q *Queries) GetElimSandwichByTeamId(ctx context.Context, arg GetElimSandwi
 		&i.Benar,
 		&i.Salah,
 		&i.Score,
+		&i.Submited,
 	)
 	return i, err
 }
@@ -210,6 +179,73 @@ func (q *Queries) GetPageElimSandwich(ctx context.Context, teamID int32) (int32,
 	return last_page, err
 }
 
+const getPageSandwich = `-- name: GetPageSandwich :one
+SELECT last_page FROM battle_of_sandwich_master
+WHERE team_id = $1
+AND token = $2
+`
+
+type GetPageSandwichParams struct {
+	TeamID int32  `json:"team_id"`
+	Token  string `json:"token"`
+}
+
+func (q *Queries) GetPageSandwich(ctx context.Context, arg GetPageSandwichParams) (int32, error) {
+	row := q.db.QueryRowContext(ctx, getPageSandwich, arg.TeamID, arg.Token)
+	var last_page int32
+	err := row.Scan(&last_page)
+	return last_page, err
+}
+
+const getSandwichPg = `-- name: GetSandwichPg :one
+SELECT id, soal, pilihan1, pilihan2, pilihan3, pilihan4, jawaban, bobot, paket from elim_unac_battle_of_sandwich
+WHERE id = $1
+`
+
+func (q *Queries) GetSandwichPg(ctx context.Context, id int32) (ElimUnacBattleOfSandwich, error) {
+	row := q.db.QueryRowContext(ctx, getSandwichPg, id)
+	var i ElimUnacBattleOfSandwich
+	err := row.Scan(
+		&i.ID,
+		&i.Soal,
+		&i.Pilihan1,
+		&i.Pilihan2,
+		&i.Pilihan3,
+		&i.Pilihan4,
+		&i.Jawaban,
+		&i.Bobot,
+		&i.Paket,
+	)
+	return i, err
+}
+
+const getSandwichPgIdByPaket = `-- name: GetSandwichPgIdByPaket :many
+SELECT id from elim_unac_battle_of_sandwich where paket = $1
+`
+
+func (q *Queries) GetSandwichPgIdByPaket(ctx context.Context, paket int32) ([]int32, error) {
+	rows, err := q.db.QueryContext(ctx, getSandwichPgIdByPaket, paket)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []int32
+	for rows.Next() {
+		var id int32
+		if err := rows.Scan(&id); err != nil {
+			return nil, err
+		}
+		items = append(items, id)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updatePageElimSandwich = `-- name: UpdatePageElimSandwich :exec
 UPDATE battle_of_sandwich_master
 SET last_page = last_page + 1
@@ -221,6 +257,23 @@ func (q *Queries) UpdatePageElimSandwich(ctx context.Context, teamID int32) erro
 	return err
 }
 
+const updatePageSandwich = `-- name: UpdatePageSandwich :exec
+UPDATE battle_of_sandwich_master
+SET last_page = last_page + 1
+WHERE team_id = $1
+AND token = $2
+`
+
+type UpdatePageSandwichParams struct {
+	TeamID int32  `json:"team_id"`
+	Token  string `json:"token"`
+}
+
+func (q *Queries) UpdatePageSandwich(ctx context.Context, arg UpdatePageSandwichParams) error {
+	_, err := q.db.ExecContext(ctx, updatePageSandwich, arg.TeamID, arg.Token)
+	return err
+}
+
 const updateSubmitedElimSandwich = `-- name: UpdateSubmitedElimSandwich :exec
 UPDATE battle_of_sandwich_master
 SET submited = now()
@@ -229,5 +282,22 @@ WHERE team_id = $1
 
 func (q *Queries) UpdateSubmitedElimSandwich(ctx context.Context, teamID int32) error {
 	_, err := q.db.ExecContext(ctx, updateSubmitedElimSandwich, teamID)
+	return err
+}
+
+const updateSubmitedSandwich = `-- name: UpdateSubmitedSandwich :exec
+UPDATE battle_of_sandwich_master
+SET submited = now()
+WHERE team_id = $1
+AND token = $2
+`
+
+type UpdateSubmitedSandwichParams struct {
+	TeamID int32  `json:"team_id"`
+	Token  string `json:"token"`
+}
+
+func (q *Queries) UpdateSubmitedSandwich(ctx context.Context, arg UpdateSubmitedSandwichParams) error {
+	_, err := q.db.ExecContext(ctx, updateSubmitedSandwich, arg.TeamID, arg.Token)
 	return err
 }

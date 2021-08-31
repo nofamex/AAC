@@ -1,10 +1,28 @@
+import Loader from "@components/Context/Loader";
 import api from "@lib/axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 export default function RescueQuestion() {
-  const soalList = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ];
+  const [question, setQuestion] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function data() {
+      await api
+        .get("/elim/unac/rescue/soal")
+        .then((res) => {
+          setQuestion(res.data.body);
+          setLoading(false);
+        })
+        .catch((err) => console.log(err));
+    }
+    data();
+  }, []);
+
+  if (loading) {
+    return <Loader height="h-full bg-opacity-0" />;
+  }
 
   return (
     <div className="w-4/5 h-auto bg-compe rounded-xl mr-4 mt-4 flex flex-col text-white p-4">
@@ -12,8 +30,8 @@ export default function RescueQuestion() {
         Isilah jawaban sesuai petunjuk di soal
       </p>
       <ul className="mt-8 text-lg">
-        {soalList.map((ct, index) => (
-          <QuestionList num={ct} key={index} />
+        {question.map((ct: { id: number; soal: string }, index: number) => (
+          <QuestionList num={ct.id} question={ct.soal} key={index} />
         ))}
       </ul>
     </div>
@@ -22,30 +40,28 @@ export default function RescueQuestion() {
 
 interface QuestionListProps {
   num: number;
+  question: string;
 }
 
-function QuestionList({ num }: QuestionListProps) {
+function QuestionList({ num, question }: QuestionListProps) {
   const [answer, setAnswer] = useState("");
-  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     await api
       .post("/elim/unac/rescue/submit", {
         jawaban: answer,
-        id: Number(num),
+        Soal_Id: num,
       })
       .then(() => {
-        setSubmitted(true);
-        setTimeout(() => {
-          setSubmitted(false);
-        }, 1500);
+        toast.success("Berhasil submit jawaban");
       });
   };
 
   return (
     <li className="flex mt-2">
-      <p className={num > 9 ? "mr-3" : "mr-6"}>Soal No {num}</p>
+      <p className="mr-3 select-none">{num}</p>
+      <p dangerouslySetInnerHTML={{ __html: question }}></p>
       <form>
         <input
           type="text"
@@ -60,9 +76,6 @@ function QuestionList({ num }: QuestionListProps) {
           Submit
         </button>
       </form>
-      {submitted && (
-        <p className="ml-2 text-green-500">Berhasil submit jawaban</p>
-      )}
     </li>
   );
 }

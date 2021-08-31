@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"database/sql"
 
 	db "github.com/nofamex/AAC/server/db/sqlc"
 )
@@ -73,4 +74,22 @@ func (u *PrelimTacService) UpdateSubmitedTac(teamId int) error {
 func (u *PrelimTacService) GetTacPgIdByPaket(paket int) ([]int32, error) {
 	page, err := u.query.GetTacPgIdByPaket(context.Background(), int32(paket))
 	return page, err
+}
+
+func (u *PrelimTacService) InsertPaymentTac(teamId int, link string) error {
+	param := db.UpdatePaymentPrelimTacParams{
+		TeamID:      int32(teamId),
+		PaymentLink: sql.NullString{String: link, Valid: true},
+	}
+	err := u.query.UpdatePaymentPrelimTac(context.Background(), param)
+	return err
+}
+
+func (u *PrelimTacService) UpdatePaymentStatusPrelimTac(teamId int, status string) error {
+	param := db.UpdatePaymentStatusPrelimTacParams{
+		TeamID:      int32(teamId),
+		StatusBayar: sql.NullString{String: status, Valid: true},
+	}
+	err := u.query.UpdatePaymentStatusPrelimTac(context.Background(), param)
+	return err
 }

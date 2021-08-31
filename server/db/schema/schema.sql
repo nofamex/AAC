@@ -18,7 +18,12 @@ create table team (
   verified varchar(10) default 'menunggu' not null,
   status_prelim varchar(10) default 'kosong' not null,
   status_payment_prelim varchar(10) default 'kosong' not null,
-  status_elim varchar(10) default 'kosong' not null
+  status_elim varchar(10) default 'kosong' not null,
+  status_sandwich_a varchar(10) default 'kosong' not null,
+  status_sandwich_b varchar(10) default 'kosong' not null,
+  status_sandwich_c varchar(10) default 'kosong' not null,
+  status_scratch varchar(10) default 'kosong' not null,
+  status_rescue varchar(10) default 'kosong' not null
 );
 
 -- user
@@ -123,6 +128,7 @@ CREATE TABLE prelim_unac_master (
   kosong int default 15,
   status_bayar varchar(10) default 'belum',
   status_lolos varchar(10) default '-',
+  payment_link varchar(255),
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 
@@ -140,6 +146,7 @@ CREATE TABLE prelim_tac_master (
   kosong int default 15,
   status_bayar varchar(10) default 'belum',
   status_lolos varchar(10) default '-',
+  payment_link varchar(255),
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 
@@ -179,41 +186,26 @@ CREATE TABLE prelim_tac_pg_jawaban (
 CREATE TABLE "elim_unac_master" (
   "id" SERIAL PRIMARY KEY,
   "team_id" int UNIQUE NOT NULL,
-  "orders" varchar not null,
-  "last_order" int not null default 0,
   "total_score" int NOT NULL DEFAULT 0,
   "total_benar" int NOT NULL DEFAULT 0,
   "total_salah" int NOT NULL DEFAULT 0,
-  "bos1_score" int NOT NULL DEFAULT 0,
-  "bos1_benar" int NOT NULL DEFAULT 0,
-  "bos1_salah" int NOT NULL DEFAULT 0,
-  "bos2_score" int NOT NULL DEFAULT 0,
-  "bos2_benar" int NOT NULL DEFAULT 0,
-  "bos2_salah" int NOT NULL DEFAULT 0,
-  "bos3_score" int NOT NULL DEFAULT 0,
-  "bos3_benar" int NOT NULL DEFAULT 0,
-  "bos3_salah" int NOT NULL DEFAULT 0,
-  "sthw_score" int NOT NULL DEFAULT 0,
-  "sthw_benar" int NOT NULL DEFAULT 0,
-  "sthw_salah" int NOT NULL DEFAULT 0,
-  "rtn_score" int NOT NULL DEFAULT 0,
-  "rtn_benar" int NOT NULL DEFAULT 0,
-  "rtn_salah" int NOT NULL DEFAULT 0,
 
   FOREIGN KEY ("team_id") REFERENCES "team" ("id")
 );
 
 CREATE TABLE "battle_of_sandwich_master" (
   "id" SERIAL PRIMARY KEY,
-  "team_id" int UNIQUE NOT NULL,
+  "team_id" int NOT NULL,
   "token" varchar NOT NULL,
   "orders" varchar NOT NULL,
   "paket" int NOT NULL,
   "last_page" int NOT NULL DEFAULT 1,
   "benar" int NOT NULL DEFAULT 0,
-  "salah" int NOT NULL DEFAULT 0,
+  "salah" int NOT NULL DEFAULT 10,
   "score" int NOT NULL DEFAULT 0,
+  "submited" timestamp,
 
+  UNIQUE(team_id, token),
   FOREIGN KEY ("team_id") REFERENCES "elim_unac_master" ("team_id")
 );
 
@@ -222,8 +214,9 @@ CREATE TABLE "scratch_the_hidden_words_master" (
   "team_id" int NOT NULL,
   "token" varchar NOT NULL,
   "benar" int NOT NULL DEFAULT 0,
-  "salah" int NOT NULL DEFAULT 0,
+  "salah" int NOT NULL DEFAULT 10,
   "score" int NOT NULL DEFAULT 0,
+  "submited" timestamp,
   
   FOREIGN KEY ("team_id") REFERENCES "elim_unac_master" ("team_id")
 );
@@ -233,8 +226,9 @@ CREATE TABLE "rescue_the_number_master" (
   "team_id" int UNIQUE NOT NULL,
   "token" varchar NOT NULL,
   "benar" int NOT NULL DEFAULT 0,
-  "salah" int NOT NULL DEFAULT 0,
+  "salah" int NOT NULL DEFAULT 20,
   "score" int NOT NULL DEFAULT 0,
+  "submited" timestamp,
   
   FOREIGN KEY ("team_id") REFERENCES "elim_unac_master" ("team_id")
 );
@@ -243,10 +237,12 @@ CREATE TABLE "battle_of_sandwich_jawaban" (
   "id" SERIAL PRIMARY KEY,
   "team_id" int NOT NULL,
   "soal_id" int UNIQUE NOT NULL,
-  "jawaban" text NOT NULL,
+  "token" varchar NOT NULL,
+  "jawaban" int NOT NULL,
 
-  FOREIGN KEY ("team_id") REFERENCES "elim_unac_master" ("team_id"),
-  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_battle_of_sandwich" ("id")
+  FOREIGN KEY ("team_id", "token") REFERENCES "battle_of_sandwich_master" ("team_id", "token"),
+  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_battle_of_sandwich" ("id"),
+  UNIQUE (team_id, token, soal_id)
 );
 
 CREATE TABLE "scratch_the_hidden_words_jawaban" (
@@ -256,17 +252,19 @@ CREATE TABLE "scratch_the_hidden_words_jawaban" (
   "jawaban" text NOT NULL,
 
   FOREIGN KEY ("team_id") REFERENCES "scratch_the_hidden_words_master" ("team_id"),
-  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_scratch_the_hidden_words" ("id")
+  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_scratch_the_hidden_words" ("id"),
+  UNIQUE (team_id, soal_id)
 );
 
 CREATE TABLE "rescue_the_number_jawaban" (
   "id" SERIAL PRIMARY KEY,
   "team_id" int NOT NULL,
   "soal_id" int UNIQUE NOT NULL,
-  "jawaban" int NOT NULL,
+  "jawaban" text NOT NULL,
 
   FOREIGN KEY ("team_id") REFERENCES "rescue_the_number_master" ("team_id"),
-  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_rescue_the_number" ("id")
+  FOREIGN KEY ("soal_id") REFERENCES "elim_unac_rescue_the_number" ("id"),
+  UNIQUE (team_id, soal_id)
 );
 
 create table statistics (

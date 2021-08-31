@@ -259,3 +259,70 @@ create trigger trigger_score_unac_isian
 after insert or update or delete on prelim_unac_isian_jawaban
 for each row
 execute PROCEDURE score_unac_isian();
+
+
+
+
+create or replace function prelim_lolos_checklist()
+returns trigger as
+$$
+  begin
+    if (TG_OP = 'UPDATE') then
+      if (NEW.status_lolos = 'berhasil' ) then
+        update team
+        set status_prelim = 'lolos'
+        where id = new.team_id;
+      elsif (NEW.status_lolos = 'gagal' ) then
+        update team
+        set status_prelim = 'gagal'
+        where id = new.team_id;
+      end if;
+    end if;
+    return new;
+  end;
+$$
+LANGUAGE plpgsql;
+
+create trigger trigger_prelim_unac_lolos_checklist
+after update on prelim_unac_master
+for each row
+execute PROCEDURE prelim_lolos_checklist();
+
+create trigger trigger_prelim_tac_lolos_checklist
+after update on prelim_tac_master
+for each row
+execute PROCEDURE prelim_lolos_checklist();
+
+create or replace function prelim_bayar_checklist()
+returns trigger as
+$$
+  begin
+    if (TG_OP = 'UPDATE') then
+      if (NEW.status_bayar = 'belum' ) then
+        update team
+        set status_payment_prelim = 'kosong'
+        where id = new.team_id;
+      elsif (NEW.status_bayar = 'bayar' ) then
+        update team
+        set status_payment_prelim = 'bayar'
+        where id = new.team_id;
+      elsif (NEW.status_bayar = 'verified' ) then
+        update team
+        set status_payment_prelim = 'verified'
+        where id = new.team_id;
+      end if;
+    end if;
+    return new;
+  end;
+$$
+LANGUAGE plpgsql;
+
+create trigger trigger_prelim_unac_bayar_checklist
+after update on prelim_unac_master
+for each row
+execute PROCEDURE prelim_bayar_checklist();
+
+create trigger trigger_prelim_tac_bayar_checklist
+after update on prelim_tac_master
+for each row
+execute PROCEDURE prelim_bayar_checklist();

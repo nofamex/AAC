@@ -225,20 +225,20 @@ func (u *PrelimUnacController) SubmitIsian(c *fiber.Ctx) error {
 }
 
 type PageResponse struct {
-	Page  int    `json:"page"`
-	Paket int    `json:"paket"`
+	Page  int    `json:"page,omitempty"`
+	Paket int    `json:"paket,omitempty"`
 	Body  []Soal `json:"body"`
 }
 
 type Soal struct {
 	Id       int    `json:"id"`
-	No       int    `json:"no"`
+	No       int    `json:"no,omitempty"`
 	Soal     string `json:"soal"`
 	Pilihan1 string `json:"pilihan1,omitempty"`
 	Pilihan2 string `json:"pilihan2,omitempty"`
 	Pilihan3 string `json:"pilihan3,omitempty"`
 	Pilihan4 string `json:"pilihan4,omitempty"`
-	Bobot    int    `json:"bobot"`
+	Bobot    int    `json:"bobot,omitempty"`
 }
 
 // get soal
@@ -342,6 +342,51 @@ func (u *PrelimUnacController) NextPage(c *fiber.Ctx) error {
 
 	// tolong ganti kalo udah ga simul
 	err = u.service.NextPagePrelimUnac(int(user.TeamID.Int32))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
+}
+
+type PaymentRequest struct {
+	Link string `json:"link" validate:"required,url"`
+}
+
+func (u *PrelimUnacController) Payment(c *fiber.Ctx) error {
+	token := c.Get("authorization")
+	token, err := u.tokenMaker.GetToken(token)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	payload, err := u.tokenMaker.VerifyToken(token)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	user, err := u.userService.GetUserById(int(payload.UserId))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	var requestBody PaymentRequest
+	err = c.BodyParser(&requestBody)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
+	}
+
+	validate := validator.New()
+	err = validate.Struct(requestBody)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
+	}
+
+	err = u.service.InsertPaymentUnac(int(user.TeamID.Int32), requestBody.Link)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	err = u.service.UpdatePaymentStatusPrelimUnac(int(user.TeamID.Int32), "bayar")
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}

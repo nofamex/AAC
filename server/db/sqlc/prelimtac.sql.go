@@ -5,6 +5,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 )
 
 const createPrelimTac = `-- name: CreatePrelimTac :one
@@ -16,7 +17,7 @@ INSERT INTO  prelim_tac_master (
   score
 ) VALUES (
   $1, $2, $3, $4, $5
-) RETURNING id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong, status_bayar, status_lolos
+) RETURNING id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong, status_bayar, status_lolos, payment_link
 `
 
 type CreatePrelimTacParams struct {
@@ -50,6 +51,7 @@ func (q *Queries) CreatePrelimTac(ctx context.Context, arg CreatePrelimTacParams
 		&i.Kosong,
 		&i.StatusBayar,
 		&i.StatusLolos,
+		&i.PaymentLink,
 	)
 	return i, err
 }
@@ -89,7 +91,7 @@ func (q *Queries) GetPagePrelimTac(ctx context.Context, teamID int32) (int32, er
 }
 
 const getPrelimTacByTeamId = `-- name: GetPrelimTacByTeamId :one
-SELECT id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong, status_bayar, status_lolos from prelim_tac_master
+SELECT id, team_id, token, orders, paket, score, last_page, submited, benar, salah, kosong, status_bayar, status_lolos, payment_link from prelim_tac_master
 WHERE team_id = $1
 `
 
@@ -110,6 +112,7 @@ func (q *Queries) GetPrelimTacByTeamId(ctx context.Context, teamID int32) (Preli
 		&i.Kosong,
 		&i.StatusBayar,
 		&i.StatusLolos,
+		&i.PaymentLink,
 	)
 	return i, err
 }
@@ -171,6 +174,38 @@ WHERE team_id = $1
 
 func (q *Queries) UpdatePagePrelimTac(ctx context.Context, teamID int32) error {
 	_, err := q.db.ExecContext(ctx, updatePagePrelimTac, teamID)
+	return err
+}
+
+const updatePaymentPrelimTac = `-- name: UpdatePaymentPrelimTac :exec
+UPDATE prelim_tac_master
+SET payment_link = $2
+WHERE team_id = $1
+`
+
+type UpdatePaymentPrelimTacParams struct {
+	TeamID      int32          `json:"team_id"`
+	PaymentLink sql.NullString `json:"payment_link"`
+}
+
+func (q *Queries) UpdatePaymentPrelimTac(ctx context.Context, arg UpdatePaymentPrelimTacParams) error {
+	_, err := q.db.ExecContext(ctx, updatePaymentPrelimTac, arg.TeamID, arg.PaymentLink)
+	return err
+}
+
+const updatePaymentStatusPrelimTac = `-- name: UpdatePaymentStatusPrelimTac :exec
+UPDATE prelim_tac_master
+SET status_bayar = $2
+WHERE team_id = $1
+`
+
+type UpdatePaymentStatusPrelimTacParams struct {
+	TeamID      int32          `json:"team_id"`
+	StatusBayar sql.NullString `json:"status_bayar"`
+}
+
+func (q *Queries) UpdatePaymentStatusPrelimTac(ctx context.Context, arg UpdatePaymentStatusPrelimTacParams) error {
+	_, err := q.db.ExecContext(ctx, updatePaymentStatusPrelimTac, arg.TeamID, arg.StatusBayar)
 	return err
 }
 

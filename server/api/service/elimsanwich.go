@@ -36,24 +36,17 @@ func (u *ElimSandwichService) GetElimSandwichByTeamId(teamID int, token string) 
 	return &result, err
 }
 
-func (u *ElimSandwichService) CreateElimMaster(teamId int, order string) (*db.ElimUnacMaster, error) {
-	param := db.CreateElimMasterParams{
-		TeamID: int32(teamId),
-		Orders: order,
-	}
-	result, err := u.query.CreateElimMaster(context.Background(), param)
-	if err != nil {
-		return nil, err
-	}
+func (u *ElimSandwichService) CreateElimMaster(teamId int) (*db.ElimUnacMaster, error) {
+	result, err := u.query.CreateElimMaster(context.Background(), int32(teamId))
 	return &result, err
 }
 
 func (u *ElimSandwichService) CreateElimSandwitch(teamId, paket int, token, order string) (*db.BattleOfSandwichMaster, error) {
 	param := db.CreateElimSandwichParams{
 		TeamID: int32(teamId),
-		Token: token,
+		Token:  token,
 		Orders: order,
-		Paket: int32(paket),
+		Paket:  int32(paket),
 	}
 	result, err := u.query.CreateElimSandwich(context.Background(), param)
 	if err != nil {
@@ -62,3 +55,50 @@ func (u *ElimSandwichService) CreateElimSandwitch(teamId, paket int, token, orde
 	return &result, err
 }
 
+func (u *ElimSandwichService) GetSandwichPgIdByPaket(paket int) ([]int32, error) {
+	result, err := u.query.GetSandwichPgIdByPaket(context.Background(), int32(paket))
+	return result, err
+}
+
+func (u *ElimSandwichService) GetPageSandwich(teamID int, token string) (int32, error) {
+	param := db.GetPageSandwichParams{
+		TeamID: int32(teamID),
+		Token:  token,
+	}
+	result, err := u.query.GetPageSandwich(context.Background(), param)
+	return result, err
+}
+
+func (u *ElimSandwichService) GetSandwichPg(id int) (db.ElimUnacBattleOfSandwich, error) {
+	result, err := u.query.GetSandwichPg(context.Background(), int32(id))
+	return result, err
+}
+
+func (u *ElimSandwichService) UpdatePageSandwich(teamID int, token string) error {
+	param := db.UpdatePageSandwichParams{
+		TeamID: int32(teamID),
+		Token:  token,
+	}
+	err := u.query.UpdatePageSandwich(context.Background(), param)
+	return err
+}
+
+func (u *ElimSandwichService) CreateSandwichJawaban(teamID, soalID, jawaban int, token string) error {
+	param := db.CreateSandwichJawabanParams{
+		TeamID:  int32(teamID),
+		SoalID:  int32(soalID),
+		Token:   token,
+		Jawaban: int32(jawaban),
+	}
+	err := u.query.CreateSandwichJawaban(context.Background(), param)
+	return err
+}
+
+func (u *ElimSandwichService) UpdateSubmitedSandwich(teamID int, token string) error {
+	param := db.UpdateSubmitedSandwichParams{
+		TeamID: int32(teamID),
+		Token:  token,
+	}
+	err := u.query.UpdateSubmitedSandwich(context.Background(), param)
+	return err
+}

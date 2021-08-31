@@ -56,26 +56,12 @@ func RandomOrderTac(pg []int32) string {
 	return fmt.Sprintf("%s", b)
 }
 
-func RandomPaketSandwich() (string, []int) {
-	pg := []int{4, 5, 6}
+
+func RandomOrderSandwich(pg []int32) string {
 	rand.Seed(time.Now().UnixNano())
 	rand.Shuffle(len(pg), func(i, j int) { pg[i], pg[j] = pg[j], pg[i] })
 
-	a := pg
-	b, _ := json.Marshal(a)
-	return fmt.Sprintf("%s", b), a
-}
-
-func RandomOrderSandwich(paket int) string {
-	pg := []int{46, 47, 48, 49, 50, 51, 52, 53, 54, 55}
-	rand.Seed(time.Now().UnixNano())
-	rand.Shuffle(len(pg), func(i, j int) { pg[i], pg[j] = pg[j], pg[i] })
-
-	a := pg
-	for i := 0; i < len(a); i++ {
-		a[i] += (paket - 3) * 10
-	}
-
+	a := append(pg)
 	b, _ := json.Marshal(a)
 	return fmt.Sprintf("%s", b)
 }

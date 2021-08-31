@@ -43,3 +43,13 @@ WHERE team_id = $1;
 
 -- name: GetTacPgIdByPaket :many
 SELECT id from prelim_tac_pg where paket = $1;
+
+-- name: UpdatePaymentPrelimTac :exec
+UPDATE prelim_tac_master
+SET payment_link = $2
+WHERE team_id = $1;
+
+-- name: UpdatePaymentStatusPrelimTac :exec
+UPDATE prelim_tac_master
+SET status_bayar = $2
+WHERE team_id = $1;
