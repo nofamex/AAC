@@ -101,10 +101,15 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
+	
+	sandwich, err := u.service.GetElimSandwichByPaket(int(user.TeamID.Int32), paket)
+	if sandwich != nil {
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "paket sudah di kerjakan"})
+	}
 
 	order := util.RandomOrderSandwich(pgIds)
-
-	sandwich, err := u.service.CreateElimSandwitch(int(user.TeamID.Int32), paket, token, order)
+	
+	sandwich, err = u.service.CreateElimSandwitch(int(user.TeamID.Int32), paket, token, order)
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
