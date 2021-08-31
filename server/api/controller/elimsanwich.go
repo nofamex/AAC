@@ -64,9 +64,11 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	// cek belom ada team 
+	// cek belom ada team
 	elim, err := u.service.GetElimSandwichByTeamId(int(user.TeamID.Int32), token)
-	if elim != nil {
+	if elim != nil && elim.Token == token {
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "ok"})
+	} else if elim != nil {
 		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "User sudah terdaftar pada paket lain"})
 	}
 
@@ -101,14 +103,14 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
-	
+
 	sandwich, err := u.service.GetElimSandwichByPaket(int(user.TeamID.Int32), paket)
 	if sandwich != nil {
 		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "paket sudah di kerjakan"})
 	}
 
 	order := util.RandomOrderSandwich(pgIds)
-	
+
 	sandwich, err = u.service.CreateElimSandwitch(int(user.TeamID.Int32), paket, token, order)
 	if err != nil {
 		log.Println(err)
@@ -119,6 +121,13 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
+
+	err = u.compeService.UpdateSandwichStatus(int(user.TeamID.Int32), "ongoing", paketStr)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
 	return c.Status(http.StatusOK).JSON(sandwich)
 }
 
@@ -147,7 +156,7 @@ func (u *ElimSandwichController) Finish(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 	var paket string
-	switch (sandwich.Paket){
+	switch sandwich.Paket {
 	case 4:
 		paket = "A"
 	case 5:
