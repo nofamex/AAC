@@ -80,7 +80,7 @@ func (u *ElimSandwichController) Start(c *fiber.Ctx) error {
 
 	// cek belom ada team
 	elim, err := u.service.GetElimSandwichByTeamId(int(user.TeamID.Int32), token)
-	if elim.Paket != int32(paket) {
+	if elim != nil && elim.Paket != int32(paket) {
 		switch elim.Paket {
 		case 4:
 			paketStr = "A"
