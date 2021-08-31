@@ -7,6 +7,11 @@ SELECT * from battle_of_sandwich_master
 WHERE team_id = $1
 AND token = $2;
 
+-- name: GetElimSandwichByPaket :one
+SELECT * from battle_of_sandwich_master
+WHERE team_id = $1
+AND paket = $2;
+
 -- name: CreateElimMaster :one
 INSERT INTO  elim_unac_master (
   team_id

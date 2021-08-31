@@ -14,7 +14,6 @@ type Message struct {
 	Message string `json:"message"`
 }
 
-
 func AuthMiddleware(tokenMaker token.Maker) fiber.Handler {
 	return func(ctx *fiber.Ctx) (err error) {
 		authorizationHeader := ctx.Get("authorization")

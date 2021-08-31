@@ -138,6 +138,35 @@ func (q *Queries) GetElimSandwichById(ctx context.Context, id int32) (ElimUnacBa
 	return i, err
 }
 
+const getElimSandwichByPaket = `-- name: GetElimSandwichByPaket :one
+SELECT id, team_id, token, orders, paket, last_page, benar, salah, score, submited from battle_of_sandwich_master
+WHERE team_id = $1
+AND paket = $2
+`
+
+type GetElimSandwichByPaketParams struct {
+	TeamID int32 `json:"team_id"`
+	Paket  int32 `json:"paket"`
+}
+
+func (q *Queries) GetElimSandwichByPaket(ctx context.Context, arg GetElimSandwichByPaketParams) (BattleOfSandwichMaster, error) {
+	row := q.db.QueryRowContext(ctx, getElimSandwichByPaket, arg.TeamID, arg.Paket)
+	var i BattleOfSandwichMaster
+	err := row.Scan(
+		&i.ID,
+		&i.TeamID,
+		&i.Token,
+		&i.Orders,
+		&i.Paket,
+		&i.LastPage,
+		&i.Benar,
+		&i.Salah,
+		&i.Score,
+		&i.Submited,
+	)
+	return i, err
+}
+
 const getElimSandwichByTeamId = `-- name: GetElimSandwichByTeamId :one
 SELECT id, team_id, token, orders, paket, last_page, benar, salah, score, submited from battle_of_sandwich_master
 WHERE team_id = $1

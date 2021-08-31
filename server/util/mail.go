@@ -6,7 +6,7 @@ import (
 )
 
 var (
-UnacTmpt = `Subject:  Verifikasi Pendaftaran Peserta UNAC 2021
+	UnacTmpt = `Subject:  Verifikasi Pendaftaran Peserta UNAC 2021
 
 Halo, peserta Unair National Accounting Competition 2021
 
@@ -27,7 +27,7 @@ ID Line: ribkajulianovac
 Whatsapp: 082141798916
 `
 
-TacTmpt = `Subject: Pendaftaran Peserta TAC 2021
+	TacTmpt = `Subject: Pendaftaran Peserta TAC 2021
 
 Halo, peserta Teenage Accounting Competition 2021
 

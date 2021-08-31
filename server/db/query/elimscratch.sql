@@ -1,8 +1,8 @@
--- name: GetscratchByTeamId :one
+-- name: GetScratchByTeamId :one
 SELECT * from scratch_the_hidden_words_master
 WHERE team_id = $1;
 
--- name: CreatescratchMaster :one
+-- name: CreateScratchMaster :one
 INSERT INTO  scratch_the_hidden_words_master (
   team_id,
   token
@@ -10,21 +10,20 @@ INSERT INTO  scratch_the_hidden_words_master (
   $1, $2
 ) RETURNING *;
 
--- name: CreatescratchJawaban :exec
+-- name: CreateScratchJawaban :exec
 INSERT INTO scratch_the_hidden_words_jawaban (
   team_id,
-  soal_id,
   jawaban
 ) VALUES (
-  $1, $2, $3
+  $1, $2
 )
-ON CONFLICT (team_id, soal_id)  DO UPDATE SET jawaban = EXCLUDED.jawaban;
+ON CONFLICT (team_id, jawaban)  DO UPDATE SET jawaban = EXCLUDED.jawaban;
 
--- name: UpdateSubmitedscratch :exec
+-- name: UpdateSubmitedScratch :exec
 UPDATE scratch_the_hidden_words_master
 SET submited = now()
 WHERE team_id = $1;
 
--- name: GetscratchSoal :many
+-- name: GetScratchSoal :many
 select * from elim_unac_scratch_the_hidden_words
 order by id;

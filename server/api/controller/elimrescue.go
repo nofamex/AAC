@@ -65,15 +65,17 @@ func (u *ElimRescueController) Start(c *fiber.Ctx) error {
 	if team.StatusPaymentPrelim != "verified" {
 		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Belum di verifikasi"})
 	}
-	_, err = u.service.CreateRescueMaster(int(user.TeamID.Int32), token)
-	if err != nil {
-		log.Println(err)
-		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	}
+
 	// cek belom ada team
 	rescue, err := u.service.GetTeamById(int(user.TeamID.Int32))
 	if rescue != nil {
 		return c.Status(http.StatusOK).JSON(Message{Message: "Team sudah terdaftar"})
+	}
+
+	_, err = u.service.CreateRescueMaster(int(user.TeamID.Int32), token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
 	err = u.compeService.UpdateRescueStatus(int(user.TeamID.Int32), "ongoing")

@@ -41,14 +41,14 @@ func (u *UserService) GetUserById(id int) (*db.User, error) {
 	return &result, err
 }
 
-func (u *UserService) SetRefreshToken(email string, token string) (error) {
+func (u *UserService) SetRefreshToken(email string, token string) error {
 	refreshToken := sql.NullString{
 		String: token,
-		Valid: true,
+		Valid:  true,
 	}
 
 	param := db.SetRefreshTokenParams{
-		Email: email,
+		Email:        email,
 		RefreshToken: refreshToken,
 	}
 

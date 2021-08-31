@@ -58,4 +58,3 @@ func (u *AdminService) Verify(id int32, status string) error {
 func (u *AdminService) GetTeamById(id int32) (db.Team, error) {
 	return u.query.GetTeamById(context.Background(), id)
 }
-

@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -38,56 +37,52 @@ func NewElimScratchController(query db.Querier, maker token.Maker, config util.C
 }
 
 func (u *ElimScratchController) Start(c *fiber.Ctx) error {
-	// token := c.Get("authorization")
-	// token, err := u.tokenMaker.GetToken(token)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	token := c.Get("authorization")
+	token, err := u.tokenMaker.GetToken(token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 
-	// payload, err := u.tokenMaker.VerifyToken(token)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	payload, err := u.tokenMaker.VerifyToken(token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 
-	// user, err := u.userService.GetUserById(int(payload.UserId))
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	user, err := u.userService.GetUserById(int(payload.UserId))
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 
-	// team, err := u.compeService.GetTeamById(user.TeamID.Int32)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	team, err := u.compeService.GetTeamById(user.TeamID.Int32)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+	// cek udah bayar
+	if team.StatusPaymentPrelim != "verified" {
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Belum di verifikasi"})
+	}
 
-	// // cek belom ada team
-	// prelim, err := u.service.GetTeamById(int(user.TeamID.Int32))
-	// if prelim != nil {
-	// 	return c.Status(http.StatusOK).JSON(Message{Message: "Team sudah terdaftar"})
-	// }
+	// cek belom ada team
+	scratch, err := u.service.GetScratchByTeamId(int(user.TeamID.Int32))
+	if scratch != nil {
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Team sudah terdaftar"})
+	}
 
-	// // cek udah bayar
-	// if team.Status != "berhasil" {
-	// 	return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Belum di verifikasi"})
-	// }
-	// // random paket
-	// paket := 4
-	// // generate sequence
-	// order := util.RandomOrderTacSimul()
-	// // create prelim tac master
-	// master, err := u.service.CreatePrelimTac(int(user.TeamID.Int32), paket, token, order)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
-	// err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "ongoing")
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	_, err = u.service.CreateScratchMaster(int(user.TeamID.Int32), token)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	err = u.compeService.UpdateScratchStatus(int(user.TeamID.Int32), "ongoing")
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
 }
 
@@ -109,7 +104,7 @@ func (u *ElimScratchController) Submit(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	_, err = u.userService.GetUserById(int(payload.UserId))
+	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
@@ -127,13 +122,12 @@ func (u *ElimScratchController) Submit(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
 	}
 
-	// err = u.service.CreatePrelimTacPg(int(user.TeamID.Int32), requestBody.SoalId, requestBody.Jawaban)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	err = u.service.CreateScratchJawaban(int(user.TeamID.Int32), requestBody.Jawaban)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 
-	fmt.Printf("%#v\n", requestBody)
 	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
 }
 
@@ -151,23 +145,29 @@ func (u *ElimScratchController) Finish(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	_, err = u.userService.GetUserById(int(payload.UserId))
+	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	// err = u.compeService.UpdatePrelimStatus(int(user.TeamID.Int32), "selesai")
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	err = u.compeService.UpdateScratchStatus(int(user.TeamID.Int32), "selesai")
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 
-	// err = u.service.UpdateSubmitedTac(int(user.TeamID.Int32))
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	// }
+	err = u.compeService.UpdateElimStatus(int(user.TeamID.Int32), "selesai")
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	err = u.service.UpdateSubmitedScratch(int(user.TeamID.Int32))
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
 
 	return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
 }

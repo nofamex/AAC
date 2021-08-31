@@ -7,29 +7,27 @@ import (
 	"context"
 )
 
-const createscratchJawaban = `-- name: CreatescratchJawaban :exec
+const createScratchJawaban = `-- name: CreateScratchJawaban :exec
 INSERT INTO scratch_the_hidden_words_jawaban (
   team_id,
-  soal_id,
   jawaban
 ) VALUES (
-  $1, $2, $3
+  $1, $2
 )
-ON CONFLICT (team_id, soal_id)  DO UPDATE SET jawaban = EXCLUDED.jawaban
+ON CONFLICT (team_id, jawaban)  DO UPDATE SET jawaban = EXCLUDED.jawaban
 `
 
-type CreatescratchJawabanParams struct {
+type CreateScratchJawabanParams struct {
 	TeamID  int32  `json:"team_id"`
-	SoalID  int32  `json:"soal_id"`
 	Jawaban string `json:"jawaban"`
 }
 
-func (q *Queries) CreatescratchJawaban(ctx context.Context, arg CreatescratchJawabanParams) error {
-	_, err := q.db.ExecContext(ctx, createscratchJawaban, arg.TeamID, arg.SoalID, arg.Jawaban)
+func (q *Queries) CreateScratchJawaban(ctx context.Context, arg CreateScratchJawabanParams) error {
+	_, err := q.db.ExecContext(ctx, createScratchJawaban, arg.TeamID, arg.Jawaban)
 	return err
 }
 
-const createscratchMaster = `-- name: CreatescratchMaster :one
+const createScratchMaster = `-- name: CreateScratchMaster :one
 INSERT INTO  scratch_the_hidden_words_master (
   team_id,
   token
@@ -38,13 +36,13 @@ INSERT INTO  scratch_the_hidden_words_master (
 ) RETURNING id, team_id, token, benar, salah, score, submited
 `
 
-type CreatescratchMasterParams struct {
+type CreateScratchMasterParams struct {
 	TeamID int32  `json:"team_id"`
 	Token  string `json:"token"`
 }
 
-func (q *Queries) CreatescratchMaster(ctx context.Context, arg CreatescratchMasterParams) (ScratchTheHiddenWordsMaster, error) {
-	row := q.db.QueryRowContext(ctx, createscratchMaster, arg.TeamID, arg.Token)
+func (q *Queries) CreateScratchMaster(ctx context.Context, arg CreateScratchMasterParams) (ScratchTheHiddenWordsMaster, error) {
+	row := q.db.QueryRowContext(ctx, createScratchMaster, arg.TeamID, arg.Token)
 	var i ScratchTheHiddenWordsMaster
 	err := row.Scan(
 		&i.ID,
@@ -58,13 +56,13 @@ func (q *Queries) CreatescratchMaster(ctx context.Context, arg CreatescratchMast
 	return i, err
 }
 
-const getscratchByTeamId = `-- name: GetscratchByTeamId :one
+const getScratchByTeamId = `-- name: GetScratchByTeamId :one
 SELECT id, team_id, token, benar, salah, score, submited from scratch_the_hidden_words_master
 WHERE team_id = $1
 `
 
-func (q *Queries) GetscratchByTeamId(ctx context.Context, teamID int32) (ScratchTheHiddenWordsMaster, error) {
-	row := q.db.QueryRowContext(ctx, getscratchByTeamId, teamID)
+func (q *Queries) GetScratchByTeamId(ctx context.Context, teamID int32) (ScratchTheHiddenWordsMaster, error) {
+	row := q.db.QueryRowContext(ctx, getScratchByTeamId, teamID)
 	var i ScratchTheHiddenWordsMaster
 	err := row.Scan(
 		&i.ID,
@@ -78,13 +76,13 @@ func (q *Queries) GetscratchByTeamId(ctx context.Context, teamID int32) (Scratch
 	return i, err
 }
 
-const getscratchSoal = `-- name: GetscratchSoal :many
+const getScratchSoal = `-- name: GetScratchSoal :many
 select id, jawaban, benar from elim_unac_scratch_the_hidden_words
 order by id
 `
 
-func (q *Queries) GetscratchSoal(ctx context.Context) ([]ElimUnacScratchTheHiddenWord, error) {
-	rows, err := q.db.QueryContext(ctx, getscratchSoal)
+func (q *Queries) GetScratchSoal(ctx context.Context) ([]ElimUnacScratchTheHiddenWord, error) {
+	rows, err := q.db.QueryContext(ctx, getScratchSoal)
 	if err != nil {
 		return nil, err
 	}
@@ -106,13 +104,13 @@ func (q *Queries) GetscratchSoal(ctx context.Context) ([]ElimUnacScratchTheHidde
 	return items, nil
 }
 
-const updateSubmitedscratch = `-- name: UpdateSubmitedscratch :exec
+const updateSubmitedScratch = `-- name: UpdateSubmitedScratch :exec
 UPDATE scratch_the_hidden_words_master
 SET submited = now()
 WHERE team_id = $1
 `
 
-func (q *Queries) UpdateSubmitedscratch(ctx context.Context, teamID int32) error {
-	_, err := q.db.ExecContext(ctx, updateSubmitedscratch, teamID)
+func (q *Queries) UpdateSubmitedScratch(ctx context.Context, teamID int32) error {
+	_, err := q.db.ExecContext(ctx, updateSubmitedScratch, teamID)
 	return err
 }
