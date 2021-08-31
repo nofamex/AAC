@@ -143,7 +143,7 @@ CREATE TABLE prelim_tac_master (
   submited timestamp,
   benar int not null default 0,
   salah int not null default 0,
-  kosong int default 60,
+  kosong int not null default 60,
   status_bayar varchar(10) default 'belum',
   status_lolos varchar(10) default '-',
   payment_link varchar(255),
@@ -201,7 +201,8 @@ CREATE TABLE "battle_of_sandwich_master" (
   "paket" int NOT NULL,
   "last_page" int NOT NULL DEFAULT 1,
   "benar" int NOT NULL DEFAULT 0,
-  "salah" int NOT NULL DEFAULT 10,
+  "salah" int NOT NULL DEFAULT 0,
+  "kosong" int NOT NULL DEFAULT 10,
   "score" int NOT NULL DEFAULT 0,
   "submited" timestamp,
 
@@ -214,7 +215,8 @@ CREATE TABLE "scratch_the_hidden_words_master" (
   "team_id" int NOT NULL UNIQUE,
   "token" varchar NOT NULL,
   "benar" int NOT NULL DEFAULT 0,
-  "salah" int NOT NULL DEFAULT 20,
+  "salah" int NOT NULL DEFAULT 0,
+  "kosong" int NOT NULL DEFAULT 20,
   "score" int NOT NULL DEFAULT 0,
   "submited" timestamp,
   
@@ -226,7 +228,8 @@ CREATE TABLE "rescue_the_number_master" (
   "team_id" int UNIQUE NOT NULL,
   "token" varchar NOT NULL,
   "benar" int NOT NULL DEFAULT 0,
-  "salah" int NOT NULL DEFAULT 20,
+  "salah" int NOT NULL DEFAULT 0,
+  "kosong" int NOT NULL DEFAULT 20,
   "score" int NOT NULL DEFAULT 0,
   "submited" timestamp,
   
