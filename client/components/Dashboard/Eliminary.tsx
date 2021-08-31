@@ -211,7 +211,7 @@ function CompsCard({ name, date, handler, cache, status }: CompsCardProps) {
             </button>
           </>
         )}
-        {status === "selesai" && (
+        {status === "selesai" && isStarted && (
           <p className="text-lg text-center text-green-500">
             Jawaban Berhasil Disimpan
           </p>
