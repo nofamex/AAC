@@ -30,9 +30,9 @@ export default function ScratchWords() {
         .catch((err) => console.log(err));
     }
     data();
-    if (localStorage.getItem("isScratchStarted") !== "benar") {
-      router.push("/dashboard");
-    }
+    // if (localStorage.getItem("isScratchStarted") !== "benar") {
+    //   router.push("/dashboard");
+    // }
   }, [router]);
 
   const acceptFinishHandler = () => {
@@ -69,16 +69,16 @@ export default function ScratchWords() {
               <span className="text-stroke">{"SCRATCH THE HIDDEN WORDS"}</span>
             </p>
           </div>
-          <div className="h-screen w-full flex">
+          <div className="h-auto w-full flex">
             <div className="h-full w-2/5 flex flex-col items-end">
               <ScratchTimer endTime={endTime} type="scratch" />
               <ScratchQuestion />
             </div>
-            <div className="h-full w-3/5">
+            <div className="h-auto w-3/5">
               <ScratchGrid generated={generated} />
             </div>
           </div>
-          <div className="h-screen w-full flex">
+          <div className="h-auto w-full flex">
             <div className="h-full w-2/5 flex flex-col items-end" />
             <div className="h-16 w-3/5">
               <div className="h-full w-11/12 ml-4 flex items-center justify-end">

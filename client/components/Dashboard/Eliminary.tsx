@@ -27,7 +27,6 @@ export default function Eliminary({
 }: EliminaryProps) {
   const router = useRouter();
   const [data, setData] = useState<any>();
-  const [time, setTime] = useState<any>({});
   const [loading, setLoading] = useState<any>(true);
 
   const UNACWA = "https://chat.whatsapp.com/Ktw7gXvaBQmEAXPv0UCOJU";
@@ -43,26 +42,12 @@ export default function Eliminary({
         .get("/config/time")
         .then((res) => {
           setData(res.data);
-        })
-        .catch((err) => console.log(err));
-    }
-    async function config() {
-      api
-        .get("/config/time")
-        .then((res) => {
-          setTime(res.data);
           setLoading(false);
         })
         .catch((err) => console.log(err));
     }
     data();
-    config();
   }, []);
-
-  console.log(time);
-  console.log(
-    new Date() > toCurrentTimezone(time.scratch_the_hidden_words_stop)
-  );
 
   if (loading) {
     return <Loader height="h-full bg-opacity-0" />;
@@ -167,7 +152,7 @@ export default function Eliminary({
             statusB={statusSandwichB}
             statusC={statusSandwichC}
             isPassed={
-              new Date() > toCurrentTimezone(time.battle_of_sandwich_stop.Time)
+              new Date() > toCurrentTimezone(data.battle_of_sandwich_stop.Time)
             }
           />
           <CompsCard
@@ -178,7 +163,7 @@ export default function Eliminary({
             status={statusScratch}
             isPassed={
               new Date() >
-              toCurrentTimezone(time.scratch_the_hidden_words_stop.Time)
+              toCurrentTimezone(data.scratch_the_hidden_words_stop.Time)
             }
           />
           <CompsCard
@@ -188,7 +173,7 @@ export default function Eliminary({
             cache="isRescueStarted"
             status={statusRescue}
             isPassed={
-              new Date() > toCurrentTimezone(time.rescue_the_number_stop.Time)
+              new Date() > toCurrentTimezone(data.rescue_the_number_stop.Time)
             }
           />
         </div>
