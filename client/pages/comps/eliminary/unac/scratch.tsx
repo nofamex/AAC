@@ -30,9 +30,9 @@ export default function ScratchWords() {
         .catch((err) => console.log(err));
     }
     data();
-    // if (localStorage.getItem("isScratchStarted") !== "benar") {
-    //   router.push("/dashboard");
-    // }
+    if (localStorage.getItem("isScratchStarted") !== "benar") {
+      router.push("/dashboard");
+    }
   }, [router]);
 
   const acceptFinishHandler = () => {
