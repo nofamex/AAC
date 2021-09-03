@@ -24,6 +24,7 @@ type BattleOfSandwichMaster struct {
 	LastPage int32        `json:"last_page"`
 	Benar    int32        `json:"benar"`
 	Salah    int32        `json:"salah"`
+	Kosong   int32        `json:"kosong"`
 	Score    int32        `json:"score"`
 	Submited sql.NullTime `json:"submited"`
 }
@@ -96,7 +97,7 @@ type PrelimTacMaster struct {
 	Submited    sql.NullTime   `json:"submited"`
 	Benar       int32          `json:"benar"`
 	Salah       int32          `json:"salah"`
-	Kosong      sql.NullInt32  `json:"kosong"`
+	Kosong      int32          `json:"kosong"`
 	StatusBayar sql.NullString `json:"status_bayar"`
 	StatusLolos sql.NullString `json:"status_lolos"`
 	PaymentLink sql.NullString `json:"payment_link"`
@@ -185,6 +186,7 @@ type RescueTheNumberMaster struct {
 	Token    string       `json:"token"`
 	Benar    int32        `json:"benar"`
 	Salah    int32        `json:"salah"`
+	Kosong   int32        `json:"kosong"`
 	Score    int32        `json:"score"`
 	Submited sql.NullTime `json:"submited"`
 }
@@ -192,7 +194,6 @@ type RescueTheNumberMaster struct {
 type ScratchTheHiddenWordsJawaban struct {
 	ID      int32  `json:"id"`
 	TeamID  int32  `json:"team_id"`
-	SoalID  int32  `json:"soal_id"`
 	Jawaban string `json:"jawaban"`
 }
 
@@ -202,6 +203,7 @@ type ScratchTheHiddenWordsMaster struct {
 	Token    string       `json:"token"`
 	Benar    int32        `json:"benar"`
 	Salah    int32        `json:"salah"`
+	Kosong   int32        `json:"kosong"`
 	Score    int32        `json:"score"`
 	Submited sql.NullTime `json:"submited"`
 }

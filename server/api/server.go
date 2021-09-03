@@ -62,6 +62,7 @@ func (server *Server) setupRouter() {
 	auth := v1.Group("/auth")
 	auth.Post("/register", userCtrl.Register)
 	auth.Post("/login", userCtrl.Login)
+	auth.Post("/update", userCtrl.UpdatePassword)
 
 	login := auth.Group("", middleware.AuthMiddleware(server.tokenMaker))
 	login.Get("/refresh", userCtrl.Refresh)

@@ -35,7 +35,7 @@ INSERT INTO  rescue_the_number_master (
   token
 ) VALUES (
   $1, $2
-) RETURNING id, team_id, token, benar, salah, score, submited
+) RETURNING id, team_id, token, benar, salah, kosong, score, submited
 `
 
 type CreateRescueMasterParams struct {
@@ -52,6 +52,7 @@ func (q *Queries) CreateRescueMaster(ctx context.Context, arg CreateRescueMaster
 		&i.Token,
 		&i.Benar,
 		&i.Salah,
+		&i.Kosong,
 		&i.Score,
 		&i.Submited,
 	)
@@ -59,7 +60,7 @@ func (q *Queries) CreateRescueMaster(ctx context.Context, arg CreateRescueMaster
 }
 
 const getRescueByTeamId = `-- name: GetRescueByTeamId :one
-SELECT id, team_id, token, benar, salah, score, submited from rescue_the_number_master
+SELECT id, team_id, token, benar, salah, kosong, score, submited from rescue_the_number_master
 WHERE team_id = $1
 `
 
@@ -72,6 +73,7 @@ func (q *Queries) GetRescueByTeamId(ctx context.Context, teamID int32) (RescueTh
 		&i.Token,
 		&i.Benar,
 		&i.Salah,
+		&i.Kosong,
 		&i.Score,
 		&i.Submited,
 	)

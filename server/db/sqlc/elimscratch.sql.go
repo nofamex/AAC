@@ -33,7 +33,7 @@ INSERT INTO  scratch_the_hidden_words_master (
   token
 ) VALUES (
   $1, $2
-) RETURNING id, team_id, token, benar, salah, score, submited
+) RETURNING id, team_id, token, benar, salah, kosong, score, submited
 `
 
 type CreateScratchMasterParams struct {
@@ -50,6 +50,7 @@ func (q *Queries) CreateScratchMaster(ctx context.Context, arg CreateScratchMast
 		&i.Token,
 		&i.Benar,
 		&i.Salah,
+		&i.Kosong,
 		&i.Score,
 		&i.Submited,
 	)
@@ -57,7 +58,7 @@ func (q *Queries) CreateScratchMaster(ctx context.Context, arg CreateScratchMast
 }
 
 const getScratchByTeamId = `-- name: GetScratchByTeamId :one
-SELECT id, team_id, token, benar, salah, score, submited from scratch_the_hidden_words_master
+SELECT id, team_id, token, benar, salah, kosong, score, submited from scratch_the_hidden_words_master
 WHERE team_id = $1
 `
 
@@ -70,6 +71,7 @@ func (q *Queries) GetScratchByTeamId(ctx context.Context, teamID int32) (Scratch
 		&i.Token,
 		&i.Benar,
 		&i.Salah,
+		&i.Kosong,
 		&i.Score,
 		&i.Submited,
 	)

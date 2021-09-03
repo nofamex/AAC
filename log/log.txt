@@ -39,3 +39,4 @@
 2021/08/31 18:15:26 elimscratch.go:128: pq: relation "scratch_the_hidden_words_jawaban" does not exist
 2021/08/31 18:17:16 elimscratch.go:128: pq: null value in column "soal_id" of relation "scratch_the_hidden_words_jawaban" violates not-null constraint
 2021/08/31 18:17:24 elimscratch.go:128: pq: null value in column "soal_id" of relation "scratch_the_hidden_words_jawaban" violates not-null constraint
+2021/09/03 09:26:21 main.go:35: cannot start server:listen tcp4: address 8080: missing port in address
