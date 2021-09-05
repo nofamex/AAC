@@ -1,7 +1,7 @@
 import Loader from "@components/Context/Loader";
 import api from "@lib/axios";
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { AiFillCheckCircle } from "react-icons/ai";
 
 export default function RescueQuestion() {
   const [question, setQuestion] = useState<any>([]);
@@ -20,6 +20,8 @@ export default function RescueQuestion() {
     data();
   }, []);
 
+  console.log(question);
+
   if (loading) {
     return <Loader height="h-full bg-opacity-0" />;
   }
@@ -30,9 +32,19 @@ export default function RescueQuestion() {
         Isilah jawaban sesuai petunjuk di soal
       </p>
       <ul className="mt-8 text-lg">
-        {question.map((ct: { id: number; soal: string }, index: number) => (
-          <QuestionList num={ct.id} question={ct.soal} key={index} />
-        ))}
+        {question.map(
+          (
+            ct: { id: number; soal: string; jawaban: string },
+            index: number
+          ) => (
+            <QuestionList
+              num={ct.id}
+              question={ct.soal}
+              key={index}
+              prevAnswer={typeof ct.jawaban !== "undefined" ? ct.jawaban : ""}
+            />
+          )
+        )}
       </ul>
     </div>
   );
@@ -41,10 +53,12 @@ export default function RescueQuestion() {
 interface QuestionListProps {
   num: number;
   question: string;
+  prevAnswer: string;
 }
 
-function QuestionList({ num, question }: QuestionListProps) {
-  const [answer, setAnswer] = useState("");
+function QuestionList({ num, question, prevAnswer }: QuestionListProps) {
+  const [answer, setAnswer] = useState(prevAnswer);
+  const [show, setShow] = useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -54,7 +68,10 @@ function QuestionList({ num, question }: QuestionListProps) {
         Soal_Id: num,
       })
       .then(() => {
-        toast.success(`Berhasil submit jawaban no.${num}`);
+        setShow(true);
+        setTimeout(() => {
+          setShow(false);
+        }, 1500);
       });
   };
 
@@ -67,6 +84,7 @@ function QuestionList({ num, question }: QuestionListProps) {
           type="text"
           className="ml-2 rounded-lg text-black"
           onChange={(e: any) => setAnswer(e.target.value)}
+          value={answer}
         />
         <button
           type="submit"
@@ -76,6 +94,7 @@ function QuestionList({ num, question }: QuestionListProps) {
           Submit
         </button>
       </form>
+      {show && <AiFillCheckCircle className="w-7 h-7 ml-2 text-green-500" />}
     </li>
   );
 }

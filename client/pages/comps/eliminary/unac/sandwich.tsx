@@ -84,7 +84,7 @@ export default function Sandwich() {
               className="font-bold italic text-5xl md:text-6xl"
               style={{ textShadow: "0 0 25px #7303C0" }}
             >
-              <span className="text-stroke">Battle of Sandwich</span>
+              <span className="text-stroke">The Battle of Sandwich</span>
             </p>
           </div>
           <div className="w-full flex h-auto">

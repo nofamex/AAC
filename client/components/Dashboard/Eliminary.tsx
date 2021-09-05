@@ -142,7 +142,7 @@ export default function Eliminary({
       {type === "unac" && (
         <div className="flex mt-4">
           <CompsCardSandwich
-            name="Battle of Sandwich"
+            name="The Battle of Sandwich"
             date={data.battle_of_sandwich_start.Time}
             handler1={sandwichStart1Handler}
             handler2={sandwichStart2Handler}
@@ -221,10 +221,12 @@ function CompsCard({
       <div className="w-full flex justify-center">
         <Countdown date={toCurrentTimezone(date)} renderer={renderer} />
       </div>
-      <div className="flex flex-col w-full h-auto mt-2">
+      <div className="flex flex-col w-full h-auto mt-2 ">
         {isStarted && status !== "selesai" && !isPassed && (
           <>
-            <p className="font-bold text-lg">Lomba sudah bisa dimulai</p>
+            <p className="font-bold text-lg text-center">
+              Lomba sudah bisa dimulai
+            </p>
             <button
               className="rounded-2xl text-white font-bold text-xl px-4 py-2 mt-2 flex justify-center items-center bg-gradient-to-r from-persimmon to-orange hover:scale-105 transition-all ease-in-out active:scale-100"
               onClick={() => handler()}
@@ -296,7 +298,9 @@ function CompsCardSandwich({
         {isStarted && (
           <>
             {!isPassed && (
-              <p className="font-bold text-lg">Lomba sudah bisa dimulai</p>
+              <p className="font-bold text-lg text-center">
+                Lomba sudah bisa dimulai
+              </p>
             )}
 
             {statusA !== "selesai" && !isPassed && (
