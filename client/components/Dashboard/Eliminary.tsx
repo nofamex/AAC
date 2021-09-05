@@ -156,7 +156,7 @@ export default function Eliminary({
             }
           />
           <CompsCard
-            name="Scratch the Hidden Words"
+            name="Scratch D' Hidden Words"
             date={data.scratch_the_hidden_words_start.Time}
             handler={scratchStartHandler}
             cache="isScratchStarted"

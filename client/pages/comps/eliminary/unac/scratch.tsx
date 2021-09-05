@@ -66,7 +66,7 @@ export default function ScratchWords() {
               className="font-bold italic text-5xl md:text-6xl"
               style={{ textShadow: "0 0 25px #7303C0" }}
             >
-              <span className="text-stroke">{"SCRATCH THE HIDDEN WORDS"}</span>
+              <span className="text-stroke">{"SCRATCH D' HIDDEN WORDS"}</span>
             </p>
           </div>
           <div className="h-auto w-full flex">
