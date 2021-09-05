@@ -70,7 +70,7 @@ func (u *ElimRescueController) Start(c *fiber.Ctx) error {
 	rescue, err := u.service.GetTeamById(int(user.TeamID.Int32))
 	if rescue != nil && rescue.Token == token {
 		return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
-	}else if rescue != nil {
+	} else if rescue != nil {
 		return c.Status(http.StatusOK).JSON(Message{Message: "Team sudah terdaftar"})
 	}
 
@@ -147,17 +147,22 @@ func (u *ElimRescueController) GetSoal(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	_, err = u.userService.GetUserById(int(payload.UserId))
+	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
-	soalArr, err := u.service.GetRescueSoal()
+	soalArr, err := u.service.GetRescueJawabanSoal(int(user.TeamID.Int32))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
 	resPage := PageResponse{}
 	res := []Soal{}
 	for _, soal := range soalArr {
 		res = append(res, Soal{
-			Id:   int(soal.ID),
-			Soal: soal.Soal,
+			Id:      int(soal.ID),
+			Soal:    soal.Soal,
+			Jawaban: soal.Jawaban,
 		})
 	}
 	resPage.Body = res

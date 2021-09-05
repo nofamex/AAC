@@ -234,6 +234,7 @@ type Soal struct {
 	Id       int    `json:"id"`
 	No       int    `json:"no,omitempty"`
 	Soal     string `json:"soal"`
+	Jawaban  string `json:"jawaban,omitempty"`
 	Pilihan1 string `json:"pilihan1,omitempty"`
 	Pilihan2 string `json:"pilihan2,omitempty"`
 	Pilihan3 string `json:"pilihan3,omitempty"`

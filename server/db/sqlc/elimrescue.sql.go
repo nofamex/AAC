@@ -80,6 +80,74 @@ func (q *Queries) GetRescueByTeamId(ctx context.Context, teamID int32) (RescueTh
 	return i, err
 }
 
+const getRescueJawaban = `-- name: GetRescueJawaban :many
+select id, team_id, soal_id, jawaban from rescue_the_number_jawaban 
+where team_id = $1
+`
+
+func (q *Queries) GetRescueJawaban(ctx context.Context, teamID int32) ([]RescueTheNumberJawaban, error) {
+	rows, err := q.db.QueryContext(ctx, getRescueJawaban, teamID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []RescueTheNumberJawaban
+	for rows.Next() {
+		var i RescueTheNumberJawaban
+		if err := rows.Scan(
+			&i.ID,
+			&i.TeamID,
+			&i.SoalID,
+			&i.Jawaban,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getRescueJawabanSoal = `-- name: GetRescueJawabanSoal :many
+select s.id, s.soal, COALESCE (j.jawaban, '') from elim_unac_rescue_the_number as s
+left join (select sj.soal_id, sj.jawaban from rescue_the_number_jawaban as sj where team_id = $1) as j on s.id = j.soal_id
+order by s.id
+`
+
+type GetRescueJawabanSoalRow struct {
+	ID      int32  `json:"id"`
+	Soal    string `json:"soal"`
+	Jawaban string `json:"jawaban"`
+}
+
+func (q *Queries) GetRescueJawabanSoal(ctx context.Context, teamID int32) ([]GetRescueJawabanSoalRow, error) {
+	rows, err := q.db.QueryContext(ctx, getRescueJawabanSoal, teamID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetRescueJawabanSoalRow
+	for rows.Next() {
+		var i GetRescueJawabanSoalRow
+		if err := rows.Scan(&i.ID, &i.Soal, &i.Jawaban); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getRescueSoal = `-- name: GetRescueSoal :many
 select id, soal, jawaban, bobot from elim_unac_rescue_the_number
 order by id

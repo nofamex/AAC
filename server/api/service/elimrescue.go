@@ -54,3 +54,13 @@ func (u *ElimRescueService) GetRescueSoal() ([]db.ElimUnacRescueTheNumber, error
 	result, err := u.query.GetRescueSoal(context.Background())
 	return result, err
 }
+
+func (u *ElimRescueService) GetRescueJawaban(teamId int) ([]db.RescueTheNumberJawaban, error) {
+	result, err := u.query.GetRescueJawaban(context.Background(), int32(teamId))
+	return result, err
+}
+
+func (u *ElimRescueService) GetRescueJawabanSoal(teamId int) ([]db.GetRescueJawabanSoalRow, error) {
+	result, err := u.query.GetRescueJawabanSoal(context.Background(), int32(teamId))
+	return result, err
+}

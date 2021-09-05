@@ -39,6 +39,8 @@ type Querier interface {
 	GetPrelimUnacIsianById(ctx context.Context, id int32) (PrelimUnacIsian, error)
 	GetPrelimUnacPgById(ctx context.Context, id int32) (PrelimUnacPg, error)
 	GetRescueByTeamId(ctx context.Context, teamID int32) (RescueTheNumberMaster, error)
+	GetRescueJawaban(ctx context.Context, teamID int32) ([]RescueTheNumberJawaban, error)
+	GetRescueJawabanSoal(ctx context.Context, teamID int32) ([]GetRescueJawabanSoalRow, error)
 	GetRescueSoal(ctx context.Context) ([]ElimUnacRescueTheNumber, error)
 	GetSandwichPg(ctx context.Context, id int32) (ElimUnacBattleOfSandwich, error)
 	GetSandwichPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
