@@ -68,7 +68,9 @@ func (u *ElimRescueController) Start(c *fiber.Ctx) error {
 
 	// cek belom ada team
 	rescue, err := u.service.GetTeamById(int(user.TeamID.Int32))
-	if rescue != nil {
+	if rescue != nil && rescue.Token == token {
+		return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
+	}else if rescue != nil {
 		return c.Status(http.StatusOK).JSON(Message{Message: "Team sudah terdaftar"})
 	}
 

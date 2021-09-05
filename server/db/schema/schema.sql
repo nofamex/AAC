@@ -239,7 +239,7 @@ CREATE TABLE "rescue_the_number_master" (
 CREATE TABLE "battle_of_sandwich_jawaban" (
   "id" SERIAL PRIMARY KEY,
   "team_id" int NOT NULL,
-  "soal_id" int UNIQUE NOT NULL,
+  "soal_id" int NOT NULL,
   "token" varchar NOT NULL,
   "jawaban" int NOT NULL,
 
@@ -260,7 +260,7 @@ CREATE TABLE "scratch_the_hidden_words_jawaban" (
 CREATE TABLE "rescue_the_number_jawaban" (
   "id" SERIAL PRIMARY KEY,
   "team_id" int NOT NULL,
-  "soal_id" int UNIQUE NOT NULL,
+  "soal_id" int NOT NULL,
   "jawaban" text NOT NULL,
 
   FOREIGN KEY ("team_id") REFERENCES "rescue_the_number_master" ("team_id"),

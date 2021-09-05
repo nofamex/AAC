@@ -68,7 +68,9 @@ func (u *ElimScratchController) Start(c *fiber.Ctx) error {
 
 	// cek belom ada team
 	scratch, err := u.service.GetScratchByTeamId(int(user.TeamID.Int32))
-	if scratch != nil {
+	if scratch != nil && scratch.Token == token {
+		return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
+	}else if scratch != nil {
 		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Team sudah terdaftar"})
 	}
 
