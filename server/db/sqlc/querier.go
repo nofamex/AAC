@@ -58,6 +58,7 @@ type Querier interface {
 	UpdatePagePrelimTac(ctx context.Context, teamID int32) error
 	UpdatePagePrelimUnac(ctx context.Context, teamID int32) error
 	UpdatePageSandwich(ctx context.Context, arg UpdatePageSandwichParams) error
+	UpdatePassword(ctx context.Context, arg UpdatePasswordParams) error
 	UpdatePaymentPrelimTac(ctx context.Context, arg UpdatePaymentPrelimTacParams) error
 	UpdatePaymentPrelimUnac(ctx context.Context, arg UpdatePaymentPrelimUnacParams) error
 	UpdatePaymentStatusPrelimTac(ctx context.Context, arg UpdatePaymentStatusPrelimTacParams) error

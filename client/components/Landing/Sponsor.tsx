@@ -36,9 +36,29 @@ export default function Sponsor() {
         </SponsorRow>
         <SponsorRow>
           <SponsorLogo
+            src="/picture/sponsor/Pahamify.png"
+            width="w-24"
+            height="h-10"
+          />
+          <SponsorLogo
             src="/picture/sponsor/BNI.png"
             width="w-24"
             height="h-10"
+          />
+          <SponsorLogo
+            src="/picture/sponsor/BTN.png"
+            width="w-24"
+            height="h-12"
+          />
+          <SponsorLogo
+            src="/picture/sponsor/INKA.png"
+            width="w-20"
+            height="h-4"
+          />
+          <SponsorLogo
+            src="/picture/sponsor/Cicil.png"
+            width="w-12"
+            height="h-5"
           />
           <SponsorLogo
             src="/picture/sponsor/harisenin.png"

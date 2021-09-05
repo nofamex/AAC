@@ -36,7 +36,7 @@ INSERT INTO  battle_of_sandwich_master (
   paket
 ) VALUES (
   $1, $2, $3, $4
-) RETURNING id, team_id, token, orders, paket, last_page, benar, salah, score, submited
+) RETURNING id, team_id, token, orders, paket, last_page, benar, salah, kosong, score, submited
 `
 
 type CreateElimSandwichParams struct {
@@ -63,6 +63,7 @@ func (q *Queries) CreateElimSandwich(ctx context.Context, arg CreateElimSandwich
 		&i.LastPage,
 		&i.Benar,
 		&i.Salah,
+		&i.Kosong,
 		&i.Score,
 		&i.Submited,
 	)
@@ -139,7 +140,7 @@ func (q *Queries) GetElimSandwichById(ctx context.Context, id int32) (ElimUnacBa
 }
 
 const getElimSandwichByPaket = `-- name: GetElimSandwichByPaket :one
-SELECT id, team_id, token, orders, paket, last_page, benar, salah, score, submited from battle_of_sandwich_master
+SELECT id, team_id, token, orders, paket, last_page, benar, salah, kosong, score, submited from battle_of_sandwich_master
 WHERE team_id = $1
 AND paket = $2
 `
@@ -161,6 +162,7 @@ func (q *Queries) GetElimSandwichByPaket(ctx context.Context, arg GetElimSandwic
 		&i.LastPage,
 		&i.Benar,
 		&i.Salah,
+		&i.Kosong,
 		&i.Score,
 		&i.Submited,
 	)
@@ -168,7 +170,7 @@ func (q *Queries) GetElimSandwichByPaket(ctx context.Context, arg GetElimSandwic
 }
 
 const getElimSandwichByTeamId = `-- name: GetElimSandwichByTeamId :one
-SELECT id, team_id, token, orders, paket, last_page, benar, salah, score, submited from battle_of_sandwich_master
+SELECT id, team_id, token, orders, paket, last_page, benar, salah, kosong, score, submited from battle_of_sandwich_master
 WHERE team_id = $1
 AND token = $2
 `
@@ -190,6 +192,7 @@ func (q *Queries) GetElimSandwichByTeamId(ctx context.Context, arg GetElimSandwi
 		&i.LastPage,
 		&i.Benar,
 		&i.Salah,
+		&i.Kosong,
 		&i.Score,
 		&i.Submited,
 	)

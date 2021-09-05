@@ -54,7 +54,7 @@ function QuestionList({ num, question }: QuestionListProps) {
         Soal_Id: num,
       })
       .then(() => {
-        toast.success("Berhasil submit jawaban");
+        toast.success(`Berhasil submit jawaban no.${num}`);
       });
   };
 

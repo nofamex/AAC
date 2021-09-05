@@ -58,17 +58,23 @@ export default function Eliminary({
   };
 
   const scratchStartHandler = () => {
-    api.post("/elim/unac/scratch/start").then(() => {
-      localStorage.setItem("isScratchStarted", "benar");
-      router.push("/comps/eliminary/unac/scratch");
-    });
+    api
+      .post("/elim/unac/scratch/start")
+      .then(() => {
+        localStorage.setItem("isScratchStarted", "benar");
+        router.push("/comps/eliminary/unac/scratch");
+      })
+      .catch(() => alert());
   };
 
   const rescueStartHandler = () => {
-    api.post("/elim/unac/rescue/start").then(() => {
-      localStorage.setItem("isRescueStarted", "benar");
-      router.push("/comps/eliminary/unac/rescue");
-    });
+    api
+      .post("/elim/unac/rescue/start")
+      .then(() => {
+        localStorage.setItem("isRescueStarted", "benar");
+        router.push("/comps/eliminary/unac/rescue");
+      })
+      .catch(() => alert());
   };
 
   const sandwichStart1Handler = () => {
@@ -145,13 +151,20 @@ export default function Eliminary({
             statusA={statusSandwichA}
             statusB={statusSandwichB}
             statusC={statusSandwichC}
+            isPassed={
+              new Date() > toCurrentTimezone(data.battle_of_sandwich_stop.Time)
+            }
           />
           <CompsCard
-            name="Scratch The Hidden Words"
+            name="Scratch D' Hidden Words"
             date={data.scratch_the_hidden_words_start.Time}
             handler={scratchStartHandler}
             cache="isScratchStarted"
             status={statusScratch}
+            isPassed={
+              new Date() >
+              toCurrentTimezone(data.scratch_the_hidden_words_stop.Time)
+            }
           />
           <CompsCard
             name="Rescue the Numbers"
@@ -159,6 +172,9 @@ export default function Eliminary({
             handler={rescueStartHandler}
             cache="isRescueStarted"
             status={statusRescue}
+            isPassed={
+              new Date() > toCurrentTimezone(data.rescue_the_number_stop.Time)
+            }
           />
         </div>
       )}
@@ -172,9 +188,17 @@ interface CompsCardProps {
   handler: Function;
   cache: string;
   status: string;
+  isPassed: boolean;
 }
 
-function CompsCard({ name, date, handler, cache, status }: CompsCardProps) {
+function CompsCard({
+  name,
+  date,
+  handler,
+  cache,
+  status,
+  isPassed,
+}: CompsCardProps) {
   const [isStarted, setIsStarted] = useState(false);
 
   const renderer = ({ days, hours, minutes, seconds, completed }: any) => {
@@ -198,7 +222,7 @@ function CompsCard({ name, date, handler, cache, status }: CompsCardProps) {
         <Countdown date={toCurrentTimezone(date)} renderer={renderer} />
       </div>
       <div className="flex flex-col w-full h-auto mt-2">
-        {isStarted && status !== "selesai" && (
+        {isStarted && status !== "selesai" && !isPassed && (
           <>
             <p className="font-bold text-lg">Lomba sudah bisa dimulai</p>
             <button
@@ -211,7 +235,7 @@ function CompsCard({ name, date, handler, cache, status }: CompsCardProps) {
             </button>
           </>
         )}
-        {status === "selesai" && (
+        {status === "selesai" && isStarted && (
           <p className="text-lg text-center text-green-500">
             Jawaban Berhasil Disimpan
           </p>
@@ -231,6 +255,7 @@ interface CompsCardSandwichProps {
   statusA: string;
   statusB: string;
   statusC: string;
+  isPassed: boolean;
 }
 
 function CompsCardSandwich({
@@ -243,6 +268,7 @@ function CompsCardSandwich({
   statusA,
   statusB,
   statusC,
+  isPassed,
 }: CompsCardSandwichProps) {
   const [isStarted, setIsStarted] = useState(false);
 
@@ -269,12 +295,11 @@ function CompsCardSandwich({
       <div className="flex flex-col w-full h-auto mt-2">
         {isStarted && (
           <>
-            {statusA !== "selesai" &&
-              statusB !== "selesai" &&
-              statusC !== "selesai" && (
-                <p className="font-bold text-lg">Lomba sudah bisa dimulai</p>
-              )}
-            {statusA !== "selesai" ? (
+            {!isPassed && (
+              <p className="font-bold text-lg">Lomba sudah bisa dimulai</p>
+            )}
+
+            {statusA !== "selesai" && !isPassed && (
               <button
                 className="rounded-2xl text-white font-bold text-xl px-4 py-2 mt-2 flex justify-center items-center bg-gradient-to-r from-persimmon to-orange hover:scale-105 transition-all ease-in-out active:scale-100"
                 onClick={() => handler1()}
@@ -284,13 +309,15 @@ function CompsCardSandwich({
                   ? "Lanjutkan"
                   : "Paket A >"}
               </button>
-            ) : (
+            )}
+
+            {statusA === "selesai" && (
               <p className="text-lg text-center text-green-500">
                 Jawaban Paket A Berhasil Disimpan
               </p>
             )}
 
-            {statusB !== "selesai" ? (
+            {statusB !== "selesai" && !isPassed && (
               <button
                 className="rounded-2xl text-white font-bold text-xl px-4 py-2 mt-4 flex justify-center items-center bg-gradient-to-r from-persimmon to-orange hover:scale-105 transition-all ease-in-out active:scale-100"
                 onClick={() => handler2()}
@@ -300,13 +327,15 @@ function CompsCardSandwich({
                   ? "Lanjutkan"
                   : "Paket B >"}
               </button>
-            ) : (
+            )}
+
+            {statusB === "selesai" && (
               <p className="text-lg text-center text-green-500">
                 Jawaban Paket B Berhasil Disimpan
               </p>
             )}
 
-            {statusC !== "selesai" ? (
+            {statusC !== "selesai" && !isPassed && (
               <button
                 className="rounded-2xl text-white font-bold text-xl px-4 py-2 mt-4 flex justify-center items-center bg-gradient-to-r from-persimmon to-orange hover:scale-105 transition-all ease-in-out active:scale-100"
                 onClick={() => handler3()}
@@ -316,7 +345,9 @@ function CompsCardSandwich({
                   ? "Lanjutkan"
                   : "Paket C >"}
               </button>
-            ) : (
+            )}
+
+            {statusC === "selesai" && (
               <p className="text-lg text-center text-green-500">
                 Jawaban Paket C Berhasil Disimpan
               </p>
