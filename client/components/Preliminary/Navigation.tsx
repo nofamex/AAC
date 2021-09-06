@@ -97,6 +97,6 @@ export default function Navigation({ endTime, page, cmpt }: NavigationProps) {
   );
 }
 
-const row1 = [1, 2];
+const row1 = [1, 2, 3];
 const row2 = [6, 7, 8, 9, 10];
 const row3 = [11, 12];

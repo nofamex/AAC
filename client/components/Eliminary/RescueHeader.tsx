@@ -8,7 +8,7 @@ export default function RescueHeader() {
         berhasil keren
       </p>
       <a
-        href="https://drive.google.com/file/d/1jSmowJ_slp2kd6Sk6XxWrrVQorJz6TGH/view?usp=sharing"
+        href="https://drive.google.com/file/d/1jOhc5bNTCz9vAmLl2yf5PqY-UUzSQFSd/view?usp=sharing"
         target="_blank"
         rel="noreferrer"
         className="mr-0 mb-4 sm:mr-8 sm:mb-0 flex"

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { simulWordArr, simulQuestion } from "@lib/word";
+import { wordArr, wordQuestion } from "@lib/word";
 import Cookies from "js-cookie";
 import api from "@lib/axios";
 
@@ -57,9 +57,9 @@ export default function ScratchGrid({ generated }: any) {
     wordsInstance.utils
       .createPathFromPair(firstWord, { x, y })
       .forEach((element: { x: number; y: number }) => {
-        word += simulQuestion[element.y][element.x];
+        word += wordQuestion[element.y][element.x];
       });
-    if (simulWordArr.includes(word)) {
+    if (wordArr.includes(word)) {
       selectedWord.forEach((element) => {
         findedWord.push(element);
       });
