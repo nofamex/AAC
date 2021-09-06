@@ -71,7 +71,7 @@ func (u *ElimRescueController) Start(c *fiber.Ctx) error {
 	if rescue != nil && rescue.Token == token {
 		return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
 	} else if rescue != nil {
-		return c.Status(http.StatusOK).JSON(Message{Message: "Team sudah terdaftar"})
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Team sudah terdaftar"})
 	}
 
 	_, err = u.service.CreateRescueMaster(int(user.TeamID.Int32), token)
