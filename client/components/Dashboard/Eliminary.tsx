@@ -142,7 +142,7 @@ export default function Eliminary({
       {type === "unac" && (
         <div className="flex mt-4">
           <CompsCardSandwich
-            name="The Battle of Sandwich"
+            name="The Battle Of Sandwich"
             date={data.battle_of_sandwich_start.Time}
             handler1={sandwichStart1Handler}
             handler2={sandwichStart2Handler}
@@ -167,7 +167,7 @@ export default function Eliminary({
             }
           />
           <CompsCard
-            name="Rescue the Numbers"
+            name="Rescue The Numbers"
             date={data.rescue_the_number_start.Time}
             handler={rescueStartHandler}
             cache="isRescueStarted"
