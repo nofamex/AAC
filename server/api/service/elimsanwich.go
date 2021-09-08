@@ -23,6 +23,18 @@ func (u *ElimSandwichService) GetElimMasterByTeamId(teamID int) (*db.ElimUnacMas
 	return &result, err
 }
 
+func (u *ElimSandwichService) GetElimSandwichByPaket(teamID, paket int) (*db.BattleOfSandwichMaster, error) {
+	param := db.GetElimSandwichByPaketParams{
+		TeamID: int32(teamID),
+		Paket:  int32(paket),
+	}
+	result, err := u.query.GetElimSandwichByPaket(context.Background(), param)
+	if err != nil {
+		return nil, err
+	}
+	return &result, err
+}
+
 func (u *ElimSandwichService) GetElimSandwichByTeamId(teamID int, token string) (*db.BattleOfSandwichMaster, error) {
 
 	payload := db.GetElimSandwichByTeamIdParams{

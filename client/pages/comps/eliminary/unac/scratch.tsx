@@ -66,19 +66,19 @@ export default function ScratchWords() {
               className="font-bold italic text-5xl md:text-6xl"
               style={{ textShadow: "0 0 25px #7303C0" }}
             >
-              <span className="text-stroke">{"SCRATCH THE HIDDEN WORDS"}</span>
+              <span className="text-stroke">{"SCRATCH D' HIDDEN WORDS"}</span>
             </p>
           </div>
-          <div className="h-screen w-full flex">
+          <div className="h-auto w-full flex">
             <div className="h-full w-2/5 flex flex-col items-end">
               <ScratchTimer endTime={endTime} type="scratch" />
               <ScratchQuestion />
             </div>
-            <div className="h-full w-3/5">
+            <div className="h-auto w-3/5">
               <ScratchGrid generated={generated} />
             </div>
           </div>
-          <div className="h-screen w-full flex">
+          <div className="h-auto w-full flex">
             <div className="h-full w-2/5 flex flex-col items-end" />
             <div className="h-16 w-3/5">
               <div className="h-full w-11/12 ml-4 flex items-center justify-end">

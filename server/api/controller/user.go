@@ -103,6 +103,45 @@ type LoginUserResponse struct {
 	User         *UserResponse `json:"user,omitempty"`
 }
 
+// Update Password
+func (u *UserController) UpdatePassword(c *fiber.Ctx) error {
+	var requestBody LoginUserRequest
+	if err := c.BodyParser(&requestBody); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
+	}
+
+	validate := validator.New()
+	if err := validate.Struct(requestBody); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(Message{Message: err.Error()})
+	}
+
+	user, err := u.service.GetUserByEmail(requestBody.Email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: err.Error()})
+		}
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	hashedPassword, err := util.HashPassword(requestBody.Password)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+
+	err = u.service.UpdatePassword(int(user.ID), hashedPassword)
+	if err != nil {
+		log.Println(err)
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"message": "succesfully update password",
+	})
+}
+
 // login
 func (u *UserController) Login(c *fiber.Ctx) error {
 	var requestBody LoginUserRequest

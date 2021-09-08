@@ -3,7 +3,7 @@ export default function ScratchQuestion() {
     <div className="w-4/5 max-h-[88vh] bg-compe rounded-xl flex flex-col items-center justify-center text-white font-bold p-3">
       <p className="text-2xl">SOAL</p>
       <div className="w-full h-auto overflow-y-scroll font-normal">
-        <SimulQuestion />
+        <RealQuestion />
       </div>
     </div>
   );

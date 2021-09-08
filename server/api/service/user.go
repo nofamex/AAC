@@ -41,14 +41,22 @@ func (u *UserService) GetUserById(id int) (*db.User, error) {
 	return &result, err
 }
 
-func (u *UserService) SetRefreshToken(email string, token string) (error) {
+func (u *UserService) UpdatePassword(id int, password string) error {
+	param := db.UpdatePasswordParams{
+		ID: int32(id),
+		Password: password,
+	}
+	return u.query.UpdatePassword(context.Background(), param)
+}
+
+func (u *UserService) SetRefreshToken(email string, token string) error {
 	refreshToken := sql.NullString{
 		String: token,
-		Valid: true,
+		Valid:  true,
 	}
 
 	param := db.SetRefreshTokenParams{
-		Email: email,
+		Email:        email,
 		RefreshToken: refreshToken,
 	}
 

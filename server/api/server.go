@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/nofamex/AAC/server/api/controller"
 	"github.com/nofamex/AAC/server/api/middleware"
 	db "github.com/nofamex/AAC/server/db/sqlc"
@@ -45,7 +46,7 @@ func (server *Server) setupRouter() {
 		Format: "[${time}] ${method} |${status}| - ${path} | ${latency}\n",
 		Output: os.Stdout,
 	}))
-
+	router.Use(recover.New())
 	router.Get("/", func(ctx *fiber.Ctx) error {
 		return ctx.SendString("test")
 	})
@@ -61,6 +62,7 @@ func (server *Server) setupRouter() {
 	auth := v1.Group("/auth")
 	auth.Post("/register", userCtrl.Register)
 	auth.Post("/login", userCtrl.Login)
+	auth.Post("/update", userCtrl.UpdatePassword)
 
 	login := auth.Group("", middleware.AuthMiddleware(server.tokenMaker))
 	login.Get("/refresh", userCtrl.Refresh)
@@ -87,7 +89,6 @@ func (server *Server) setupRouter() {
 	unacPrelim.Post("submit-pg", unacPrelimCtrl.SubmitPg)
 	unacPrelim.Post("submit-isian", unacPrelimCtrl.SubmitIsian)
 	unacPrelim.Post("payment", unacPrelimCtrl.Payment)
-
 
 	tacPrelimCtrl := controller.NewPrelimTacController(server.query, server.tokenMaker, server.config)
 	tacPrelim := prelim.Group("tac")

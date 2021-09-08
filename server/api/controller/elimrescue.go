@@ -65,15 +65,19 @@ func (u *ElimRescueController) Start(c *fiber.Ctx) error {
 	if team.StatusPaymentPrelim != "verified" {
 		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Belum di verifikasi"})
 	}
+
+	// cek belom ada team
+	rescue, err := u.service.GetTeamById(int(user.TeamID.Int32))
+	if rescue != nil && rescue.Token == token {
+		return c.Status(http.StatusOK).JSON(Message{Message: "ok"})
+	} else if rescue != nil {
+		return c.Status(http.StatusUnprocessableEntity).JSON(Message{Message: "Team sudah terdaftar"})
+	}
+
 	_, err = u.service.CreateRescueMaster(int(user.TeamID.Int32), token)
 	if err != nil {
 		log.Println(err)
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
-	}
-	// cek belom ada team
-	rescue, err := u.service.GetTeamById(int(user.TeamID.Int32))
-	if rescue != nil {
-		return c.Status(http.StatusOK).JSON(Message{Message: "Team sudah terdaftar"})
 	}
 
 	err = u.compeService.UpdateRescueStatus(int(user.TeamID.Int32), "ongoing")
@@ -143,17 +147,22 @@ func (u *ElimRescueController) GetSoal(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
 
-	_, err = u.userService.GetUserById(int(payload.UserId))
+	user, err := u.userService.GetUserById(int(payload.UserId))
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
 	}
-	soalArr, err := u.service.GetRescueSoal()
+	soalArr, err := u.service.GetRescueJawabanSoal(int(user.TeamID.Int32))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(Message{Message: err.Error()})
+	}
+
 	resPage := PageResponse{}
 	res := []Soal{}
 	for _, soal := range soalArr {
 		res = append(res, Soal{
-			Id:   int(soal.ID),
-			Soal: soal.Soal,
+			Id:      int(soal.ID),
+			Soal:    soal.Soal,
+			Jawaban: soal.Jawaban,
 		})
 	}
 	resPage.Body = res

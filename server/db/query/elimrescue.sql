@@ -28,3 +28,12 @@ WHERE team_id = $1;
 -- name: GetRescueSoal :many
 select * from elim_unac_rescue_the_number
 order by id;
+
+-- name: GetRescueJawaban :many
+select * from rescue_the_number_jawaban 
+where team_id = $1;
+
+-- name: GetRescueJawabanSoal :many
+select s.id, s.soal, COALESCE (j.jawaban, '') from elim_unac_rescue_the_number as s
+left join (select sj.soal_id, sj.jawaban from rescue_the_number_jawaban as sj where team_id = $1) as j on s.id = j.soal_id
+order by s.id;

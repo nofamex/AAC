@@ -31,17 +31,6 @@ export default function QuestionBox({
   const [answer, setAnswer] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
 
-  const difficultyParser = (diff: number) => {
-    switch (diff) {
-      case 1:
-        return "Easy";
-      case 2:
-        return "Medium";
-      case 3:
-        return "Hard";
-    }
-  };
-
   const clickHandler = (e: any) => {
     e.preventDefault();
     api
@@ -125,9 +114,6 @@ export default function QuestionBox({
             </form>
           )}
         </div>
-      </div>
-      <div className="h-full w-1/12 flex items-start justify-center text-white p-4">
-        <p>{difficultyParser(difficulty)}</p>
       </div>
     </div>
   );

@@ -19,12 +19,13 @@ type Querier interface {
 	CreateRescueJawaban(ctx context.Context, arg CreateRescueJawabanParams) error
 	CreateRescueMaster(ctx context.Context, arg CreateRescueMasterParams) (RescueTheNumberMaster, error)
 	CreateSandwichJawaban(ctx context.Context, arg CreateSandwichJawabanParams) error
+	CreateScratchJawaban(ctx context.Context, arg CreateScratchJawabanParams) error
+	CreateScratchMaster(ctx context.Context, arg CreateScratchMasterParams) (ScratchTheHiddenWordsMaster, error)
 	CreateTeam(ctx context.Context, arg CreateTeamParams) (Team, error)
-	CreatescratchJawaban(ctx context.Context, arg CreatescratchJawabanParams) error
-	CreatescratchMaster(ctx context.Context, arg CreatescratchMasterParams) (ScratchTheHiddenWordsMaster, error)
 	GetConfig(ctx context.Context) (Config, error)
 	GetElimMasterByTeamId(ctx context.Context, teamID int32) (ElimUnacMaster, error)
 	GetElimSandwichById(ctx context.Context, id int32) (ElimUnacBattleOfSandwich, error)
+	GetElimSandwichByPaket(ctx context.Context, arg GetElimSandwichByPaketParams) (BattleOfSandwichMaster, error)
 	GetElimSandwichByTeamId(ctx context.Context, arg GetElimSandwichByTeamIdParams) (BattleOfSandwichMaster, error)
 	GetMemberById(ctx context.Context, id int32) (Member, error)
 	GetMemberByTeamId(ctx context.Context, teamID int32) ([]Member, error)
@@ -38,9 +39,13 @@ type Querier interface {
 	GetPrelimUnacIsianById(ctx context.Context, id int32) (PrelimUnacIsian, error)
 	GetPrelimUnacPgById(ctx context.Context, id int32) (PrelimUnacPg, error)
 	GetRescueByTeamId(ctx context.Context, teamID int32) (RescueTheNumberMaster, error)
+	GetRescueJawaban(ctx context.Context, teamID int32) ([]RescueTheNumberJawaban, error)
+	GetRescueJawabanSoal(ctx context.Context, teamID int32) ([]GetRescueJawabanSoalRow, error)
 	GetRescueSoal(ctx context.Context) ([]ElimUnacRescueTheNumber, error)
 	GetSandwichPg(ctx context.Context, id int32) (ElimUnacBattleOfSandwich, error)
 	GetSandwichPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
+	GetScratchByTeamId(ctx context.Context, teamID int32) (ScratchTheHiddenWordsMaster, error)
+	GetScratchSoal(ctx context.Context) ([]ElimUnacScratchTheHiddenWord, error)
 	GetTacPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
 	GetTeamById(ctx context.Context, id int32) (Team, error)
 	GetTeamsPagination(ctx context.Context, arg GetTeamsPaginationParams) ([]Team, error)
@@ -48,8 +53,6 @@ type Querier interface {
 	GetUnacPgIdByPaket(ctx context.Context, paket int32) ([]int32, error)
 	GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error)
 	GetUserById(ctx context.Context, id int32) (User, error)
-	GetscratchByTeamId(ctx context.Context, teamID int32) (ScratchTheHiddenWordsMaster, error)
-	GetscratchSoal(ctx context.Context) ([]ElimUnacScratchTheHiddenWord, error)
 	RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error)
 	SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams) error
 	UpdateElimStatus(ctx context.Context, arg UpdateElimStatusParams) error
@@ -57,6 +60,7 @@ type Querier interface {
 	UpdatePagePrelimTac(ctx context.Context, teamID int32) error
 	UpdatePagePrelimUnac(ctx context.Context, teamID int32) error
 	UpdatePageSandwich(ctx context.Context, arg UpdatePageSandwichParams) error
+	UpdatePassword(ctx context.Context, arg UpdatePasswordParams) error
 	UpdatePaymentPrelimTac(ctx context.Context, arg UpdatePaymentPrelimTacParams) error
 	UpdatePaymentPrelimUnac(ctx context.Context, arg UpdatePaymentPrelimUnacParams) error
 	UpdatePaymentStatusPrelimTac(ctx context.Context, arg UpdatePaymentStatusPrelimTacParams) error
@@ -72,7 +76,7 @@ type Querier interface {
 	UpdateSubmitedPrelimUnac(ctx context.Context, teamID int32) error
 	UpdateSubmitedRescue(ctx context.Context, teamID int32) error
 	UpdateSubmitedSandwich(ctx context.Context, arg UpdateSubmitedSandwichParams) error
-	UpdateSubmitedscratch(ctx context.Context, teamID int32) error
+	UpdateSubmitedScratch(ctx context.Context, teamID int32) error
 	UpdateVerifiedStatus(ctx context.Context, arg UpdateVerifiedStatusParams) error
 }
 

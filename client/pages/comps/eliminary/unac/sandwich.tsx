@@ -84,13 +84,13 @@ export default function Sandwich() {
               className="font-bold italic text-5xl md:text-6xl"
               style={{ textShadow: "0 0 25px #7303C0" }}
             >
-              <span className="text-stroke">Battle of Sandwich</span>
+              <span className="text-stroke">The Battle of Sandwich</span>
             </p>
           </div>
           <div className="w-full flex h-auto">
             <div className="h-auto w-9/12 p-2">
               <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-persimmon to-orange h-10 mb-2 text-center">
-                PAGE {page} OF 2
+                PAGE {page} OF 3
               </p>
               {question.map((qs: any) => (
                 <QuestionBox
@@ -109,7 +109,7 @@ export default function Sandwich() {
                 />
               ))}
               <div className="w-full flex justify-end">
-                {page !== 2 ? (
+                {page !== 3 ? (
                   <Button
                     text="Lanjut >"
                     filled={true}

@@ -122,3 +122,19 @@ func (q *Queries) SetRefreshToken(ctx context.Context, arg SetRefreshTokenParams
 	_, err := q.db.ExecContext(ctx, setRefreshToken, arg.Email, arg.RefreshToken)
 	return err
 }
+
+const updatePassword = `-- name: UpdatePassword :exec
+update users
+set password = $2
+where id = $1
+`
+
+type UpdatePasswordParams struct {
+	ID       int32  `json:"id"`
+	Password string `json:"password"`
+}
+
+func (q *Queries) UpdatePassword(ctx context.Context, arg UpdatePasswordParams) error {
+	_, err := q.db.ExecContext(ctx, updatePassword, arg.ID, arg.Password)
+	return err
+}
