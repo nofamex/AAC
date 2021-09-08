@@ -100,6 +100,7 @@ export default function Dashboard() {
                   statusSandwichC={status.status_sandwich_c}
                   statusRescue={status.status_rescue}
                   statusScratch={status.status_scratch}
+                  statusElim={status.status_elim}
                 />
               </div>
             )}

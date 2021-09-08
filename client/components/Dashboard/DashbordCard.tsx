@@ -2,6 +2,7 @@ import Button from "@components/Context/Button";
 import Preliminary from "@components/Dashboard/Preliminary";
 import Eliminary from "./Eliminary";
 import Postliminary from "./Postliminary";
+import SemiFinal from "./SemiFinal";
 
 interface DashboardCardProps {
   status: string;
@@ -14,6 +15,7 @@ interface DashboardCardProps {
   statusSandwichC: string;
   statusRescue: string;
   statusScratch: string;
+  statusElim: string;
 }
 
 export default function DashboardCard({
@@ -27,8 +29,9 @@ export default function DashboardCard({
   statusSandwichC,
   statusRescue,
   statusScratch,
+  statusElim,
 }: DashboardCardProps) {
-  const prelimStatusChecker = (status: string) => {
+  const statusChecker = (status: string) => {
     switch (status) {
       case "lolos":
         return true;
@@ -38,6 +41,7 @@ export default function DashboardCard({
         return false;
     }
   };
+
   return (
     <div className="w-full h-auto sm:h-1/3 border-2 border-white rounded-xl mb-4 font-dm text-white p-4 flex flex-col">
       <div className="flex flex-col sm:flex-row">
@@ -50,21 +54,20 @@ export default function DashboardCard({
           <Button text="Detail>" filled={false} handler={() => handler()} />
         </div>
       </div>
-      {status === "berhasil" && !prelimStatusChecker(prelimStatus) && (
+      {status === "berhasil" && !statusChecker(prelimStatus) && (
         <Preliminary
           phase="Preliminary"
           type={type}
           statusPrelim={prelimStatus}
         />
       )}
-      {prelimStatusChecker(prelimStatus) &&
-        statusPaymentPrelim !== "verified" && (
-          <Postliminary
-            status={prelimStatus}
-            paymentStatus={statusPaymentPrelim}
-            type={type}
-          />
-        )}
+      {statusChecker(prelimStatus) && statusPaymentPrelim !== "verified" && (
+        <Postliminary
+          status={prelimStatus}
+          paymentStatus={statusPaymentPrelim}
+          type={type}
+        />
+      )}
       {statusPaymentPrelim === "verified" && prelimStatus === "lolos" && (
         <Eliminary
           type={type}
@@ -74,6 +77,9 @@ export default function DashboardCard({
           statusRescue={statusRescue}
           statusScratch={statusScratch}
         />
+      )}
+      {prelimStatus === "lolos" && statusChecker(statusElim) && (
+        <SemiFinal status={statusElim} type={type} />
       )}
     </div>
   );
