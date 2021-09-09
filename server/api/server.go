@@ -99,7 +99,7 @@ func (server *Server) setupRouter() {
 	tacPrelim.Post("submit-pg", tacPrelimCtrl.SubmitPg)
 	tacPrelim.Post("payment", tacPrelimCtrl.Payment)
 
-	elim := v1.Group("/elim", middleware.PrelimMiddleware(server.tokenMaker))
+	elim := v1.Group("/elim")
 	unacElim := elim.Group("unac")
 
 	sandwich := unacElim.Group("sandwich")
