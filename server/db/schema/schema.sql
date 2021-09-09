@@ -147,6 +147,8 @@ CREATE TABLE prelim_tac_master (
   status_bayar varchar(10) default 'belum',
   status_lolos varchar(10) default '-',
   payment_link varchar(255),
+  "status_semifinal" varchar(10) default 'kosong',
+  "status_final" varchar(10) default 'kosong',
   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 
@@ -186,10 +188,28 @@ CREATE TABLE prelim_tac_pg_jawaban (
 CREATE TABLE "elim_unac_master" (
   "id" SERIAL PRIMARY KEY,
   "team_id" int UNIQUE NOT NULL,
-  "total_score" int NOT NULL DEFAULT 0,
+  "total_score" real NOT NULL DEFAULT 0,
   "total_benar" int NOT NULL DEFAULT 0,
   "total_salah" int NOT NULL DEFAULT 0,
 
+  "sandwich_1_score" int NOT NULL DEFAULT 0,
+  "sandwich_1_benar" int NOT NULL DEFAULT 0,
+  "sandwich_1_salah" int NOT NULL DEFAULT 0,
+  "sandwich_1_kosong" int NOT NULL DEFAULT 15,
+
+  "sandwich_2_score" int NOT NULL DEFAULT 0,
+  "sandwich_2_benar" int NOT NULL DEFAULT 0,
+  "sandwich_2_salah" int NOT NULL DEFAULT 0,
+  "sandwich_2_kosong" int NOT NULL DEFAULT 15,
+
+  "sandwich_3_score" int NOT NULL DEFAULT 0,
+  "sandwich_3_benar" int NOT NULL DEFAULT 0,
+  "sandwich_3_salah" int NOT NULL DEFAULT 0,
+  "sandwich_3_kosong" int NOT NULL DEFAULT 15,
+
+  "status_elim" varchar(10) default '-',
+  "status_semifinal" varchar(10) default '-',
+  "status_final" varchar(10) default '-',
   FOREIGN KEY ("team_id") REFERENCES "team" ("id")
 );
 

@@ -42,3 +42,7 @@
 2021/09/03 09:26:21 main.go:35: cannot start server:listen tcp4: address 8080: missing port in address
 2021/09/06 21:10:43 compe.go:106: err:sql: no rows in result set 
 payload:&token.Payload{UserId:396, Email:"simuldummy@mail.com", Role:"", IssuedAt:time.Date(2021, time.September, 6, 13, 45, 8, 336144558, time.UTC), ExpiredAt:time.Date(2021, time.September, 13, 13, 45, 8, 336146723, time.UTC)}
+2021/09/08 20:10:42 elimsanwich.go:226: pq: column "kosong" does not exist
+2021/09/08 20:16:15 elimsanwich.go:226: pq: insert or update on table "battle_of_sandwich_jawaban" violates foreign key constraint "battle_of_sandwich_jawaban_team_id_token_fkey"
+2021/09/08 21:46:35 main.go:35: cannot start server:listen tcp4 :80: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+2021/09/08 21:47:37 main.go:35: cannot start server:listen tcp4 :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
