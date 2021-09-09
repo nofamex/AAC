@@ -4,8 +4,7 @@ export default function RescueHeader() {
   return (
     <div className="w-4/5 h-56 bg-compe rounded-xl mr-4 font-dm p-4 flex flex-col justify-center items-center">
       <p className="text-white font-bold text-center text-lg mb-2">
-        Silakan mendownload file berisi soal dibawah berikut semoga kalian
-        berhasil keren
+        Silakan mendownload file berisi soal dibawah ini
       </p>
       <a
         href="https://drive.google.com/file/d/1jOhc5bNTCz9vAmLl2yf5PqY-UUzSQFSd/view?usp=sharing"

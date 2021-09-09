@@ -5,7 +5,7 @@ import { getAccessToken } from "./auth";
 const token = getAccessToken();
 
 const api = axios.create({
-  baseURL: "https://aacunair.ddns.net/api/v1",
+  baseURL: "https://fdfe-140-213-190-187.ngrok.io/api/v1",
   httpsAgent: new https.Agent({ rejectUnauthorized: false }),
   headers: {
     Authorization: `Bearer ${typeof token === "undefined" ? "" : token}`,
