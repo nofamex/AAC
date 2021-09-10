@@ -69,18 +69,6 @@ export default function WebinarLanding() {
           <Benefit>Reward</Benefit>
         </div>
       </div>
-      <div className="w-full h-32 flex justify-center items-center">
-        <a
-          href="https://bit.ly/PendaftaranWEBINARAAC2021"
-          target="_blank"
-          className="z-30"
-          rel="noreferrer"
-        >
-          <button className="bg-persimmon text-white font-bold text-lg px-10 py-2 rounded-xl cursor-pointer z-30 hover:scale-110 transition ease-in-out active:scale-100">
-            Daftar Gratis
-          </button>
-        </a>
-      </div>
     </div>
   );
 }
